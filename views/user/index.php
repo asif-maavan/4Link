@@ -17,10 +17,11 @@ $this->registerJsFile('@web/js/user.js', ['depends' => [\yii\web\JqueryAsset::cl
     <div class="col-md-2 leftbar ">
         <div class="sidebar content-box" style="display: block; margin:20px 0 0 0;">
             <div  class="back_btn">
-                <a href="#"><img src="images/back.png" width="43" height="12" alt=""/></a>
+                <a href="<?php echo Yii::$app->request->referrer;?>"><img src="images/back.png" width="43" height="12" alt=""/></a>
             </div>
             <ul class="nav">
                 <!-- Main menu -->
+                <li><a href="<?= Yii::$app->urlManager->createUrl("settings/plans/"); ?>">Plans</a></li>
                 <li><a href="calendar.html">My Account</a></li>
                 <li class="select"><a href="<?= Yii::$app->urlManager->createUrl("user/"); ?>">Users</a></li>
                 <li><a href="tables.html">Values</a></li>
@@ -92,14 +93,14 @@ $this->registerJsFile('@web/js/user.js', ['depends' => [\yii\web\JqueryAsset::cl
                             ?>
                             <div id="<?= $d->_id . 'D' ?>" class="divTableRow" ondblclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');">
                                 <div class="divTableCell first"><a href="javascript:;" onclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');"><img src="images/edit_icon.png" class="save_icon"/></a></div>
-                                <div class="divTableCell"><span><?= $d->user_id ?></span></div>
-                                <div id="first_name" class="divTableCell"><?= $d->first_name ?></div>
-                                <div id="last_name" class="divTableCell"><?= $d->last_name ?></div>
-                                <div id="address" class="divTableCell"><?= $d->address ?></div>
-                                <div id="email" class="divTableCell"><?= $d->email ?></div>
-                                <div id="phone" class="divTableCell"><?= $d->phone ?></div>
-                                <div id="user_role" class="divTableCell"><?= $d->user_role ?></div>
-                                <div id="report_to" class="divTableCell"><?= $d->report_to ?></div>
+                                <div class="divTableCell text-center"><span><?= $d->user_id ?></span></div>
+                                <div id="first_name" class="divTableCell text-center"><?= $d->first_name ?></div>
+                                <div id="last_name" class="divTableCell text-center"><?= $d->last_name ?></div>
+                                <div id="address" class="divTableCell text-center"><?= $d->address ?></div>
+                                <div id="email" class="divTableCell text-center"><?= $d->email ?></div>
+                                <div id="phone" class="divTableCell text-center"><?= $d->phone ?></div>
+                                <div id="user_role" class="divTableCell text-center"><?= $d->user_role ?></div>
+                                <div id="report_to" class="divTableCell text-center"><?= $d->report_to ?></div>
                                 <div class="divTableCell">  <input type="password" value="<?= $d->password ?>" class="form-control" id="pwd" disabled=""></div>
                                 <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd" disabled=""></div>
                             </div>

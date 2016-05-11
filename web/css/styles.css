@@ -769,3 +769,13 @@ body {
       border-radius:10px;
    }  
 }
+
+/*.............*/
+.noOrder{
+    border-left: 1px solid #dfdfdf !important;
+    border-right: 1px solid #dfdfdf !important;
+    border-bottom: 1px solid #dfdfdf !important;
+    height: 88px !important;
+    margin-bottom: 0 !important;
+    width: 1115px;
+}

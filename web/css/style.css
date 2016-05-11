@@ -7,3 +7,11 @@
     color:#000 !important;
     font-weight:bold !important;
 }
+
+.icon-btn{
+    padding: 0px !important;
+    color: #AAA;
+    font-size: large;
+    margin-left: 7px;
+    margin-right: 7px;
+}

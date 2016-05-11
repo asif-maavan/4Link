@@ -19,7 +19,7 @@ use yii\behaviors\AttributeBehavior;
  */
 class Plans extends ActiveRecord {
     
-    const className = 'app\common\models\SunlineCustomer';
+    const className = 'app\common\models\Plans';
 
     public static function collectionName() {
         return ['fourLink', 'plans'];
@@ -33,13 +33,38 @@ class Plans extends ActiveRecord {
             'plan_type',
             'contract_period',
             'mrc',
-            '4link_points'
+            'fourlink_points',
+            'created',
+            'created_by',
+            'updated',
+            'updated_by'
         ];
     }
     
     public function rules() {
         return [
-            [['name', 'plan_group', 'plan_type', 'contract_period', 'mrc', '4link_points'], 'safe'],
+            [['name', 'plan_group', 'plan_type', 'contract_period', 'mrc', 'fourlink_points'], 'safe'],
+            ['created', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'create'],
+            ['created_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'create'],
+        ];
+    }
+    
+    public function behaviors() {
+        return [
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated',
+                ],
+                'value' => date("Y-m-d H:i:s"),
+            ],
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_by',
+                ],
+                'value' => (isset(Yii::$app->user->identity->email) ? Yii::$app->user->identity->email : ''),
+            ], //other behaviors
         ];
     }
     
