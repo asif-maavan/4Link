@@ -29,14 +29,19 @@ AppAsset::register($this);
         </script>
         <?php $this->beginBody() ?>
 
-            <div class="container">
-                
-                <?= $content ?>
-            </div>
+        <div class="container">
 
-        <div class="container-fluid14 text-center footer2">
-            © <?php echo date("Y"); ?> 4Link Inc. All Rights Reserved
+            <?= $content ?>
         </div>
+
+<!--        <div class="container-fluid14 text-center footer2">
+            © <?php echo date("Y"); ?> 4Link Inc. All Rights Reserved
+        </div>-->
+        <footer>
+            <div class="container">
+                <div class="copy text-center">&#169; <?php echo date("Y"); ?>, 4Link, All Rights Reserved</div>
+            </div>
+        </footer>
 
         <?php $this->endBody() ?>
     </body>

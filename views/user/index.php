@@ -10,6 +10,7 @@ use app\models\Categories;
 $this->title = 'User Management';
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerJsFile('@web/js/user.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$baseUrl = Yii::$app->request->baseUrl . '/';
 ?>
 
 <!--<script src="<?php echo Yii::$app->request->baseUrl; ?>/js/user.js"></script>-->
@@ -17,7 +18,7 @@ $this->registerJsFile('@web/js/user.js', ['depends' => [\yii\web\JqueryAsset::cl
     <div class="col-md-2 leftbar ">
         <div class="sidebar content-box" style="display: block; margin:20px 0 0 0;">
             <div  class="back_btn">
-                <a href="<?php echo Yii::$app->request->referrer;?>"><img src="images/back.png" width="43" height="12" alt=""/></a>
+                <a href="<?php echo Yii::$app->request->referrer;?>"><img src="<?= $baseUrl ?>images/back.png" width="43" height="12" alt=""/></a>
             </div>
             <ul class="nav">
                 <!-- Main menu -->
@@ -34,16 +35,16 @@ $this->registerJsFile('@web/js/user.js', ['depends' => [\yii\web\JqueryAsset::cl
                 <div class="divTableBody">
                     <div class="divTableRow">
                         <div class="divTableCell th_bg row1 first"></div>
-                        <div class="divTableCell th_bg row2 ">User<img src="images/down.png" width="7" height="4" alt=""/>&nbsp;#</div>
-                        <div class="divTableCell th_bg row3">First<img src="images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row4">Last<img src="images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row5">Address<img src="images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row6">Email<img src="images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row7">Phone<img src="images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row8">Role<img src="images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row9">Report To<img src="images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row10">Password</div>
-                        <div class="divTableCell th_bg row11">Confirm Password</div>
+                        <div class="divTableCell th_bg row2 text-center">User&nbsp;#<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
+                        <div class="divTableCell th_bg row3 text-center">First<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
+                        <div class="divTableCell th_bg row4 text-center">Last<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
+                        <div class="divTableCell th_bg row5 text-center">Address<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
+                        <div class="divTableCell th_bg row6 text-center">Email<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
+                        <div class="divTableCell th_bg row7 text-center">Phone<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
+                        <div class="divTableCell th_bg row8 text-center">Role<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
+                        <div class="divTableCell th_bg row9 text-center">Report To<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
+                        <div class="divTableCell th_bg row10 text-center">Password</div>
+                        <div class="divTableCell th_bg row11 text-center">Confirm Password</div>
                     </div>
                     <!--/....................... user create form -->
                     <?php
@@ -56,7 +57,7 @@ $this->registerJsFile('@web/js/user.js', ['depends' => [\yii\web\JqueryAsset::cl
                                     'options' => ['id' => 'create-form', 'class' => 'divTableRowblue']]);
                         ?>
                         <div class="divTableCell first">
-                            <?= Html::submitButton('', ['class' => '', 'style' => 'background: url(images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
+                            <?= Html::submitButton('', ['class' => '', 'style' => 'background: url('.$baseUrl.'images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
                             <!--<a href="#"><img src="images/save.png" class="save_icon" /></a>-->
                         </div>
                         <div class="divTableCell"><span>&nbsp;</span></div>
@@ -92,7 +93,7 @@ $this->registerJsFile('@web/js/user.js', ['depends' => [\yii\web\JqueryAsset::cl
                         foreach ($data as $d) {
                             ?>
                             <div id="<?= $d->_id . 'D' ?>" class="divTableRow" ondblclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');">
-                                <div class="divTableCell first"><a href="javascript:;" onclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');"><img src="images/edit_icon.png" class="save_icon"/></a></div>
+                                <div class="divTableCell first"><a href="javascript:;" onclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');"><img src="<?= $baseUrl ?>images/edit_icon.png" class="save_icon"/></a></div>
                                 <div class="divTableCell text-center"><span><?= $d->user_id ?></span></div>
                                 <div id="first_name" class="divTableCell text-center"><?= $d->first_name ?></div>
                                 <div id="last_name" class="divTableCell text-center"><?= $d->last_name ?></div>
@@ -113,7 +114,7 @@ $this->registerJsFile('@web/js/user.js', ['depends' => [\yii\web\JqueryAsset::cl
                                             'options' => ['id' => $d->_id . 'E', 'class' => 'divTableRow hidden', 'hidden' => '']]);
                                 ?>
                                 <div class="divTableCell first">
-                                    <?= Html::submitButton('', ['class' => '', 'style' => 'background: url(images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
+                                    <?= Html::submitButton('', ['class' => '', 'style' => 'background: url('.$baseUrl.'images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
                                     <!--<a href="#"><img src="images/save.png" class="save_icon" /></a>-->
                                 </div>
                                 <div class="divTableCell"><span><?= $d->user_id ?></span></div>

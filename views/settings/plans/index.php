@@ -67,20 +67,6 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         ActiveForm::end();
                     }
                     ?>
-                    <!--                    <div class="divTableRowblue">
-                                            <div class="divTableCell first"><a href="#"><img src="images/save.png" class="save_icon" /></a></div>
-                                            <div class="divTableCell"><span>1</span></div>
-                                            <div class="divTableCell">  <input type="text" class="form-control" value="Steve" id="usr"></div>
-                                            <div class="divTableCell"><input type="text" class="form-control" value="Williams" id="usr"></div>
-                                            <div class="divTableCell"><input type="text" class="form-control" value="6874 Stevenson Blvd, Fremont, CA" id="usr"></div>
-                                            <div class="divTableCell"><input type="text" class="form-control" value="steve@somend.com" id="usr"></div>
-                                            <div class="divTableCell"><input type="text" class="form-control" value="212-247-7800" id="usr"></div>
-                                            <div class="divTableCell"><input type="text" class="form-control" value="Supervisor" id="usr"></div>
-                                            <div class="divTableCell"><input type="text" class="form-control" value="Supervisor" id="usr"></div>
-                                            <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd"></div>
-                                            <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd"></div>
-                                        </div>-->
-                    <!--/....................... user listing -->
                     <?php
                     if (count($data) > 0) {
                         foreach ($data as $d) {
@@ -89,9 +75,9 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 <div class="divTableCell first">
                                     <span class="btn glyphicon glyphicon-remove-circle larg_font icon-btn" onclick="removePlan('<?= $d->_id ?>')"></span>
                                     <a href="javascript:;" class="btn icon-btn" style="margin-left: 23px" onclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');"><img src="<?= $baseUrl ?>images/edit_icon.png" class=""/></a>
-                                    
+
                                 </div>
-                                <!--<div class="divTableCell"><span><?= ''; //$d->user_id       ?></span></div>-->
+                                <!--<div class="divTableCell"><span><?= ''; //$d->user_id                 ?></span></div>-->
                                 <div id="name" class="divTableCell text-center"><?= $d->name ?></div>
                                 <div id="plan_group" class="divTableCell text-center"><?= $d->plan_group ?></div>
                                 <div id="plan_type" class="divTableCell text-center"><?= $d->plan_type ?></div>
@@ -111,7 +97,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <?= Html::submitButton('', ['class' => '', 'style' => 'background: url(' . $baseUrl . 'images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
                                     <!--<a href="#"><img src="images/save.png" class="save_icon" /></a>-->
                                 </div>
-                                <!--<div class="divTableCell"><span><?= ''; // $d->user_id     ?></span></div>-->
+                                <!--<div class="divTableCell"><span><?= ''; // $d->user_id               ?></span></div>-->
                                 <?= $form->field($modelu, '_id', ['options' => ['class' => 'divTableCell hidden'], 'inputOptions' => ['class' => 'form-control hidden', 'value' => $d->_id]])->textInput() ?>
                                 <?= $form->field($modelu, 'name', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->name]])->textInput() ?>
                                 <?= $form->field($modelu, 'plan_group', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->plan_group]])->textInput() ?>
@@ -137,21 +123,6 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
             <h1 style="text-align: center">No records found</h1>
         </div>
     <?php } ?>
-    <!--                    
-                        <div class="divTableRow">
-                            <div class="divTableCell first"><a href="#"><img src="images/edit_icon.png" class="save_icon"/></a></div>
-                            <div class="divTableCell"><span>1</span></div>
-                            <div class="divTableCell">Jeff</div>
-                            <div class="divTableCell">Alfred</div>
-                            <div class="divTableCell">6874 Stevenson Blvd, Fremont, CA</div>
-                            <div class="divTableCell">alfred@somend.com</div>
-                            <div class="divTableCell">212-247-7800</div>
-                            <div class="divTableCell">Sales Executive</div>
-                            <div class="divTableCell">Methew</div>
-                            <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd"></div>
-                            <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd"></div>
-                        </div>-->
-
 
     <div class="row">
         <?php
