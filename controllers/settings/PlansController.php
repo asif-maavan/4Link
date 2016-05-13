@@ -55,6 +55,7 @@ class PlansController extends Controller {
                         'model' => $model,
                         'modelu' => $modelu,
                         'pagination' => $pagination,
+                        'typeList' => GlobalFunction::getPlanTypeList(),
             ]);
         } else {
             $data = User::getListing(['whereParams' => ['email' => Yii::$app->user->identity->email]]);

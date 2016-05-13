@@ -23,8 +23,11 @@ class User extends ActiveRecord implements IdentityInterface {
     /**
      * @inheritdoc
      */
-    const ROLE_ADMIN = 'admin';
-    const ROLE_AGENT = 'agent';
+    const ROLE_ADMIN = 1;
+    const ROLE_manager = 2;
+    const ROLE_supervisor = 3;
+    const ROLE_executive = 4;
+    const ROLE_operator = 5;
 
     public static function collectionName() {
         return ['fourLink', 'users'];
@@ -56,12 +59,12 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public function rules() {
         return [
-            [['_id','user_id', 'first_name','last_name','email', 'phone', 'address', 'report_to', 'password', 'user_role', 'profile_picture', 'auth_key'], 'safe'],
+            [['_id', 'user_id', 'first_name', 'last_name', 'email', 'phone', 'address', 'report_to', 'password', 'user_role', 'profile_picture', 'auth_key'], 'safe'],
             [['email', 'password', 'user_role', 'first_name', 'auth_key'], 'string', 'max' => 50],
             ['created', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'create'],
             ['created_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'create'],
-            //['updated', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'update'],
-            //['updated_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'update'],
+                //['updated', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'update'],
+                //['updated_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'update'],
         ];
     }
 
@@ -112,7 +115,7 @@ class User extends ActiveRecord implements IdentityInterface {
     public function getUserType() {
         return $this->user_role;
     }
-    
+
     public function getUserRole() {
         return $this->user_role;
     }
@@ -146,7 +149,7 @@ class User extends ActiveRecord implements IdentityInterface {
         $whereParams = (isset($params['whereParams']) ? $params['whereParams'] : '');
 
         $query = User::find();
-        $query->select(['_id', 'user_id', 'first_name','last_name','email', 'phone', 'address', 'report_to', 'password', 'user_role']);
+        $query->select(['_id', 'user_id', 'first_name', 'last_name', 'email', 'phone', 'address', 'report_to', 'password', 'user_role']);
 
         if ($whereParams)
             $query->where($whereParams);

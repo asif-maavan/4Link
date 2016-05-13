@@ -47,6 +47,7 @@ class UserController extends AppController {
                         'model' => $model,
                         'modelu' => $modelu,
                         'pagination' => $pagination,
+                        'roleList' => GlobalFunction::getUserRoles(),
             ]);
         } else {
             $data = User::getListing(['whereParams' => ['email' => Yii::$app->user->identity->email]]);
@@ -107,6 +108,14 @@ class UserController extends AppController {
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return ActiveForm::validate($model);
         }
+    }
+    
+    public function actionGetReportToList() {
+        if (Yii::$app->request->isAjax && Yii::$app->request->post()) { 
+            $list = GlobalFunction::getReportToList(Yii::$app->request->post('_id'),Yii::$app->request->post('role'));
+            exit(json_encode(['msgType' => 'SUC', 'list' => $list]));
+        }
+        
     }
 
 }

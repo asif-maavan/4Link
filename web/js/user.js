@@ -1,3 +1,18 @@
+//$(document).ready(function () {
+//            $('.form-div').focusout(function (e){
+//                $(this).addClass('hidden');
+//            });
+//});
+
+$('body').click(function (e) {
+    //alert($(e.target).parents('a').length);
+   //alert(parent.attr('id')); parent.hasClass('form-div')
+    if(!$(e.target).parents('.form-div').length && e.target.tagName!= 'a' && $(e.target).parents('a').length==0 ){
+                $('.form-div').addClass('hidden');
+                $('.data').removeClass('hidden');
+    }
+});
+
 $(document).on('beforeSubmit', 'form', function (e) {
     var form = $(this);
     var id = $('#' + form.attr('id') + ' #userform-_id').val();
@@ -28,4 +43,36 @@ $(document).on('beforeSubmit', 'form', function (e) {
         return false;
     }
 });
+
+function getUsersList(id) {
+    var role = $('#' + id + 'E #userform-user_role').val();
+    if (role == '') {
+        return false;
+    }
+    $.ajax({
+        type: "POST",
+        url: baseUrl + "user/get-report-to-list",
+        data: {_id: id, role: role},
+        dataType: "json",
+        success: function (data) {
+            if (data.msgType == 'SUC') {
+
+                $('#' + id + 'E #userform-report_to').empty();
+                $('#' + id + 'E #userform-report_to').append('<option value="">Select</option>');
+                jQuery.each(data.list, function (index, item) {
+                    $('#' + id + 'E #userform-report_to').append('<option value="' + index + '">' + item + '</option>');
+                });
+            }
+
+        }
+    });
+}
+
+function edit(id){
+    $('#'+id+'E').trigger("reset");
+    $('.form-div').addClass('hidden');
+    $('.data').removeClass('hidden');
+    $('#'+id+'E').removeClass('hidden');
+    $('#'+id+'D').addClass('hidden');
+}
 

@@ -38,9 +38,9 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         <div class="divTableCell th_bg row2 text-center">User&nbsp;#<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
                         <div class="divTableCell th_bg row3 text-center">First<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
                         <div class="divTableCell th_bg row4 text-center">Last<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row5 text-center">Address<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row6 text-center">Email<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
-                        <div class="divTableCell th_bg row7 text-center">Phone<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
+                        <div class="divTableCell th_bg row5 text-center">Address</div>
+                        <div class="divTableCell th_bg row6 text-center">Email</div>
+                        <div class="divTableCell th_bg row7 text-center">Phone</div>
                         <div class="divTableCell th_bg row8 text-center">Role<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
                         <div class="divTableCell th_bg row9 text-center">Report To<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/></div>
                         <div class="divTableCell th_bg row10 text-center">Password</div>
@@ -66,8 +66,8 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         <?= $form->field($model, 'address', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                         <?= $form->field($model, 'email', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                         <?= $form->field($model, 'phone', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
-                        <?= $form->field($model, 'user_role', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
-                        <?= $form->field($model, 'report_to', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
+                        <?= $form->field($model, 'user_role', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'style' => 'padding:0px;']])->dropDownList($roleList, ['prompt' => 'Select']) ?>
+                        <?= $form->field($model, 'report_to', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'style' => 'padding:0px;']])->dropDownList($roleList, ['prompt' => 'Select']) ?>
                         <?= $form->field($model, 'password', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->passwordInput() ?>
                         <?= $form->field($model, 'confirm_password', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->passwordInput() ?>
                         <?php
@@ -92,15 +92,15 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                     if (count($data) > 0) {
                         foreach ($data as $d) {
                             ?>
-                            <div id="<?= $d->_id . 'D' ?>" class="divTableRow" ondblclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');">
-                                <div class="divTableCell first"><a href="javascript:;" onclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');"><img src="<?= $baseUrl ?>images/edit_icon.png" class="save_icon"/></a></div>
+                    <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
+                                <div class="divTableCell first"><a href="javascript:;" onclick="edit('<?= $d->_id?>');"><img src="<?= $baseUrl ?>images/edit_icon.png" class="save_icon"/></a></div>
                                 <div class="divTableCell text-center"><span><?= $d->user_id ?></span></div>
                                 <div id="first_name" class="divTableCell text-center"><?= $d->first_name ?></div>
                                 <div id="last_name" class="divTableCell text-center"><?= $d->last_name ?></div>
                                 <div id="address" class="divTableCell text-center"><?= $d->address ?></div>
                                 <div id="email" class="divTableCell text-center"><?= $d->email ?></div>
                                 <div id="phone" class="divTableCell text-center"><?= $d->phone ?></div>
-                                <div id="user_role" class="divTableCell text-center"><?= $d->user_role ?></div>
+                                <div id="user_role" class="divTableCell text-center"><?= $roleList[$d->user_role] ?></div>
                                 <div id="report_to" class="divTableCell text-center"><?= $d->report_to ?></div>
                                 <div class="divTableCell">  <input type="password" value="<?= $d->password ?>" class="form-control" id="pwd" disabled=""></div>
                                 <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd" disabled=""></div>
@@ -111,7 +111,8 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                             'fieldConfig' => ['template' => "{input}{error}"],
                                             'validationUrl' => Yii::$app->urlManager->createUrl("user/update-validation"),
                                             //'enableAjaxValidation' => true,
-                                            'options' => ['id' => $d->_id . 'E', 'class' => 'divTableRow hidden', 'hidden' => '']]);
+                                            'options' => ['id' => $d->_id . 'E', 'class' => 'divTableRow hidden form-div', 'hidden' => '']]);
+                                $modelu->attributes = $d->attributes;
                                 ?>
                                 <div class="divTableCell first">
                                     <?= Html::submitButton('', ['class' => '', 'style' => 'background: url('.$baseUrl.'images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
@@ -124,9 +125,9 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 <?= $form->field($modelu, 'address', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->address]])->textInput() ?>
                                 <?= $form->field($modelu, 'email', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->email]])->textInput() ?>
                                 <?= $form->field($modelu, 'phone', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->phone]])->textInput() ?>
-                                <?= $form->field($modelu, 'user_role', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->user_role]])->textInput() ?>
-                                <?= $form->field($modelu, 'report_to', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->report_to]])->textInput() ?>
-                                <?= $form->field($modelu, 'password', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true,])->passwordInput() ?>
+                                <?= $form->field($modelu, 'user_role', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'style' => 'padding:0px;', 'onChange' => 'getUsersList(\''.$d->_id.'\')']])->dropDownList($roleList, ['prompt' => 'Select']) ?>
+                                <?= $form->field($modelu, 'report_to', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'style' => 'padding:0px;', 'value' => $d->report_to]])->dropDownList(\app\components\GlobalFunction::getReportToList($d->_id, $d->user_role), ['prompt' => 'Select']) ?>
+                                <?= $form->field($modelu, 'password', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => ''], 'enableAjaxValidation' => true,])->passwordInput() ?>
                                 <?= $form->field($modelu, 'confirm_password', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true,])->passwordInput() ?>
                                 <?php
                                 ActiveForm::end();

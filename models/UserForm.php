@@ -32,9 +32,8 @@ class UserForm extends Model {
             [['first_name', 'last_name', 'address', 'phone', 'user_role', 'report_to'], 'required', 'on' => 'update'],
             [['_id', 'user_id', 'email', 'password', 'confirm_password'], 'safe'],
             ['password', 'string', 'min' => 6],
-            //['confirm_password', 'compare', 'compareAttribute' => 'password', 'message' => 'Password mismatch found'],
             ['confirm_password', 'validatePassword'],
-            ['user_role', 'in', 'range' => [User::ROLE_ADMIN, User::ROLE_AGENT]],
+            ['user_role', 'in', 'range' => [User::ROLE_ADMIN, User::ROLE_operator,  User::ROLE_manager, User::ROLE_supervisor, User::ROLE_executive]],
             ['email', 'email', 'on' => 'create'],
             ['email', 'unique', 'targetClass' => 'app\common\models\User', 'message' => 'This email address has already been taken.', 'on' => 'create'],
         ];

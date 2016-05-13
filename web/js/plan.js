@@ -8,6 +8,14 @@ $(document).ready(function () {
 
 });
 
+$('body').click(function (e) {
+    if(!$(e.target).parents('.form-div').length && e.target.tagName!= 'a' && $(e.target).parents('a').length==0 ){
+                $('.form-div').addClass('hidden');
+                $('.data').removeClass('hidden');
+    }
+});
+
+
 $(document).on('beforeSubmit', 'form', function (e) {
     var form = $(this);
     var id = $('#' + form.attr('id') + ' #planform-_id').val();
@@ -22,7 +30,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
                 if (data.msgType == 'SUC') {
                     $('#' + id + 'D #name').text($('#' + id + 'E #planform-name').val());
                     $('#' + id + 'D #plan_group').text($('#' + id + 'E #planform-plan_group').val());
-                    $('#' + id + 'D #plan_type').text($('#' + id + 'E #planform-plan_type').val());
+                    $('#' + id + 'D #plan_type').text($('#' + id + 'E #planform-plan_type option:selected').text());
                     $('#' + id + 'D #contract_period').text($('#' + id + 'E #planform-contract_period').val());
                     $('#' + id + 'D #mrc').text($('#' + id + 'E #planform-mrc').val());
                     $('#' + id + 'D #fourlink_points').text($('#' + id + 'E #planform-fourlink_points').val());
@@ -56,4 +64,12 @@ function removePlan(id) {
         });
     }
 } // end function 
+
+function edit(id){
+    $('#'+id+'E').trigger("reset");
+    $('.form-div').addClass('hidden');
+    $('.data').removeClass('hidden');
+    $('#'+id+'E').removeClass('hidden');
+    $('#'+id+'D').addClass('hidden');
+}
 

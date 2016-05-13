@@ -45,7 +45,7 @@ class AppController extends Controller
                     ],
                     [
                         'controllers' => ['user'],
-                        'actions' => ['create', 'delete', 'create-validation', 'update-validation'],
+                        //'actions' => ['create', 'delete', 'create-validation', 'update-validation'],
                         'allow' => true,
                         'roles' => [
                             User::ROLE_ADMIN

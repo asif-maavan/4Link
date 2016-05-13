@@ -59,7 +59,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         <!--<div class="divTableCell"><span>&nbsp;</span></div>-->
                         <?= $form->field($model, 'name', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                         <?= $form->field($model, 'plan_group', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
-                        <?= $form->field($model, 'plan_type', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
+                        <?= $form->field($model, 'plan_type', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'style' => 'padding:0px;']])->dropDownList($typeList, ['prompt' => 'Select']) ?>
                         <?= $form->field($model, 'contract_period', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                         <?= $form->field($model, 'mrc', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                         <?= $form->field($model, 'fourlink_points', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
@@ -71,16 +71,16 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                     if (count($data) > 0) {
                         foreach ($data as $d) {
                             ?>
-                            <div id="<?= $d->_id . 'D' ?>" class="divTableRow" ondblclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');">
+                            <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');">
                                 <div class="divTableCell first">
                                     <span class="btn glyphicon glyphicon-remove-circle larg_font icon-btn" onclick="removePlan('<?= $d->_id ?>')"></span>
-                                    <a href="javascript:;" class="btn icon-btn" style="margin-left: 23px" onclick="$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');"><img src="<?= $baseUrl ?>images/edit_icon.png" class=""/></a>
+                                    <a href="javascript:;" class="btn icon-btn" style="margin-left: 23px" onclick="edit('<?= $d->_id ?>');"><img src="<?= $baseUrl ?>images/edit_icon.png" class=""/></a>
 
                                 </div>
                                 <!--<div class="divTableCell"><span><?= ''; //$d->user_id                 ?></span></div>-->
                                 <div id="name" class="divTableCell text-center"><?= $d->name ?></div>
                                 <div id="plan_group" class="divTableCell text-center"><?= $d->plan_group ?></div>
-                                <div id="plan_type" class="divTableCell text-center"><?= $d->plan_type ?></div>
+                                <div id="plan_type" class="divTableCell text-center"><?= $typeList[$d->plan_type] ?></div>
                                 <div id="contract_period" class="divTableCell text-center"><?= $d->contract_period ?></div>
                                 <div id="mrc" class="divTableCell text-center"><?= $d->mrc ?></div>
                                 <div id="fourlink_points" class="divTableCell text-center"><?= $d->fourlink_points ?></div>
@@ -91,7 +91,8 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                             'fieldConfig' => ['template' => "{input}{error}"],
                                             'validationUrl' => Yii::$app->urlManager->createUrl("user/update-validation"),
                                             //'enableAjaxValidation' => true,
-                                            'options' => ['id' => $d->_id . 'E', 'class' => 'divTableRow hidden', 'hidden' => '']]);
+                                            'options' => ['id' => $d->_id . 'E', 'class' => 'divTableRow hidden form-div', 'hidden' => '']]);
+                                $modelu->attributes = $d->attributes;
                                 ?>
                                 <div class="divTableCell first">
                                     <?= Html::submitButton('', ['class' => '', 'style' => 'background: url(' . $baseUrl . 'images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
@@ -101,7 +102,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 <?= $form->field($modelu, '_id', ['options' => ['class' => 'divTableCell hidden'], 'inputOptions' => ['class' => 'form-control hidden', 'value' => $d->_id]])->textInput() ?>
                                 <?= $form->field($modelu, 'name', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->name]])->textInput() ?>
                                 <?= $form->field($modelu, 'plan_group', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->plan_group]])->textInput() ?>
-                                <?= $form->field($modelu, 'plan_type', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->plan_type]])->textInput() ?>
+                                <?= $form->field($modelu, 'plan_type', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'style' => 'padding:0px;']])->dropDownList($typeList, ['prompt' => 'Select']) ?>
                                 <?= $form->field($modelu, 'contract_period', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->contract_period]])->textInput() ?>
                                 <?= $form->field($modelu, 'mrc', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->mrc]])->textInput() ?>
                                 <?= $form->field($modelu, 'fourlink_points', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->fourlink_points]])->textInput() ?>
