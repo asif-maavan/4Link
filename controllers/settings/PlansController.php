@@ -27,7 +27,8 @@ class PlansController extends Controller {
     const className = 'app\common\models\Plans';
 
     public function actionIndex() {
-        $className = self::className; //echo $className; exit();
+        $className = self::className; 
+        $sort = '';
         $model = new PlanForm();
         //$model->scenario = 'create';
         $modelu = new PlanForm();
@@ -37,18 +38,18 @@ class PlansController extends Controller {
                 $model->load(Yii::$app->request->post());
                 $retData = $model->createOrUpdate();
                 if ($retData['msgType'] == 'ERR') {
-                    echo 'hi...'
                     ;
                 } else {
                     $model = new PlanForm();
                 }
             }
-//            $count = User::getCount();
-//            $pagination = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
-//            $data = User::getListing(['pagination' => $pagination]);
+            
+            if (Yii::$app->request->get()) {
+                $sort = Yii::$app->request->get('sort');
+            }
             $count = GlobalFunction::getCount(['className' => $className, 'whereParams' => '', 'nameS' => '']);
             $pagination = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
-            $data = GlobalFunction::getListing(['className' => $className, 'pagination' => $pagination, 'whereParams' => '', 'nameS' => '', 'sort' => '', 'selectParams' => ['_id', 'name', 'plan_group', 'plan_type', 'contract_period', 'mrc', 'fourlink_points']]);
+            $data = GlobalFunction::getListing(['className' => $className, 'pagination' => $pagination, 'whereParams' => '', 'nameS' => '', 'sort' => $sort, 'selectParams' => ['_id', 'name', 'plan_group', 'plan_type', 'contract_period', 'mrc', 'fourlink_points']]);
 
             return $this->render('index', [
                         'data' => $data,

@@ -29,8 +29,8 @@ $(document).on('beforeSubmit', 'form', function (e) {
                     $('#' + id + 'D #address').text($('#' + id + 'E #userform-address').val());
                     $('#' + id + 'D #email').text($('#' + id + 'E #userform-email').val());
                     $('#' + id + 'D #phone').text($('#' + id + 'E #userform-phone').val());
-                    $('#' + id + 'D #user_role').text($('#' + id + 'E #userform-user_role').val());
-                    $('#' + id + 'D #report_to').text($('#' + id + 'E #userform-report_to').val());
+                    $('#' + id + 'D #user_role').text($('#' + id + 'E #userform-user_role option:selected').text());
+                    $('#' + id + 'D #report_to').text($('#' + id + 'E #userform-report_to option:selected').text());
 //                $('#'+id+'D #password').text($('#'+id+'E #userform-password').val());
 //                $('#'+id+'D #confirm_password').text($('#'+id+'E #userform-confirm_password').val());
                     $('#' + id + 'E').addClass('hidden');
@@ -45,7 +45,12 @@ $(document).on('beforeSubmit', 'form', function (e) {
 });
 
 function getUsersList(id) {
-    var role = $('#' + id + 'E #userform-user_role').val();
+    if(id == 'new'){
+        var formId = 'create-form';
+    } else{
+        var formId = id+'E';
+    }
+    var role = $('#' + formId + ' #userform-user_role').val();
     if (role == '') {
         return false;
     }
@@ -57,10 +62,10 @@ function getUsersList(id) {
         success: function (data) {
             if (data.msgType == 'SUC') {
 
-                $('#' + id + 'E #userform-report_to').empty();
-                $('#' + id + 'E #userform-report_to').append('<option value="">Select</option>');
+                $('#' + formId + ' #userform-report_to').empty();
+                $('#' + formId + ' #userform-report_to').append('<option value="">Select</option>');
                 jQuery.each(data.list, function (index, item) {
-                    $('#' + id + 'E #userform-report_to').append('<option value="' + index + '">' + item + '</option>');
+                    $('#' + formId + ' #userform-report_to').append('<option value="' + index + '">' + item + '</option>');
                 });
             }
 

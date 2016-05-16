@@ -15,7 +15,7 @@ class GlobalFunction {
             User::ROLE_executive => 'Sales Executive',
             User::ROLE_operator => 'Operator',];
     }
-    
+
     public static function getPlanTypeList() {
         return [1 => 'Post-Paid',
             2 => 'Pre-Paid'];
@@ -23,15 +23,25 @@ class GlobalFunction {
 
     public static function getReportToList($id, $role) {
         $className = 'app\common\models\User';
-        $role = (intval($role) == 5)? intval($role)-1 : intval($role);
-        $whereParams = ['and', ['not', '_id', new \MongoId($id)], ['between', 'user_role', 2,$role]];
+        $role = (intval($role) == 5) ? intval($role) - 2 : intval($role) - 1;
+        
+        if($id == 'new'){
+            $whereParams = ['between', 'user_role', 2, $role];
+        }else{
+            $whereParams = ['and', ['not', '_id', new \MongoId($id)], ['between', 'user_role', 2, $role]];
+        }
+        
         $params = ['className' => $className, 'whereParams' => $whereParams, 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'user_id', 'first_name', 'last_name']];
         $data = GlobalFunction::getListing($params);
         $list = [];
         //var_dump($data);
-        foreach ($data as  $value){
-            $list[$value->_id->{'$id'}] = $value->first_name.' '. $value->last_name;
-        }
+        if (count($data) > 0) {
+            foreach ($data as $value) {
+                $list[$value->_id->{'$id'}] = $value->first_name . ' ' . $value->last_name;
+            }
+        } else {
+            $list[1] = 'No One';
+        }           
         return $list;
     }
 
@@ -137,7 +147,7 @@ class GlobalFunction {
 
         if ($whereParams != '')
             $query->andWhere($whereParams);
-        if($filterWhereParam != ''){
+        if ($filterWhereParam != '') {
             $query->andFilterWhere($filterWhereParam);
         }
 

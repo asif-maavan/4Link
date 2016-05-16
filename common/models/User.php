@@ -60,7 +60,7 @@ class User extends ActiveRecord implements IdentityInterface {
     public function rules() {
         return [
             [['_id', 'user_id', 'first_name', 'last_name', 'email', 'phone', 'address', 'report_to', 'password', 'user_role', 'profile_picture', 'auth_key'], 'safe'],
-            [['email', 'password', 'user_role', 'first_name', 'auth_key'], 'string', 'max' => 50],
+            [['email', 'password', 'first_name', 'auth_key'], 'string', 'max' => 50],
             ['created', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'create'],
             ['created_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'create'],
                 //['updated', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'update'],

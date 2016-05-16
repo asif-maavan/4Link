@@ -53,6 +53,7 @@ class UserForm extends Model {
             $user = new User();
             $user->scenario = 'create';
             $user->attributes = $postParams;
+            $user->user_role = intval($user->user_role);
             $user->password = md5($postParams['password']);
             $user->generateAuthKey();
             $data = $user::find()->select(['user_id'])->orderBy(['_id' => SORT_DESC])->one();
@@ -85,6 +86,7 @@ class UserForm extends Model {
             $user = User::findModel($id);
             //$email = $user->email;
             $user->attributes = $postParams;
+            $user->user_role = intval($user->user_role);
             $user->_id = new \MongoId($postParams['_id']);
             //$user->email = $email;
             if (isset($postParams['password']))

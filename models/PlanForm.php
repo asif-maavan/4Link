@@ -26,11 +26,16 @@ class PlanForm extends Model {
     public $contract_period;
     public $mrc;
     public $fourlink_points;
+    public $created;
+    public $created_by;
 
     public function rules() {
         return [
             [['name', 'plan_group', 'plan_type', 'contract_period', 'mrc', 'fourlink_points'], 'required'],
-            [['_id'], 'safe'],
+            [['contract_period', 'mrc', 'fourlink_points'], 'number'],
+            [['_id', 'created', 'created_by'], 'safe'],
+            ['created', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'create'],
+            ['created_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'create'],
         ];
     }
 
@@ -49,6 +54,10 @@ class PlanForm extends Model {
                 $plan = new Plans();
             }
             $plan->attributes = $this->attributes;
+            $plan->plan_type = intval($this->plan_type);
+            $plan->contract_period = intval($this->contract_period);
+            $plan->mrc = intval($this->mrc);
+            $plan->fourlink_points = intval($this->fourlink_points);
             if ($plan->save()) {
                 return ['msgType' => 'SUC'];
             } else {

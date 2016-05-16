@@ -14,6 +14,7 @@ class UserController extends AppController {
 
     public function actionIndex() {
         $className = 'app\common\models\user';
+        $whereParams = $nameS = $sort = $mileageProgram = $paid = '';
         $model = new UserForm();
         $model->scenario = 'create';
         $modelu = new UserForm();
@@ -28,20 +29,14 @@ class UserController extends AppController {
                     $model->scenario = 'create';
                 }
             }
-//            $count = User::getCount();
-//            $pagination = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
-//            $data = User::getListing(['pagination' => $pagination]);
+
+            if (Yii::$app->request->get()) {
+                $sort = Yii::$app->request->get('sort');
+            }
             $count = GlobalFunction::getCount(['className' => $className, 'whereParams' => '', 'nameS' => '']);
             $pagination = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
-            $data = GlobalFunction::getListing(['className' => $className, 'pagination' => $pagination, 'whereParams' => '', 'nameS' => '', 'sort' => '', 'selectParams' => ['_id', 'user_id', 'first_name','last_name','email', 'phone', 'address', 'report_to', 'password', 'user_role']]);
-            for ($i = 0; $i < count($data); $i++) {
-                if (Yii::$app->user->identity->email == $data[$i]['email']) {
-                    $temp = $data[0];
-                    $data[0] = $data[$i];
-                    $data[$i] = $temp;
-                    break;
-                }
-            }
+            $data = GlobalFunction::getListing(['className' => $className, 'pagination' => $pagination, 'whereParams' => '', 'nameS' => '', 'sort' => $sort, 'selectParams' => ['_id', 'user_id', 'first_name', 'last_name', 'email', 'phone', 'address', 'report_to', 'password', 'user_role']]);
+
             return $this->render('index', [
                         'data' => $data,
                         'model' => $model,
@@ -53,6 +48,7 @@ class UserController extends AppController {
             $data = User::getListing(['whereParams' => ['email' => Yii::$app->user->identity->email]]);
             return $this->render('index', [
                         'data' => $data,
+                        'roleList' => GlobalFunction::getUserRoles(),
             ]);
         }
     }
@@ -98,7 +94,7 @@ class UserController extends AppController {
             return ActiveForm::validate($model);
         }
     }
-    
+
     public function actionUpdateValidation() {
         $model = new UserForm();
         $model->scenario = 'update';
@@ -109,13 +105,12 @@ class UserController extends AppController {
             return ActiveForm::validate($model);
         }
     }
-    
+
     public function actionGetReportToList() {
-        if (Yii::$app->request->isAjax && Yii::$app->request->post()) { 
-            $list = GlobalFunction::getReportToList(Yii::$app->request->post('_id'),Yii::$app->request->post('role'));
+        if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
+            $list = GlobalFunction::getReportToList(Yii::$app->request->post('_id'), Yii::$app->request->post('role'));
             exit(json_encode(['msgType' => 'SUC', 'list' => $list]));
         }
-        
     }
 
 }
