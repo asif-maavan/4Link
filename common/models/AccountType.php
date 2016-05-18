@@ -28,13 +28,36 @@ class AccountType extends ActiveRecord {
     public function attributes() {
         return [
             '_id',
-            'type_name'
+            'type_name',
+            'created',
+            'created_by',
+            'updated',
+            'updated_by'
         ];
     }
 
     public function rules() {
         return [
-            [['type_name'], 'safe'],
+            [['type_name', 'created', 'created_by', 'updated', 'updated_by'], 'safe'],
+        ];
+    }
+    
+    public function behaviors() {
+        return [
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated',
+                ],
+                'value' => date("Y-m-d H:i:s"),
+            ],
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_by',
+                ],
+                'value' => (isset(Yii::$app->user->identity->email) ? Yii::$app->user->identity->email : ''),
+            ], //other behaviors
         ];
     }
 

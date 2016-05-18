@@ -16,7 +16,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
 <!--<script src="<?php echo Yii::$app->request->baseUrl; ?>/js/user.js"></script>-->
 <div class="row">
     <div class="col-md-2 leftbar ">
-        <div class="sidebar content-box" style="display: block; margin:20px 0 0 0;">
+        <div class="sidebar content-box" style="display: block; ">
             <div  class="back_btn">
                 <a href="<?php echo Yii::$app->request->referrer; ?>"><img src="<?= $baseUrl ?>images/back.png" width="43" height="12" alt=""/></a>
             </div>
@@ -27,7 +27,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                 <li><a href="calendar.html">My Account</a></li>
                 <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
                     ?> <li class="select"><a href="<?= Yii::$app->urlManager->createUrl("user/"); ?>">Users</a></li> <?php } ?>
-                <li><a href="tables.html">Values</a></li>
+                <li><a href="<?= Yii::$app->urlManager->createUrl("settings/values/"); ?>">Values</a></li>
             </ul>
         </div>
     </div>
@@ -37,13 +37,13 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                 <div class="divTableBody">
                     <div class="divTableRow">
                         <div class="divTableCell th_bg row1 first"></div>
-                        <div class="divTableCell th_bg row2 text-center">User&nbsp;#<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'user_id' : '-user_id' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-user_id' || Yii::$app->request->get('sort') != 'user_id') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                        <div class="divTableCell th_bg row3 text-center">First<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'first_name' : '-first_name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort')[0] == '-first_name' || Yii::$app->request->get('sort') != 'first_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                        <div class="divTableCell th_bg row4 text-center">Last<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'last_name' : '-last_name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort')[0] == '-last_name' || Yii::$app->request->get('sort') != 'last_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row2 text-center">User&nbsp;#<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'user_id') ? 'user_id' : '-user_id' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-user_id' || Yii::$app->request->get('sort') != 'user_id') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row3 text-center">First<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'first_name') ? 'first_name' : '-first_name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort')[0] == '-first_name' || Yii::$app->request->get('sort') != 'first_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row4 text-center">Last<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'last_name') ? 'last_name' : '-last_name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort')[0] == '-last_name' || Yii::$app->request->get('sort') != 'last_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
                         <div class="divTableCell th_bg row5 text-center">Address</div>
                         <div class="divTableCell th_bg row6 text-center">Email</div>
                         <div class="divTableCell th_bg row7 text-center">Phone</div>
-                        <div class="divTableCell th_bg row8 text-center">Role<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'user_role' : '-user_role' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort')[0] == '-user_role' || Yii::$app->request->get('sort') != 'user_role') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row8 text-center">Role<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'user_role') ? 'user_role' : '-user_role' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort')[0] == '-user_role' || Yii::$app->request->get('sort') != 'user_role') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
                         <div class="divTableCell th_bg row9 text-center">Report To<!--<img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/>--></div>
                         <div class="divTableCell th_bg row10 text-center">Password</div>
                         <div class="divTableCell th_bg row11 text-center">Confirm Password</div>
@@ -103,7 +103,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 <div id="address" class="divTableCell text-center"><?= $d->address ?></div>
                                 <div id="email" class="divTableCell text-center"><?= $d->email ?></div>
                                 <div id="phone" class="divTableCell text-center"><?= $d->phone ?></div>
-                                <div id="user_role" class="divTableCell text-center"><?= $roleList[$d->user_role] ?></div>
+                                <div id="user_role" class="divTableCell text-center"><?= (isset($roleList[$d->user_role])) ? $roleList[$d->user_role] : $d->user_role ?></div>
                                 <div id="report_to" class="divTableCell text-center"><?= (isset($userList[$d->report_to])) ? $userList[$d->report_to] : $d->report_to ?></div>
                                 <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd" disabled=""></div>
                                 <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd" disabled=""></div>

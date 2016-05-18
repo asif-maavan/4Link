@@ -1,8 +1,18 @@
 @charset "utf-8";
 /* CSS Document */
 
+.page-content > .row {
+    margin-top: 20px !important;
+}
+
 .form-control {
     display: initial;
+    margin: 8px 0 8px -2px !important;
+}
+
+.help-block {
+    margin-top: 0px;
+    margin-bottom: 0px; 
 }
 
 .select a{
@@ -14,14 +24,24 @@
 
 .icon-btn{
     padding: 0px !important;
-    color: #AAA;
+    color: #AAA !important;
     font-size: large;
     margin-left: 7px;
     margin-right: 7px;
 }
 
+.icon-btn:hover{
+    color: black !important;
+    background-color: lavender;
+}
+
 .content-box, .content-box-large{
     height: 652px !important;
+    border: 0px !important;
+}
+
+.content-box-large3{
+    margin-bottom: 33px !important;
 }
 
 .login-btn {

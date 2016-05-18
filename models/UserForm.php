@@ -89,8 +89,10 @@ class UserForm extends Model {
             $user->user_role = intval($user->user_role);
             $user->_id = new \MongoId($postParams['_id']);
             //$user->email = $email;
-            if (isset($postParams['password']))
+            if (!empty($postParams['password']))
                 $user->password = md5($postParams['password']);
+            else
+                unset ($user->password);
             //$model->scenario = 'update';
             if ($user->save()) {
                 return ['msgType' => 'SUC'];

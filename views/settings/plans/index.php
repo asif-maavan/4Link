@@ -16,7 +16,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
 <!--<script src="<?php echo Yii::$app->request->baseUrl; ?>/js/user.js"></script>-->
 <div class="row">
     <div class="col-md-2 leftbar ">
-        <div class="sidebar content-box" style="display: block; margin:20px 0 0 0;">
+        <div class="sidebar content-box" style="display: block;">
             <div  class="back_btn">
                 <a href="<?php echo Yii::$app->request->referrer; ?>"><img src="<?= $baseUrl ?>images/back.png" width="43" height="12" alt=""/></a>
             </div>
@@ -24,10 +24,10 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                 <!-- Main menu -->
                 <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
                     ?><li class="select"><a href="<?= Yii::$app->urlManager->createUrl("settings/plans/"); ?>">Plans</a></li> <?php } ?>
-                <li><a href="calendar.html">My Account</a></li>
+                <li><a href="<?= Yii::$app->urlManager->createUrl("user/my-account/"); ?>">My Account</a></li>
                 <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
                     ?><li><a href="<?= Yii::$app->urlManager->createUrl("user/"); ?>">Users</a></li> <?php } ?>
-                <li><a href="tables.html">Values</a></li>
+                <li><a href="<?= Yii::$app->urlManager->createUrl("settings/values/"); ?>">Values</a></li>
             </ul>
         </div>
     </div>
@@ -37,12 +37,12 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                 <div class="divTableBody">
                     <div class="divTableRow">
                         <div class="divTableCell th_bg row4 first"></div>
-                        <div class="divTableCell th_bg row4 ">Plans<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'name' : '-name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-name' || Yii::$app->request->get('sort') != 'name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                        <div class="divTableCell th_bg row5">Plan Group<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'plan_group' : '-plan_group' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-plan_group' || Yii::$app->request->get('sort') != 'plan_group') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                        <div class="divTableCell th_bg row5">Plan Type<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'plan_type' : '-plan_type' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-plan_type' || Yii::$app->request->get('sort') != 'plan_type') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                        <div class="divTableCell th_bg row4">Contract Period<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'contract_period' : '-contract_period' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-contract_period' || Yii::$app->request->get('sort') != 'contract_period') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                        <div class="divTableCell th_bg row4">MRC<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'mrc' : '-mrc' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-mrc' || Yii::$app->request->get('sort') != 'mrc') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                        <div class="divTableCell th_bg row4">4Link Points Multiplier<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || empty(Yii::$app->request->get('sort'))) ? 'fourlink_points' : '-fourlink_points' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-fourlink_points' || Yii::$app->request->get('sort') != 'fourlink_points') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row4 ">Plans<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'name') ? 'name' : '-name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-name' || Yii::$app->request->get('sort') != 'name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row5">Plan Group<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'plan_group') ? 'plan_group' : '-plan_group' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-plan_group' || Yii::$app->request->get('sort') != 'plan_group') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row5">Plan Type<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'plan_type') ? 'plan_type' : '-plan_type' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-plan_type' || Yii::$app->request->get('sort') != 'plan_type') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row4">Contract Period<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'contract_period') ? 'contract_period' : '-contract_period' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-contract_period' || Yii::$app->request->get('sort') != 'contract_period') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row4">MRC<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'mrc') ? 'mrc' : '-mrc' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-mrc' || Yii::$app->request->get('sort') != 'mrc') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                        <div class="divTableCell th_bg row4">4Link Points Multiplier<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'fourlink_points') ? 'fourlink_points' : '-fourlink_points' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-fourlink_points' || Yii::$app->request->get('sort') != 'fourlink_points') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
                     </div>
                     <!--/....................... user create form -->
                     <?php
@@ -82,7 +82,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 <!--<div class="divTableCell"><span><?= ''; //$d->user_id                     ?></span></div>-->
                                 <div id="name" class="divTableCell text-center"><?= $d->name ?></div>
                                 <div id="plan_group" class="divTableCell text-center"><?= $d->plan_group ?></div>
-                                <div id="plan_type" class="divTableCell text-center"><?= $typeList[$d->plan_type] ?></div>
+                                <div id="plan_type" class="divTableCell text-center"><?= (isset($typeList[$d->plan_type]))? $typeList[$d->plan_type] : $d->plan_type ?></div>
                                 <div id="contract_period" class="divTableCell text-center"><?= $d->contract_period ?></div>
                                 <div id="mrc" class="divTableCell text-center"><?= $d->mrc ?></div>
                                 <div id="fourlink_points" class="divTableCell text-center"><?= $d->fourlink_points ?></div>

@@ -216,6 +216,7 @@ footer .copy{
    height:630px;
 }
 .pagination_margin{ margin-left:13px;}
+.pagination_margin a{ border:1px solid #000; }
 .back_btn {
     padding: 12px 0 0 12px;
     padding-bottom: 5px;
@@ -231,6 +232,12 @@ footer .copy{
     margin: 0px;
     float: right;
 }
+.content_wraper2 {
+    color: #000 !important;
+    font-weight: 400;
+}
+.padding40{ padding:40px;}
+
 .hdr_user_info {
     float: right;
     margin: 15px -45px 0 0;
@@ -238,9 +245,51 @@ footer .copy{
 }
 .hdr_user_info img{ margin:0 10px 0 0;}
 .content-box-large {
-  padding: 20px;
+    padding: 33px;
+    border: solid 1px #000;
 }
-
+.content-box-large2 {
+    padding: 33px;
+    margin: 5px 0 0 0;
+     background: #fff;
+}
+.content-box-large3 {
+    overflow: hidden;
+    padding: 33px 33px 0px 56px;
+    margin: 5px 0 20px 0;
+    background: #fff;
+}
+.bordernone{ border:none 0px !important;}
+.accounttable_rowheight{ height:33px;}
+.content-box-large3 p{ font-size:13px;}
+.accounttable{ height:40px; background:#f4f4f4; width:100%;}
+.accounttable p {
+    font-size: 14px;
+    font-weight: bold;
+    float: left;
+    padding: 9px 2px 2px 237px;
+}
+.accounttable_1{ width:18px;}
+.accounttable_2 {
+    width: 30px;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.accounttable_3{ width:75px;   
+	margin: 0px !important;
+    padding: 0px !important;
+}
+.accountinput {
+    margin-left: 100px;
+    float: left;
+    padding: 0px;
+}
+.accounttable_4{ 
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.accounttable_4 input{ width:75px !important; padding:0px; margin:0px;}
+.editicon{ width:30px;}
 .box-with-header {
   border-top: none;
   border-top-left-radius:0px;
@@ -258,6 +307,64 @@ footer .copy{
    border-top:1px solid #eee;
    border-right:2px solid #eee;
 }
+
+
+
+/*---------------------------------------------------------------------------*/
+.account-contents {
+    width: 100%;
+    float: left;
+    margin-left: -39px;
+    padding: 0px 0px 30px 40px;
+}
+.rec-table-h {
+    display: block;
+    padding-left: 11px;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 12px;
+}
+.row-bg {
+    background: #f3f3f3;
+}
+
+.rec-row {
+    display: block;
+    padding:0px 0px 0px 11px;
+    margin-bottom: 6px;
+}
+.rec-email {
+    width: 39%;
+    float: left;
+    font-size: 16px;
+    margin-left: 93px;
+    line-height: 16px;
+    color: #333333;
+}
+.rec-email span {
+    display: block;
+    color: #000;
+    font-size: 14px;
+    line-height: 25px;
+    padding-top: 8px;
+}
+.rec-email input {
+	width:75px;
+	color:#000;
+}
+.rec-btns {
+    width: 11%;
+    float: left;
+    text-align: center;
+}
+.rec-btns span {
+    display: block;
+    padding-top: 8px;
+}
+.margin_l15 {
+    margin-left: 15px !important;
+}
+
+/*---------------------------------------------------------------------------*/
 
 .content-box-header:after {
   clear:both;
@@ -396,13 +503,40 @@ footer .copy{
   background-color: #77ca25;
   color: #fff;
 }
-.pagination>li.active{background-color:#0782af !important;}
-.pagination>li>a{ color:#000;}
+.pagination>li.active{background-color:#0782af !important; color:#000;     border: 1px solid #000;}
+.pagination>li>a{ color:#000;     margin-left: 4px; border:#000 solid 1px; border-radius:0px !important;}
 .pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {
-    background-color: #0782af;
+    background-color: #5ab3e8;
+	border:#000 solid 1px;
 	color:#fff;
 }
+.border{ color:#FF181C; border:solid 1px #000 !important; border-bottom:transparent;}
+.nav-tabs-wraper {
+    float: left;
+    margin-top: 40px;
+    margin-bottom: -6px;
+    margin-left: 14px;
+	font-size:16px;
+	color:#000;
+}
+.preimage{ margin:0px;}
+.preimage img{ width:7px; height:11px;}
+.nav-tabs-wraper a {
+	color:#000 !important;
+    margin: 0px !important;
+    font-size: 15px;
+}
+.nav-tabs-wraper_selected{
+    color: #000 !important;
+	font-weight:bold;
+    font-size: 15px;
+}
 
+.divTable2 {
+    display: table;
+    width: 566px;
+    padding-top: 15px;
+}
 /* DivTable.com */
 .divTable{
 	display: table;
@@ -424,7 +558,7 @@ footer .copy{
     border-top: none;
     border-bottom: 1px solid #d0d0d0;
     display: table-cell;
-    padding: 3px 4px 13px 6px;
+    padding: 0px 4px 0px 6px;
 }
 .divTableCell input {
     margin: 10px 0 0 -2px;
@@ -432,7 +566,23 @@ footer .copy{
     font-size: 12px;
     color: #000;
 }
-.divTableCell span{ padding:15px;}
+.divTableCell textarea {
+    margin: -9px 0 4px 0px;
+    padding: 0px 0 0 6px;
+    font-size: 12px;
+    color: #000;
+    width: 100%;
+    border-radius: 3px;
+}
+.form-margin{
+	   margin: -9px 0 4px 0px;
+    padding: 0px 0 0 6px;
+    font-size: 12px;
+    color: #000;
+    width: 100%;
+    border-radius: 3px;
+	}
+.divTableCell span{ padding:15px; color:#0782af;}
 .divTableHeading {
 	background-color: #EEE;
 	display: table-header-group;
@@ -447,8 +597,33 @@ footer .copy{
 	display: table-row-group;
 	border:none;
 }
+.cstname{ padding:0px 0px 10px 15px;}
+.cstname-img {
+    background: #FFF url(../images/search.png) no-repeat right center !important;
+}
+.cstname-txtbx2 {
+    width: 235px;
+    height: 40px;
+    display: block;
+    background: #FFF;
+    padding: 0px 52px 0px 12px;
+    border: 1px solid #bbbbbb;
+    outline: none;
+    margin-bottom: 18px;
+    color: #7f7f7f;
+    font-size: 16px;
+    line-height: 16px;
+    border-radius: 0px;
+    background-clip: padding-box;
+}
+.textareafont {
+    font-size: 11px;
+    color: #000;
+    height: 40px !important;
+    margin-top: 16px;
+}
 .save_icon {
-    padding: 11px 0 0 1px;
+    padding: 11px 0 0 4px;
     float: left;
 }
 
@@ -532,12 +707,6 @@ a.login-btn {
     text-align: center;
 }
 
-
-
-
-
-
-
 .login-bg {
   background: rgba(255, 255, 255, 0);
   background: -webkit-linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
@@ -552,7 +721,7 @@ a.login-btn {
 
 body {
   background-color: #e4e4e4;
-}
+} 	
 
 .th_bg{ background-color:#f4f4f4; height:40px; font-size:12px; font-weight:bold; color:#000; vertical-align:middle;}
 .th_bg img{ margin:1px;}
@@ -567,6 +736,132 @@ body {
 .row9{ width:94px;}
 .row10{ width:70px;}
 .row11{ width:72px;}
+
+.row_1{ width:36px;}
+.row_2{ width:54px; text-align: center;}
+.row_3{ width:111px; text-align: center;}
+.row_4{ width:108px;}
+.row_5{ width:116px;}
+.row_6{ width:253px;}
+.row_7{ width:105px;}
+.row_8{ width:117px;text-align: center;}
+.row_9{ width:94px;text-align: center;}
+.row_10{ width:70px;}
+.row_11{ width:72px;}
+.active {
+    bottom: 0px;
+    z-index: 9999;
+    border-bottom: #fff 1px !important;
+}
+
+.account-contents {
+    width: 100%;
+    float: left;
+    padding: 30px 75px 30px 90px;
+}
+.camp-info {
+    display: block;
+    margin: 0px 0px 37px 0px;
+    color: #333;
+    font-size: 16px;
+    line-height: 14px;
+    font-weight: bold;
+}
+.camp-info span {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    background: #428bca;
+}
+
+.upload-img {
+    display: block;
+}
+.upload-img a {
+    display: inline-block;
+    color: #233872 !important;
+    margin-top: 43px !important;
+    float: left;
+    font-size: 16px;
+    line-height: 16px;
+    text-decoration: underline !important;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0px 0 0 22px;
+}
+.school-name {
+    display: block;
+    color: #333333;
+    font-size: 14px;
+    line-height: 14px;
+    padding: 12px 0px 5px 0px;
+}
+.school-name-txtbx {
+    width: 100%;
+    height: 44px;
+    background: #FFF;
+    border: 1px solid #b4b4b4;
+    outline: none;
+    padding: 0px 10px;
+    color: #1e1e1e;
+    font-size: 16px;
+    line-height: 16px;
+    display: block;
+    font-family: 'robotolight' !important;
+    margin-bottom: 25px;
+}
+.row-margin-t {
+    margin-top: 25px;
+}
+.school-name-txtbx {
+    width: 100%;
+    height: 44px;
+    background: #FFF;
+    border: 1px solid #b4b4b4;
+    outline: none;
+    padding: 0px 10px;
+    color: #1e1e1e;
+    font-size: 16px;
+    line-height: 16px;
+    display: block;
+    font-family: 'robotolight' !important;
+    margin-bottom:0px;
+}
+.school-desc-txtarea {
+    width: 100%;
+    height: 150px;
+    background: #FFF;
+    border: 1px solid #b4b4b4;
+    outline: none;
+    padding: 10px;
+    color: #333333;
+    font-size: 14px;
+    line-height: 14px;
+    display: block;
+    resize: none;
+}
+.school-name {
+    display: block;
+    color: #333333;
+    font-size: 14px;
+    line-height: 14px;
+    padding: 12px 0px 5px 0px;
+}
+.school-name a {
+    padding: 17px 60px;
+    margin-top: 20px;
+}
+.creat-btn {
+    display: inline-block;
+    float: left;
+    padding: 17px;
+    color: #FFF !important;
+    font-size: 20px;
+    line-height: 20px;
+    background: #5ab3e8;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    font-family: 'Open Sans', sans-serif;
+}
 	  
 /** Login & Signup **/
 
