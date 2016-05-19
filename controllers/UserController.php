@@ -9,6 +9,7 @@ use yii\web\Controller;
 use app\models\UserForm;
 use yii\widgets\ActiveForm;
 use app\components\GlobalFunction;
+use yii\web\UploadedFile;
 
 class UserController extends AppController {
 
@@ -113,4 +114,31 @@ class UserController extends AppController {
         }
     }
 
-}
+    public function actionMyAccount() {
+        $model = new UserForm();
+        $model->scenario = 'profile';
+        $user = User::findOne(Yii::$app->user->identity->_id);
+        $model->attributes = $user->attributes;
+        $profilePic = $user->profile_picture;
+
+        if (Yii::$app->request->post()) {
+            $model->profile_picture = UploadedFile::getInstance($model, 'profile_picture');
+            //echo \GuzzleHttp\json_encode($model->profile_picture);
+            $retData = $model->update(Yii::$app->request->post('UserForm'));
+            if ($retData['msgType'] == 'ERR') {
+                $model->errors = $retData['msgArr'];
+//                exit(json_encode(['msgType' => 'ERR', 'msgArr' => $retData['msgArr']]));
+            } else{
+                $this->redirect(Yii::$app->urlManager->createUrl("user/my-account"));
+                //exit();
+            }  
+        }
+        
+        return $this->render('myAccount', [
+                    'model' => $model,
+                    'profilePic' => $profilePic,
+                    'roleList' => GlobalFunction::getUserRoles(),
+        ]);
+    } // end MyAccount
+
+}// end class

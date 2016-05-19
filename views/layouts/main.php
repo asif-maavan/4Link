@@ -55,7 +55,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                             <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
                                 <ul class="nav navbar-nav">
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php if(Yii::$app->user->identity->profile_picture){  ?><img src="<?=$baseUrl?>/images/<?=Yii::$app->user->identity->profile_picture //user_img.png?>" width="32" height="32" alt="User"/><?php }?><?=(Yii::$app->user->identity->_id)? Yii::$app->user->identity->first_name : 'Guest' ?><b class="caret"></b></a> 
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php if(Yii::$app->user->identity->profile_picture){  ?><img src="<?=$baseUrl?>/uploads/<?=Yii::$app->user->identity->profile_picture //user_img.png?>" width="32" height="32" alt="User"/><?php }?><?=(Yii::$app->user->identity->_id)? Yii::$app->user->identity->first_name : 'Guest' ?><b class="caret"></b></a> 
                                         <ul class="dropdown-menu animated fadeInUp">
                                             <li><a href="<?= Url::toRoute(['/user/']); ?>">Profile</a></li>
                                             <li><a href="<?= Url::toRoute(['/site/logout']); ?>">Logout</a></li>

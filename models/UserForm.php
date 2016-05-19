@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use app\common\models\User;
+use yii\web\UploadedFile;
+
 
 /**
  * LoginForm is the model behind the login form.
@@ -30,10 +32,12 @@ class UserForm extends Model {
             [['first_name', 'user_role'], 'required'],
             [['first_name', 'last_name', 'email', 'address', 'phone', 'user_role', 'report_to', 'password', 'confirm_password'], 'required', 'on' => 'create'],
             [['first_name', 'last_name', 'address', 'phone', 'user_role', 'report_to'], 'required', 'on' => 'update'],
-            [['_id', 'user_id', 'email', 'password', 'confirm_password'], 'safe'],
+            [['first_name', 'last_name', 'address', 'phone'], 'required', 'on' => 'profile'],
+            [['_id', 'user_id', 'email', 'password', 'confirm_password', 'user_role', 'profile_picture'], 'safe'],
             ['password', 'string', 'min' => 6],
             ['confirm_password', 'validatePassword'],
-            ['user_role', 'in', 'range' => [User::ROLE_ADMIN, User::ROLE_operator,  User::ROLE_manager, User::ROLE_supervisor, User::ROLE_executive]],
+            ['profile_picture', 'file', 'extensions' => 'gif, jpg, png'],
+            ['user_role', 'in', 'range' => [User::ROLE_ADMIN, User::ROLE_operator, User::ROLE_manager, User::ROLE_supervisor, User::ROLE_executive]],
             ['email', 'email', 'on' => 'create'],
             ['email', 'unique', 'targetClass' => 'app\common\models\User', 'message' => 'This email address has already been taken.', 'on' => 'create'],
         ];
@@ -77,23 +81,38 @@ class UserForm extends Model {
     }
 
     public function update($postParams) {
+        unset($postParams['profile_picture']);
         $this->attributes = $postParams;
-        $id = $postParams['_id'];
+        if ($this->scenario == 'profile') {
+            $id = Yii::$app->user->identity->_id;
+        } else {
+            $id = $postParams['_id'];
+        }
+        
         if ($id == Yii::$app->user->identity->_id)
             $this->user_role = Yii::$app->user->identity->user_role;
         if ($this->validate()) {
 
             $user = User::findModel($id);
-            //$email = $user->email;
+            
+            if($this->profile_picture){
+                if(!empty($user->profile_picture)){
+                    unlink('uploads/'.$user->profile_picture);
+                }
+                $fileName = $id.'-'.$this->profile_picture->baseName . '.' . $this->profile_picture->extension;
+                $this->profile_picture->saveAs('uploads/' . $fileName);
+                $user->profile_picture = $fileName;
+            }
+            
             $user->attributes = $postParams;
             $user->user_role = intval($user->user_role);
-            $user->_id = new \MongoId($postParams['_id']);
-            //$user->email = $email;
-            if (!empty($postParams['password']))
+            
+            if (!empty($postParams['password'])) {
                 $user->password = md5($postParams['password']);
-            else
-                unset ($user->password);
-            //$model->scenario = 'update';
+            } else {
+                unset($user->password);
+            }
+
             if ($user->save()) {
                 return ['msgType' => 'SUC'];
             } else {
