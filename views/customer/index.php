@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerJsFile('@web/js/customer.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $baseUrl = Yii::$app->request->baseUrl . '/';
 ?>
-    <style>
+<style>
     .save_icon {
         padding: 5px 0 6px 4px ;}
     </style>
@@ -68,7 +68,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             <?= $form->field($model, 'account_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                             <?= $form->field($model, 'address', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => '']])->textarea() ?>
                             <?= $form->field($model, 'phone', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
-                            <?= $form->field($model, 'sales_agent', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;']])->dropDownList($agentList, ['prompt' => 'Select']) ?>
+                            <?= $form->field($model, 'sales_agent', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'getExecutive(this)']])->dropDownList($agentList, ['prompt' => 'Select']) ?>
                             <?= $form->field($model, 'agent_phone', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                             <!--<div class="divTableCell">&nbsp;</div>-->
                             <?php
@@ -101,9 +101,9 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             foreach ($data as $d) {
                                 //$userList = \app\components\GlobalFunction::getAgentList();
                                 ?>
-                                                                                                                        <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
+                                                                                                                                <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
                                     <div class="divTableCell cel-padding first vertical-align"><a href="javascript:;" onclick="edit('<?= $d->_id ?>');"><img src="<?= $baseUrl ?>images/edit_icon.png" class="save_icon"/></a></div>
-                                    <div class="divTableCell cel-padding text-center vertical-align"><span>C<?= $d->customer_id ?></span></div>
+                                    <div class="divTableCell cel-padding text-center vertical-align"><span><a title="See Detail" href="javascript:;">C<?= $d->customer_id ?></a></span></div>
                                     <div id="customer_acc" class="divTableCell cel-padding text-center vertical-align"><?= $d->customer_acc ?></div>
                                     <div id="first_name" class="divTableCell cel-padding text-center vertical-align"><?= $d->first_name ?></div>
                                     <div id="account_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->account_no ?></div>
@@ -132,7 +132,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <?= $form->field($modelu, 'account_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                                     <?= $form->field($modelu, 'address', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => '',]])->textarea() ?>
                                     <?= $form->field($modelu, 'phone', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
-                                    <?= $form->field($modelu, 'sales_agent', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'getAgentList()']])->dropDownList($agentList, ['prompt' => 'Select']) ?>
+                                    <?= $form->field($modelu, 'sales_agent', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'getExecutive(this)']])->dropDownList($agentList, ['prompt' => 'Select']) ?>
                                     <?= $form->field($modelu, 'agent_phone', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                                     <?php
                                     ActiveForm::end();

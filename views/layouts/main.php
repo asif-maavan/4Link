@@ -50,7 +50,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                             <a href="index.html"><img src="<?=$baseUrl?>/images/logo.png" width="139" height="47" alt=""/></a>
                         </div>
                     </div>
-                    <div class="col-md-2 hdr_user_info">
+                    <div class="col-md-4 hdr_user_info">
                         <div class="navbar navbar-inverse" role="banner">
                             <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
                                 <ul class="nav navbar-nav">

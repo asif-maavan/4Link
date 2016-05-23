@@ -39,3 +39,22 @@ $(document).on('beforeSubmit', 'form', function (e) {
         return false;
     }
 });
+
+function getExecutive(target){
+    id = $(target).val();
+    formid = $(target).closest('form').attr('id');
+    //alert(formid);
+    $.ajax({
+            type: "POST",
+            url: baseUrl + "ajax/sales-executive",
+            data: {id:id},
+            dataType: "json",
+            success: function (data) {
+                if (data.msgType == 'SUC') {
+                    data.phone;
+                    $('#' + formid+' #customerform-agent_phone' ).val(data.phone);
+                }
+
+            }
+        });
+}

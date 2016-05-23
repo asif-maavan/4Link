@@ -71,6 +71,7 @@
 
 .app-content-box-large {
     border: solid 1px #000 !important;
+    min-height: 390px !important;
 }
 
 .divTableCell textarea{vertical-align: top;}
