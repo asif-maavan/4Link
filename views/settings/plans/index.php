@@ -22,12 +22,10 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
             </div>
             <ul class="nav">
                 <!-- Main menu -->
-                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
-                    ?><li class="select"><a href="<?= Yii::$app->urlManager->createUrl("settings/plans/"); ?>">Plans</a></li> <?php } ?>
+                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) { ?><li class="select"><a href="<?= Yii::$app->urlManager->createUrl("settings/plans/"); ?>">Plans</a></li> <?php } ?>
                 <li><a href="<?= Yii::$app->urlManager->createUrl("user/my-account/"); ?>">My Account</a></li>
-                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
-                    ?><li><a href="<?= Yii::$app->urlManager->createUrl("user/"); ?>">Users</a></li> <?php } ?>
-                <li><a href="<?= Yii::$app->urlManager->createUrl("settings/values/"); ?>">Values</a></li>
+                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) { ?><li><a href="<?= Yii::$app->urlManager->createUrl("user/"); ?>">Users</a></li> <?php } ?>
+                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) { ?><li><a href="<?= Yii::$app->urlManager->createUrl("settings/values/"); ?>">Values</a></li><?php } ?>
             </ul>
         </div>
     </div>
@@ -74,18 +72,18 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         foreach ($data as $d) {
                             ?>
                             <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');">
-                                <div class="divTableCell first">
+                                <div class="divTableCell first cel-padding">
                                     <span class="btn glyphicon glyphicon-remove-circle larg_font icon-btn" onclick="removePlan('<?= $d->_id ?>')"></span>
                                     <a href="javascript:;" class="btn icon-btn" style="margin-left: 23px" onclick="edit('<?= $d->_id ?>');"><img src="<?= $baseUrl ?>images/edit_icon.png" class=""/></a>
 
                                 </div>
-                                <!--<div class="divTableCell"><span><?= ''; //$d->user_id                     ?></span></div>-->
-                                <div id="name" class="divTableCell text-center"><?= $d->name ?></div>
-                                <div id="plan_group" class="divTableCell text-center"><?= $d->plan_group ?></div>
-                                <div id="plan_type" class="divTableCell text-center"><?= (isset($typeList[$d->plan_type]))? $typeList[$d->plan_type] : $d->plan_type ?></div>
-                                <div id="contract_period" class="divTableCell text-center"><?= $d->contract_period ?></div>
-                                <div id="mrc" class="divTableCell text-center"><?= $d->mrc ?></div>
-                                <div id="fourlink_points" class="divTableCell text-center"><?= $d->fourlink_points ?></div>
+                                <!--<div class="divTableCell"><span><?= ''; //$d->user_id                                       ?></span></div>-->
+                                <div id="name" class="divTableCell cel-padding text-center"><?= $d->name ?></div>
+                                <div id="plan_group" class="divTableCell cel-padding text-center"><?= $d->plan_group ?></div>
+                                <div id="plan_type" class="divTableCell cel-padding text-center"><?= (isset($typeList[$d->plan_type])) ? $typeList[$d->plan_type] : $d->plan_type ?></div>
+                                <div id="contract_period" class="divTableCell cel-padding text-center"><?= $d->contract_period ?></div>
+                                <div id="mrc" class="divTableCell cel-padding text-center"><?= $d->mrc ?></div>
+                                <div id="fourlink_points" class="divTableCell cel-padding text-center"><?= $d->fourlink_points ?></div>
                             </div>
                             <?php
                             if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
@@ -100,7 +98,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <?= Html::submitButton('', ['class' => '', 'style' => 'background: url(' . $baseUrl . 'images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
                                     <!--<a href="#"><img src="images/save.png" class="save_icon" /></a>-->
                                 </div>
-                                <!--<div class="divTableCell"><span><?= ''; // $d->user_id                   ?></span></div>-->
+                                <!--<div class="divTableCell"><span><?= ''; // $d->user_id                                     ?></span></div>-->
                                 <?= $form->field($modelu, '_id', ['options' => ['class' => 'divTableCell hidden'], 'inputOptions' => ['class' => 'form-control hidden', 'value' => $d->_id]])->textInput() ?>
                                 <?= $form->field($modelu, 'name', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->name]])->textInput() ?>
                                 <?= $form->field($modelu, 'plan_group', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'value' => $d->plan_group]])->textInput() ?>

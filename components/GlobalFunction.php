@@ -44,6 +44,22 @@ class GlobalFunction {
         }           
         return $list;
     }
+    
+    public static function getAgentList() {
+        $className = 'app\common\models\User';
+        
+        $whereParams = ['user_role' => User::ROLE_executive];
+        $params = ['className' => $className, 'whereParams' => $whereParams, 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'user_id', 'first_name', 'last_name']];
+        $data = GlobalFunction::getListing($params);
+        $list = [];
+        //var_dump($data);
+        if (count($data) > 0) {
+            foreach ($data as $value) {
+                $list[$value->_id->{'$id'}] = $value->first_name . ' ' . $value->last_name;
+            }
+        }         
+        return $list;
+    }
 
 //    ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     public static function getMonths() {

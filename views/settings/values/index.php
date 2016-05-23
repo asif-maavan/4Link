@@ -7,7 +7,7 @@ use \app\common\models\User;
 use yii\widgets\ActiveForm;
 use app\models\Categories;
 
-$this->title = 'User Management';
+$this->title = 'Values';
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerJsFile('@web/js/values.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $baseUrl = Yii::$app->request->baseUrl . '/';
@@ -29,7 +29,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                 <!-- Main menu -->
                 <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
                     ?><li><a href="<?= Yii::$app->urlManager->createUrl("settings/plans/"); ?>">Plans</a></li> <?php } ?>
-                <li><a href="calendar.html">My Account</a></li>
+                <li><a href="<?= Yii::$app->urlManager->createUrl("user/my-account"); ?>">My Account</a></li>
                 <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
                     ?><li><a href="<?= Yii::$app->urlManager->createUrl("user/"); ?>">Users</a></li> <?php } ?>
                 <li class="select"><a href="<?= Yii::$app->urlManager->createUrl("settings/values/"); ?>">Values</a></li>

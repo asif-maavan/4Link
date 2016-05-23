@@ -43,12 +43,10 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
             </div>
             <ul class="nav">
                 <!-- Main menu -->
-                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
-                    ?><li><a href="<?= Yii::$app->urlManager->createUrl("settings/plans/"); ?>">Plans</a></li> <?php } ?>
+                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) { ?><li><a href="<?= Yii::$app->urlManager->createUrl("settings/plans/"); ?>">Plans</a></li> <?php } ?>
                 <li class="select"><a href="<?= Yii::$app->urlManager->createUrl("user/my-account"); ?>">My Account</a></li>
-                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
-                    ?> <li><a href="<?= Yii::$app->urlManager->createUrl("user/"); ?>">Users</a></li> <?php } ?>
-                <li><a href="<?= Yii::$app->urlManager->createUrl("settings/values/"); ?>">Values</a></li>
+                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) { ?> <li><a href="<?= Yii::$app->urlManager->createUrl("user/"); ?>">Users</a></li> <?php } ?>
+                <?php if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) { ?><li><a href="<?= Yii::$app->urlManager->createUrl("settings/values/"); ?>">Values</a></li><?php } ?>
             </ul>
         </div>
     </div>
@@ -67,12 +65,12 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                 ?>
                 <div class="row">
                     <div class="col-lg-2 col-md-3 col-sm-3">
-                        <div class="upload-img"><img id="prifile-image" class="img-responsive" src="<?= $baseUrl ?><?= ($profilePic)? 'uploads/'.$profilePic: 'images/user-img1.png' ?>" alt="Image only"></div>
+                        <div class="upload-img"><img id="prifile-image" class="img-responsive" src="<?= $baseUrl ?><?= ($profilePic) ? 'uploads/' . $profilePic : 'images/user-img1.png' ?>" alt="Image only"></div>
                     </div>
                     <div class="col-lg-10 col-md-9 col-sm-9">
                         <div class="upload-img"><a href="javascript:;" onclick="$('#userform-profile_picture').click();">Upload Logo</a></div>
                         <div class="upload-img" for="userform-profile_picture" style="float:left; margin: 43px 0 0 22px;" id="filename"></div>
-                        <?= $form->field($model, 'profile_picture', ['options' => ['class' => 'upload-img'], 'inputOptions' => [ 'class'=>'custom-file-input', 'style' => 'display:none;', 'onChange' => "imagePreview(this);$('#filename').html($(this).val()); "]])->fileInput()->label(false); ?>
+                        <?= $form->field($model, 'profile_picture', ['options' => ['class' => 'upload-img'], 'inputOptions' => [ 'class' => 'custom-file-input', 'style' => 'display:none;', 'onChange' => "imagePreview(this);$('#filename').html($(this).val()); "]])->fileInput()->label(false); ?>
                     </div>
 
                 </div>

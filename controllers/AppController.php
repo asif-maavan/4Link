@@ -39,7 +39,7 @@ class AppController extends Controller
                 'rules' => [
                     [
                         'controllers' => ['user'],
-                        'actions' => ['index'],
+                        'actions' => ['my-account', 'update-validation'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],

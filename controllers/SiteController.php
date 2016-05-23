@@ -56,12 +56,12 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
-            return $this->redirect(Yii::$app->urlManager->createUrl("/"));
+            return $this->redirect(Yii::$app->urlManager->createUrl("/customer"));
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(Yii::$app->urlManager->createUrl("/user"));
+            return $this->redirect(Yii::$app->urlManager->createUrl("/user/my-account"));
             echo 'Welcome to 4Link';
         }
         $this->layout = 'loginLayout';

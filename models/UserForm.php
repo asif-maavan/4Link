@@ -87,6 +87,7 @@ class UserForm extends Model {
             $id = Yii::$app->user->identity->_id;
         } else {
             $id = $postParams['_id'];
+            unset($postParams['_id']);
         }
         
         if ($id == Yii::$app->user->identity->_id)

@@ -5,7 +5,7 @@
 /* @var $this yii\web\View */
 /* @var $model app\models\Products */
 
-$this->title = 'Sunline';
+$this->title = '4Link';
 ?>
 <div class="">
     <div class="padtop44">

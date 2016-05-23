@@ -2,7 +2,7 @@
 /* CSS Document */
 
 .page-content > .row {
-    margin-top: 20px !important;
+    margin-top: 20px;
 }
 
 .form-control {
@@ -36,7 +36,7 @@
 }
 
 .content-box, .content-box-large{
-    height: 652px !important;
+/*    height: 652px !important;*/
     border: 0px !important;
 }
 
@@ -66,3 +66,35 @@
     height: 37px !important;
     font-family: 'open sans' !important;
 }
+
+.mg-top-o{margin-top: 0px !important}
+
+.app-content-box-large {
+    border: solid 1px #000 !important;
+}
+
+.divTableCell textarea{vertical-align: top;}
+
+.cel-padding{
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.pagination > li {
+     display: inline-block; 
+}
+
+.pagination>li.active {
+    border: 0px;
+    background-color: transparent !important;
+}
+
+.pagination > li > span {
+    margin-left: 4px
+}
+
+.pagination > .active > a {
+    
+}
+
+.vertical-align{vertical-align: middle;}

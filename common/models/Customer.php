@@ -19,7 +19,7 @@ use yii\behaviors\AttributeBehavior;
  */
 class Customer extends ActiveRecord {
 
-    const className = 'app\common\models\SunlineCustomer';
+    const className = 'app\common\models\Customer';
 
     public static function collectionName() {
         return ['fourLink', 'customer'];
@@ -28,20 +28,45 @@ class Customer extends ActiveRecord {
     public function attributes() {
         return [
             '_id',
-            'uid',
+            'customer_id',
             'customer_acc',
-            'name',
+            'first_name',
             'account_no',
             'address',
             'phone',
             'sales_agent',
-            'agent_phone'
+            'agent_phone',
+            'created',
+            'created_by',
+            'updated',
+            'updated_by'
         ];
     }
 
     public function rules() {
         return [
-            [['uid', 'customer_acc', 'name', 'account_no', 'address', 'phone', 'sales_agent', 'agent_phone'], 'safe'],
+            [[ 'customer_id', 'customer_acc', 'first_name', 'account_no', 'address', 'phone', 'sales_agent', 'agent_phone', 'created', 'created_by', 'updated', 'updated_by'], 'safe'],
+            ['created', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'create'],
+            ['created_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'create'],
+        ];
+    }
+    
+    public function behaviors() {
+        return [
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated',
+                ],
+                'value' => date("Y-m-d H:i:s"),
+            ],
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'updated_by',
+                ],
+                'value' => (isset(Yii::$app->user->identity->email) ? Yii::$app->user->identity->email : ''),
+            ], //other behaviors
         ];
     }
 
