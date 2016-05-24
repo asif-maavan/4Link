@@ -19,10 +19,10 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
     <div class="page-content">
     <div class="row mg-top-o">
         <ul class="nav nav-tabs nav-tabs-wraper">
-            <li role="presentation"><a href="#">Dashboard</a></li>
-            <li role="presentation" ><a href="#">Sales</a></li>
-            <li role="presentation"><a href="#">Sales Executives</a></li>
-            <li role="presentation" class="active border nav-tabs-wraper_selected"><a href="<?= Yii::$app->urlManager->createUrl("customer/"); ?>">Customers</a></li>              
+            <li role="presentation"><a href="<?= Yii::$app->urlManager->createUrl("dashboard/"); ?>">Dashboard</a></li>
+            <li role="presentation" ><a href="<?= Yii::$app->urlManager->createUrl("sales/"); ?>">Sales</a></li>
+            <li role="presentation"><a href="<?= Yii::$app->urlManager->createUrl("executives/"); ?>">Sales Executives</a></li>
+            <li role="presentation" class="active border nav-tabs-wraper_selected"><a href="<?= Yii::$app->urlManager->createUrl("customers/"); ?>">Customers</a></li>              
         </ul>
         <div class="col-md-12 content_wraper2">
 
@@ -75,24 +75,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             ActiveForm::end();
                         }
                         ?>
-                        <!--                        <div class="divTableRowblue">
-                                                    <div class="divTableCell first"><a href="#"><img src="images/save.png" class="save_icon" /></a></div>
-                                                    <div class="divTableCell"><span>C1</span></div>
-                                                    <div class="divTableCell">  <input type="text" class="form-control" value="5.28471" id="usr"></div>
-                                                    <div class="divTableCell"><input type="text" class="form-control" value="Steve William" id="usr"></div>
-                                                    <div class="divTableCell"><input type="text" class="form-control" value="5.28471" id="usr"></div>
-                                                    <div class="divTableCell"><textarea>957 South 10th Street, San Salvador And 2nd Street, San Jose</textarea></div>
-                                                    <div class="divTableCell"><input type="text" class="form-control" value="212-247-7800" id="usr"></div>
-                                                    <div class="divTableCell">
-                                                        <select class="selectpicker form-control form-margin" data-show-subtext="true">
-                                                            <option data-subtext="French's">William Arthor</option>
-                                                            <option data-subtext="Heinz">Steve William</option>
-                                                            <option data-subtext="Sweet">John Doe</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="divTableCell"><input type="text" class="form-control" value="212-247-7800" id="usr"></div>
-                                                    <div class="divTableCell">&nbsp;</div>        
-                                                </div> -->
+
                         <!-- end create -->
 
                         <!-- records -->
@@ -101,7 +84,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             foreach ($data as $d) {
                                 //$userList = \app\components\GlobalFunction::getAgentList();
                                 ?>
-                                                                                                                                <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
+                                                                                                                                                <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
                                     <div class="divTableCell cel-padding first vertical-align"><a href="javascript:;" onclick="edit('<?= $d->_id ?>');"><img src="<?= $baseUrl ?>images/edit_icon.png" class="save_icon"/></a></div>
                                     <div class="divTableCell cel-padding text-center vertical-align"><span><a title="See Detail" href="javascript:;">C<?= $d->customer_id ?></a></span></div>
                                     <div id="customer_acc" class="divTableCell cel-padding text-center vertical-align"><?= $d->customer_acc ?></div>
@@ -141,7 +124,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             <?php } ?>
                         </div>
 
-                    </div>
+                    </div><!-- DivTable.com -->
                     <?php
                 } else {
                     echo '</div></div>'
@@ -162,111 +145,6 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
 
                 </div>
 
-                <!--                        <div class="divTableRow">
-                                            <div class="divTableCell first"><a href="#"><img src="images/edit_icon.png" class="save_icon"/></a></div>
-                                            <div class="divTableCell"><span>C1</span></div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell">Steve William</div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell"><div class="texarea_width">957 South 10th Street, San Salvador And 2nd Street, San Jose</div></div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell">james Dentorn</div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell"><a href="#" class="search-btn">Details</a></div>               
-                                        </div>-->
-                <!--                        <div class="divTableRow">
-                                            <div class="divTableCell first"><a href="#"><img src="images/edit_icon.png" class="save_icon"/></a></div>
-                                            <div class="divTableCell"><span>C2</span></div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell">Steve William</div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell"><div class="texarea_width">957 South 10th Street, San Salvador And 2nd Street, San Jose</div></div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell">Steve Austin</div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell"><a href="#" class="search-btn">Details</a></div>                       
-                                        </div>
-                                        <div class="divTableRow">
-                                            <div class="divTableCell first"><a href="#"><img src="images/edit_icon.png" class="save_icon"/></a></div>
-                                            <div class="divTableCell"><span>C3</span></div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell">Steve William</div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell"><div class="texarea_width">957 South 10th Street, San Salvador And 2nd Street, San Jose</div></div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell">Nicolas Cage</div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell"><a href="#" class="search-btn">Details</a></div>                
-                                        </div>
-                                        <div class="divTableRow">
-                                            <div class="divTableCell first"><a href="#"><img src="images/edit_icon.png" class="save_icon"/></a></div>
-                                            <div class="divTableCell"><span>C4</span></div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell">Steve William</div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell"><div class="texarea_width">957 South 10th Street, San Salvador And 2nd Street, San Jose</div></div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell">Anthony Dalton</div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell"><a href="#" class="search-btn">Details</a></div>                    
-                                        </div>
-                                        <div class="divTableRow">
-                                            <div class="divTableCell first"><a href="#"><img src="images/edit_icon.png" class="save_icon"/></a></div>
-                                            <div class="divTableCell"><span>C6</span></div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell">Steve William</div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell"><div class="texarea_width">957 South 10th Street, San Salvador And 2nd Street, San Jose</div></div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell">Samuel Jackson</div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell"><a href="#" class="search-btn">Details</a></div>                   
-                                        </div>
-                                        <div class="divTableRow">
-                                            <div class="divTableCell first"><a href="#"><img src="images/edit_icon.png" class="save_icon"/></a></div>
-                                            <div class="divTableCell"><span>C6</span></div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell">Steve William</div>
-                                            <div class="divTableCell">5.28471</div>
-                                            <div class="divTableCell"><div class="texarea_width">957 South 10th Street, San Salvador And 2nd Street, San Jose</div></div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell">Steve Austin</div>
-                                            <div class="divTableCell">212-247-7800</div>
-                                            <div class="divTableCell"><a href="#" class="search-btn">Details</a></div>              
-                                        </div>-->
-                <!--            </div>
-                
-                        </div>-->
-                <!-- DivTable.com -->
-                <!--        <div class="row">
-                            <ul class="pagination pagination_margin">
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <img src="images/pagination-left_1.png" alt=""/>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <img src="images/pagination-left.png" alt=""/>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <img src="images/pagination-right.png" alt=""/>
-                                    </a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <img src="images/pagination-right_1.png" alt=""/>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>-->
             </div>
 
         </div>

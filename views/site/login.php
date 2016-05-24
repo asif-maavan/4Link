@@ -10,10 +10,10 @@ $this->title = Yii::t('app', 'Login');
 <div class="page-content">
     <div class="login-container">
         <div class="text-center">
-            <img src="images/logo.png" alt="" class="img-cust-responsive">
+            <img src="<?=Yii::$app->request->baseUrl . '/'?>images/logo.png" alt="" class="img-cust-responsive">
         </div>
         <div class="login-contents">
-            <h1>Log In</h1>
+            <h1>LogIn</h1>
 
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 <!--<div><input type="text" class="login-txtbx email-img" value="Email"></div>-->
@@ -27,7 +27,7 @@ $this->title = Yii::t('app', 'Login');
             <!--<div><input type="text" class="login-txtbx up-down-img" value="Depot"></div>-->
             <div class="forgot-pass"><a href="#">Forgot Password?</a></div>
 <!--            <div><a href="#" class="login-btn">Log In</a></div>-->
-            <div><?= Html::submitButton(Yii::t('app', 'Log In'), ['class' => ['login-btn'], 'name' => 'login-button']) ?></div>
+            <div><?= Html::submitButton(Yii::t('app', 'LogIn'), ['class' => ['login-btn'], 'name' => 'login-button']) ?></div>
         </div>
     </div>
 

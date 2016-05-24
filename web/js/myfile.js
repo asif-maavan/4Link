@@ -1,3 +1,25 @@
+$(document).ready(function () {
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1200",
+        "timeOut": "3000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+});
+
+
 function imagePreview(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -10,10 +32,10 @@ function imagePreview(input) {
     }
 }
 
-function edit(id){
-    $('#'+id+'E').trigger("reset");
+function edit(id) {
+    $('#' + id + 'E').trigger("reset");
     $('.form-div').addClass('hidden');
     $('.data').removeClass('hidden');
-    $('#'+id+'E').removeClass('hidden');
-    $('#'+id+'D').addClass('hidden');
+    $('#' + id + 'E').removeClass('hidden');
+    $('#' + id + 'D').addClass('hidden');
 }

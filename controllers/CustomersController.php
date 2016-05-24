@@ -23,7 +23,7 @@ use app\components\GlobalFunction;
  *
  * @author Muhammad Asif
  */
-class CustomerController extends Controller {
+class CustomersController extends Controller {
 
     const className = 'app\common\models\Customer';
 

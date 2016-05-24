@@ -17,7 +17,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
     if (id) {
         $.ajax({
             type: "POST",
-            url: baseUrl + "customer/update",
+            url: baseUrl + "customers/update",
             data: form.serialize(),
             dataType: "json",
             success: function (data) {
@@ -31,7 +31,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
                     $('#' + id + 'D #agent_phone').text($('#' + id + 'E #customerform-agent_phone').val());
                     $('#' + id + 'E').addClass('hidden');
                     $('#' + id + 'D').removeClass('hidden');
-                    alert('Customer successfuly updated');
+                    toastr.success('Customer successfuly updated');
                 }
 
             }

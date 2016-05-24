@@ -20,6 +20,7 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/styles.css',
+        'toast/toastr.css',
         'css/style.css',
         'css/forms.css',
         'css/calendar.css',
@@ -30,6 +31,7 @@ class AppAsset extends AssetBundle
     public $js = [
         'js/myfile.js',
         'assets/24ac6e24/js/bootstrap.min.js',
+        'toast/toastr.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

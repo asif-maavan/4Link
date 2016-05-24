@@ -36,7 +36,8 @@ $(document).on('beforeSubmit', 'form', function (e) {
                     $('#' + id + 'D #fourlink_points').text($('#' + id + 'E #planform-fourlink_points').val());
                     $('#' + id + 'E').addClass('hidden');
                     $('#' + id + 'D').removeClass('hidden');
-                    alert('user successfuly updated');
+                    //alert('user successfuly updated');
+                    toastr.success('Plan is successfuly updated');
                 }
 
             }
@@ -57,7 +58,7 @@ function removePlan(id) {
                 if (data.msgType == 'SUC') {
                     $('#' + id + 'E').remove();
                     $('#' + id + 'D').remove();
-                    //alert('Plan Successfuly Deleted');
+                    toastr.success('Plan is successfuly Removed');
                 }
 
             }
