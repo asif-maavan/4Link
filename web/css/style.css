@@ -100,7 +100,6 @@
 /*......................................................Toastr messages ........*/
 #toast-container > div {
     opacity: 0.9;
-    
 }
 /*.........................*/
 
@@ -114,4 +113,12 @@
     /* max-width: 100%; */
     max-height: 44px;
     overflow: hidden;
+}
+
+.form-inline label{
+    margin-left: 48px;
+    font-size: 16px;
+    height: 40px; 
+    padding: 9px 0;
+    font-weight: normal;
 }

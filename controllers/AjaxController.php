@@ -23,5 +23,16 @@ class AjaxController extends AppController {
             
         }
     }
+    
+    public function actionCustomer() {
+        if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
+            $id = Yii::$app->request->post('id');
+            $customer = \app\common\models\Customer::findOne($id);
+            if($customer){
+                exit(json_encode(['msgType' => 'SUC', 'acc'=> $customer->customer_acc]));
+            }
+            
+        }
+    }
 
 }

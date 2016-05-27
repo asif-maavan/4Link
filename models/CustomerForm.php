@@ -15,7 +15,7 @@ use app\common\models\Customer;
 /**
  * Description of CustomerForm
  *
- * @author E-Teck Laptops
+ * @author Muhammad Asif
  */
 class CustomerForm extends Model {
 
@@ -33,7 +33,9 @@ class CustomerForm extends Model {
 
     public function rules() {
         return [
-            [['first_name', 'customer_acc', 'account_no', 'address', 'phone', 'sales_agent', 'agent_phone'], 'required'],
+            [['first_name', 'customer_acc', 'account_no', 'address', 'phone', 'sales_agent', 'agent_phone'], 'required', 'on' => 'default'],
+            [['first_name', 'customer_acc'], 'required', 'on'=>'createFromSale'],
+            [['account_no', 'address', 'phone', 'sales_agent', 'agent_phone'], 'safe', 'on'=>'createFromSale'],
             [['phone', 'agent_phone'], 'match', 'pattern' => '/^[0-9-]+$/', 'message' => 'only numeric characters and dashes are allowed.'],
             [['_id', 'customer_id'], 'safe'],
         ];
@@ -65,6 +67,7 @@ class CustomerForm extends Model {
             $customer->attributes = $params;//$this->attributes;
             
             if ($customer->save()) {
+                $this->_id = $customer->_id;
                 return ['msgType' => 'SUC'];
             } else {
                 $errors = $customer->getErrors();

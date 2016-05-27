@@ -60,6 +60,72 @@ class GlobalFunction {
         }         
         return $list;
     }
+    
+    public static function getCustomerTypes(){
+        return['1' => 'New',
+            '2' => 'Existing'];
+    }
+    
+    public static function getYN(){
+        return['1' => 'Yes',
+            '2' => 'NO'];
+    }
+    
+    public static function getOrderStateList(){
+        return['Created' => 'Created',
+            'Verified' => 'Verified',
+            'Finance Approval' => 'Finance Approval',
+            'Finance Approved' => 'Finance Approved',
+            'Account Transfer Approved' => 'Account Transfer Approved',
+            'Out for Delivery' => 'Out for Delivery',
+            'Activated' => 'Activated',
+            'Rejected' => 'Rejected',
+            'Cancelled' => 'Cancelled'];
+    }
+    
+    public static function getOrderTypeList(){
+        $className = 'app\common\models\OrderType';
+        $params = ['className' => $className, 'whereParams' => '', 'nameS' => '', 'sort' => 'type_name', 'selectParams' => ['_id', 'type_name']];
+        $data = GlobalFunction::getListing($params);
+        $list = [];
+        //var_dump($data);
+        if (count($data) > 0) {
+            foreach ($data as $value) {
+                $list[$value->_id->{'$id'}] = $value->type_name;
+            }
+        }         
+        return $list;
+    }
+    
+    public static function getCustomerList(){
+        $className = 'app\common\models\Customer';
+        $params = ['className' => $className, 'whereParams' => '', 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'first_name']];
+        $data = GlobalFunction::getListing($params);
+        $list = [];
+        //var_dump($data);
+        if (count($data) > 0) {
+            foreach ($data as $value) {
+                $list[$value->_id->{'$id'}] = $value->first_name;
+            }
+        }         
+        return $list;
+    }
+    
+    public static function getPlansList(){
+        $className = 'app\common\models\Plans';
+        $params = ['className' => $className, 'whereParams' => '', 'nameS' => '', 'sort' => 'name', 'selectParams' => ['_id', 'name']];
+        $data = GlobalFunction::getListing($params);
+        $list = [];
+        //var_dump($data);
+        if (count($data) > 0) {
+            foreach ($data as $value) {
+                $list[$value->_id->{'$id'}] = $value->name;
+            }
+        }         
+        return $list;
+    }
+    
+    
 
 //    ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     public static function getMonths() {
