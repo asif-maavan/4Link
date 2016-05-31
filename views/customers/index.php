@@ -84,15 +84,15 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             foreach ($data as $d) {
                                 //$userList = \app\components\GlobalFunction::getAgentList();
                                 ?>
-                                                                                                                                                <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
+                                <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
                                     <div class="divTableCell cel-padding first vertical-align"><a href="javascript:;" onclick="edit('<?= $d->_id ?>');"><img src="<?= $baseUrl ?>images/edit_icon.png" class="save_icon"/></a></div>
-                                    <div class="divTableCell cel-padding text-center vertical-align"><span><a title="See Detail" href="javascript:;">C<?= $d->customer_id ?></a></span></div>
+                                    <div class="divTableCell cel-padding text-center vertical-align"><span><a title="See Detail" href="<?= Yii::$app->urlManager->createUrl("customers/detail?id=".$d->_id); ?>">C<?= $d->customer_id ?></a></span></div>
                                     <div id="customer_acc" class="divTableCell cel-padding text-center vertical-align"><?= $d->customer_acc ?></div>
                                     <div id="first_name" class="divTableCell cel-padding text-center vertical-align"><?= $d->first_name ?></div>
                                     <div id="account_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->account_no ?></div>
                                     <div id="address" class="divTableCell cel-padding text-center vertical-align"><?= $d->address ?></div>
                                     <div id="phone" class="divTableCell cel-padding text-center vertical-align"><?= $d->phone ?></div>
-                                    <div id="sales_agent" class="divTableCell cel-padding text-center vertical-align"><?= (isset($agentList[$d->sales_agent])) ? $agentList[$d->sales_agent] : $d->sales_agent ?></div>
+                                    <div id="sales_agent" class="divTableCell cel-padding text-center vertical-align"><?= (!is_array($d->sales_agent) && isset($agentList[$d->sales_agent])) ? $agentList[$d->sales_agent] : $d->sales_agent['name'] ?></div>
                                     <div id="agent_phone" class="divTableCell cel-padding text-center vertical-align"><?= $d->agent_phone ?></div>
                                 </div>
                                 <?php

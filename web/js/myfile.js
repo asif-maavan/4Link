@@ -39,3 +39,10 @@ function edit(id) {
     $('#' + id + 'E').removeClass('hidden');
     $('#' + id + 'D').addClass('hidden');
 }
+
+function Msg(msg, type) {
+    if (type == 'ERR')
+        toastr.error(msg);
+    else
+        toastr.success(msg);
+}

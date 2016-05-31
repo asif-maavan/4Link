@@ -31,11 +31,18 @@ class Customer extends ActiveRecord {
             'customer_id',
             'customer_acc',
             'first_name',
+            'last_name',
+            'email',
             'account_no',
             'address',
+            'address2',
+            'city',
+            'zip',
+            'country',
             'phone',
             'sales_agent',
             'agent_phone',
+            'documents',
             'created',
             'created_by',
             'updated',
@@ -45,12 +52,12 @@ class Customer extends ActiveRecord {
 
     public function rules() {
         return [
-            [[ 'customer_id', 'customer_acc', 'first_name', 'account_no', 'address', 'phone', 'sales_agent', 'agent_phone', 'created', 'created_by', 'updated', 'updated_by'], 'safe'],
+            [['customer_id', 'customer_acc', 'first_name', 'last_name', 'email', 'account_no', 'address', 'address2', 'city', 'country', 'zip', 'phone', 'sales_agent', 'agent_phone', 'created', 'created_by', 'updated', 'updated_by'], 'safe'],
             ['created', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'create'],
             ['created_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'create'],
         ];
     }
-    
+
     public function behaviors() {
         return [
             [

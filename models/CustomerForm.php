@@ -23,8 +23,14 @@ class CustomerForm extends Model {
     public $customer_id;
     public $customer_acc;
     public $first_name;
+    public $last_name;
+    public $email;
     public $account_no;
     public $address;
+    public $address2;
+    public $city;
+    public $zip;
+    public $country;
     public $phone;
     public $sales_agent;
     public $agent_phone;
@@ -33,11 +39,13 @@ class CustomerForm extends Model {
 
     public function rules() {
         return [
-            [['first_name', 'customer_acc', 'account_no', 'address', 'phone', 'sales_agent', 'agent_phone'], 'required', 'on' => 'default'],
-            [['first_name', 'customer_acc'], 'required', 'on'=>'createFromSale'],
-            [['account_no', 'address', 'phone', 'sales_agent', 'agent_phone'], 'safe', 'on'=>'createFromSale'],
+            [['first_name', 'customer_acc', 'account_no', 'address', 'phone', 'sales_agent', 'agent_phone'], 'required', 'on' => ['default', 'detail']],
+            [['first_name', 'customer_acc'], 'required', 'on' => 'createFromSale'],
+            [['last_name', 'email', 'account_no', 'address', 'address2', 'city', 'zip','phone', 'sales_agent', 'agent_phone'], 'safe', 'on' => 'createFromSale'],
+//            [['first_name', 'customer_acc', 'account_no', 'email', 'phone','sales_agent', 'agent_phone'], 'required', 'on' => 'detail'],
             [['phone', 'agent_phone'], 'match', 'pattern' => '/^[0-9-]+$/', 'message' => 'only numeric characters and dashes are allowed.'],
-            [['_id', 'customer_id'], 'safe'],
+            ['email', 'email'],
+            [['_id', 'customer_id', 'last_name', 'account_no', 'email', 'address2', 'city', 'country', 'zip'], 'safe'],
         ];
     }
 
@@ -64,8 +72,9 @@ class CustomerForm extends Model {
                 }
                 $customer->customer_id = $tmpStr;
             }
-            $customer->attributes = $params;//$this->attributes;
-            
+            $customer->attributes = $params; //$this->attributes;
+            $customer->sales_agent = ['_id' => $customer->sales_agent, 'name' => \app\components\GlobalFunction::getAgentList()[$customer->sales_agent]];
+
             if ($customer->save()) {
                 $this->_id = $customer->_id;
                 return ['msgType' => 'SUC'];
