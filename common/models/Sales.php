@@ -130,5 +130,5 @@ class Sales extends ActiveRecord {
         ];
     }
 
-// end class
+// end class.
 }
