@@ -39,8 +39,17 @@ class UserForm extends Model {
             ['profile_picture', 'file', 'extensions' => 'gif, jpg, png'],
             ['user_role', 'in', 'range' => [User::ROLE_ADMIN, User::ROLE_operator, User::ROLE_manager, User::ROLE_supervisor, User::ROLE_executive]],
             ['email', 'email', 'on' => 'create'],
-            ['email', 'unique', 'targetClass' => 'app\common\models\User', 'message' => 'This email address has already been taken.', 'on' => 'create'],
+            ['email', 'validateEmail'],
         ];
+    }
+    
+    public function validateEmail($attribute, $params) {
+        $whereParams = ['and', ['not', '_id', new \MongoId($this->_id)], ['email'=>$this->email]];
+        $models = \app\components\GlobalFunction::getListing(['className' => 'app\common\models\User', 'whereParams' => $whereParams, 'selectParams' => ['index_no']]);
+        if (count($models) > 0) {
+            //echo count($models);
+            $this->addError($attribute, 'This email is already taken');
+        }
     }
 
     public function validatePassword($attribute, $params) {

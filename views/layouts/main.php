@@ -33,7 +33,7 @@ $baseUrl = Yii::$app->request->baseUrl;
     <body>
         <script type="text/javascript">
             //var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
-            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                     ?>';
+            var baseUrl = '<?php echo Url::base(true) . "/"; //"http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl . "/";                            ?>';
             var userType = '<?php echo (isset(Yii::$app->user->identity->user_role) ? Yii::$app->user->identity->user_role : ''); ?>';
             var adminId = '<?php echo (isset(Yii::$app->user->identity->_id) ? Yii::$app->user->identity->_id : ''); ?>';
         </script>
@@ -47,7 +47,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <div class="col-md-5 margin_fix">
                         <!-- Logo -->
                         <div class="logo margin_fix">
-                            <a href="index.html"><img src="<?=$baseUrl?>/images/logo.png" width="139" height="47" alt=""/></a>
+                            <a href="index.html"><img src="<?= $baseUrl ?>/images/logo.png" width="139" height="47" alt=""/></a>
                         </div>
                     </div>
                     <div class="col-md-4 hdr_user_info">
@@ -55,9 +55,13 @@ $baseUrl = Yii::$app->request->baseUrl;
                             <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
                                 <ul class="nav navbar-nav">
                                     <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php if(Yii::$app->user->identity->profile_picture){  ?><img src="<?=$baseUrl?>/uploads/<?=Yii::$app->user->identity->profile_picture //user_img.png?>" width="32" height="32" alt="User"/><?php }?><?=(Yii::$app->user->identity->_id)? Yii::$app->user->identity->first_name : 'Guest' ?><b class="caret"></b></a> 
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php if (Yii::$app->user->identity->profile_picture) { ?><img src="<?= $baseUrl ?>/uploads/<?= Yii::$app->user->identity->profile_picture //user_img.png       ?>" width="32" height="32" alt="User"/><?php } ?><?= (Yii::$app->user->identity->_id) ? Yii::$app->user->identity->first_name : 'Guest' ?><b class="caret"></b></a> 
                                         <ul class="dropdown-menu animated fadeInUp">
-                                            <li><a href="<?= Url::toRoute(['/user/my-account']); ?>">Profile</a></li>
+                                            <?php if (Yii::$app->user->identity->user_role == \app\common\models\User::ROLE_ADMIN) { ?>
+                                                <li><a href="<?= Url::toRoute(['/settings/plans/']); ?>">Settings</a></li>
+                                            <?php } else { ?>
+                                                <li><a href="<?= Url::toRoute(['/user/my-account']); ?>">Profile</a></li> 
+                                            <?php } ?>
                                             <li><a href="<?= Url::toRoute(['/site/logout']); ?>">Logout</a></li>
                                         </ul>
                                     </li>

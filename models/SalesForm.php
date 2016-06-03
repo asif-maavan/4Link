@@ -79,10 +79,28 @@ class SalesForm extends Model {
     public function rules() {
         return [
             [['index_no', 'sale_executive', 'customer_type', 'order_type', 'customer_acc_no', 'customer_name', 'plan', 'siebel_activity_no', 'require_finance', 'require_account_transfer', 'sale_no'], 'required', 'on' => ['create', 'update']],
-            [['_id','submitted_to_AT', 'order_state'], 'safe'],
-            ['index_no', 'unique', 'targetClass' => 'app\common\models\Sales', 'message' => 'This index_no is already taken.'],//, 'on' => ['create', 'update']
-            ['sale_no', 'unique', 'targetClass' => 'app\common\models\Sales', 'message' => 'This sale_no is already taken.'],
+            [['_id', 'submitted_to_AT', 'order_state'], 'safe'],
+            ['index_no', 'validateIndex'], //, 'on' => ['create', 'update']
+            ['sale_no', 'validateSaleNo'],
         ];
+    }
+
+    public function validateIndex($attribute, $params) {
+        $whereParams = ['and', ['not', '_id', new \MongoId($this->_id)], ['index_no'=>$this->index_no]];
+        $models = \app\components\GlobalFunction::getListing(['className' => 'app\common\models\Sales', 'whereParams' => $whereParams, 'selectParams' => ['index_no']]);
+        if (count($models) > 0) {
+            //echo count($models);
+            $this->addError($attribute, 'This Index No is already taken');
+        }
+    }
+    
+    public function validateSaleNo($attribute, $params) {
+        $whereParams = ['and', ['not', '_id', new \MongoId($this->_id)], ['sale_no'=>$this->sale_no]];
+        $models = \app\components\GlobalFunction::getListing(['className' => 'app\common\models\Sales', 'whereParams' => $whereParams, 'selectParams' => ['index_no']]);
+        if (count($models) > 0) {
+            //echo count($models);
+            $this->addError($attribute, 'This Sale No is already taken');
+        }
     }
 
     // create & update
@@ -109,7 +127,7 @@ class SalesForm extends Model {
                 }
                 $sale->uid = $tmpStr;
             }
-            $params['customer_name'] = ''.$this->customer_name; 
+            $params['customer_name'] = '' . $this->customer_name;
             $sale->attributes = $params; //$this->attributes;
             if ($this->scenario == 'create' && !$this->order_state) {
                 $sale->order_state = 'Created';
