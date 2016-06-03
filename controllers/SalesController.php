@@ -36,7 +36,7 @@ class SalesController extends Controller {
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update', 'delete', 'create-validation'],
+                        'actions' => ['index', 'create', 'update', 'delete', 'validation'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -108,9 +108,9 @@ class SalesController extends Controller {
         ]);
     }
 
-    public function actionCreateValidation() {
+    public function actionValidation($s) {
         $model = new SalesForm();
-        $model->scenario = 'create';
+        $model->scenario = $s;
 
         if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {//echo json_encode($model->attributes);
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;

@@ -53,8 +53,8 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             <div class="divTableCell th_bg row_4 text-center">Sales Executive<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'first_name') ? 'first_name' : '-first_name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-first_name' || Yii::$app->request->get('sort') != 'first_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
                             <div class="divTableCell th_bg row_9 text-center" style="width: 85px !important">Customer Type<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'account_no') ? 'account_no' : '-account_no' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-account_no' || Yii::$app->request->get('sort') != 'account_no') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
                             <div class="divTableCell th_bg row_9 text-center">Order Type</div>
-                            <div class="divTableCell th_bg row_7 text-center">Customer Acc#</div>
                             <div class="divTableCell th_bg row_8 text-center">Customer Name</div>
+                            <div class="divTableCell th_bg row_7 text-center">Customer Acc#</div>
                             <div class="divTableCell th_bg row_9 text-center">Plan</div>
                             <div class="divTableCell th_bg row_7 text-center">Siebel Activity#</div>
                             <div class="divTableCell th_bg row_9 text-center" style="width: 79px !important">Require Finance</div>
@@ -70,7 +70,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         if (true) {
                             $form = ActiveForm::begin([//'action' => Yii::$app->urlManager->createUrl("user/create"),
                                         'fieldConfig' => ['template' => "{input}{error}"],
-                                        'validationUrl' => Yii::$app->urlManager->createUrl("sales/create-validation"),
+                                        'validationUrl' => Yii::$app->urlManager->createUrl("sales/validation?s=create"),
                                         //'enableAjaxValidation' => true,
                                         //'enableClientValidation' => true,
                                         'options' => ['id' => 'create-form', 'class' => 'divTableRowblue']]);
@@ -79,18 +79,18 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 <?= Html::submitButton('', ['class' => '', 'style' => 'background: url(' . $baseUrl . 'images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
                             </div>
                             <div class="divTableCell"><span>&nbsp;</span></div>
-                            <?= $form->field($model, 'index_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
+                            <?= $form->field($model, 'index_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
                             <?= $form->field($model, 'sale_executive', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($agentList, ['prompt' => 'Select']) ?>
                             <?= $form->field($model, 'customer_type', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'switchC(this)']])->dropDownList($customerTypeList, ['prompt' => 'Select']) ?>
                             <?= $form->field($model, 'order_type', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($orderTypeList, ['prompt' => 'Select']) ?>
-                            <?= $form->field($model, 'customer_acc_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'readonly' => '']])->textInput() ?>
                             <?= $form->field($model, 'customer_name', ['options' => ['class' => 'divTableCell', 'id' => 'customer'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'getC(this)'], 'enableAjaxValidation' => true])->dropDownList($customerList, ['prompt' => 'Select']) ?>
+                            <?= $form->field($model, 'customer_acc_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'readonly' => '']])->textInput() ?>
                             <?= $form->field($model, 'plan', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($planList, ['prompt' => 'Select']) ?>
                             <?= $form->field($model, 'siebel_activity_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                             <?= $form->field($model, 'require_finance', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                             <?= $form->field($model, 'require_account_transfer', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'switchSAT(this)']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                             <?= $form->field($model, 'submitted_to_AT', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'readonly' => '']])->textInput() ?>
-                            <?= $form->field($model, 'sale_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
+                            <?= $form->field($model, 'sale_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
                             <?= $form->field($model, 'order_state', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($orderStateList, ['prompt' => 'Select']) ?>
                             <!--<div class="divTableCell">&nbsp;</div>-->
                             <?php
@@ -111,8 +111,8 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <div id="sale_executive" class="divTableCell cel-padding text-center vertical-align"><?= $d->sale_executive['name'] ?></div>
                                     <div id="customer_type" class="divTableCell cel-padding text-center vertical-align"><?= $customerTypeList[$d->customer_type] ?></div>
                                     <div id="order_type" class="divTableCell cel-padding text-center vertical-align"><?= $d->order_type['name'] ?></div>
-                                    <div id="customer_acc_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->customer_acc_no ?></div>
                                     <div id="customer_name" class="divTableCell cel-padding text-center vertical-align"><?= $d->customer_name['name'] ?></div>
+                                    <div id="customer_acc_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->customer_acc_no ?></div>
                                     <div id="plan" class="divTableCell cel-padding text-center vertical-align"><?= $d->plan['name'] ?></div>
                                     <div id="siebel_activity_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->siebel_activity_no ?></div>
                                     <div id="require_finance" class="divTableCell cel-padding text-center vertical-align"><?= $YN[$d->require_finance] ?></div>
@@ -125,29 +125,29 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 if (true) {
                                     $form = ActiveForm::begin([//'action' => Yii::$app->urlManager->createUrl("user/create"),
                                                 'fieldConfig' => ['template' => "{input}{error}"],
-                                                'validationUrl' => Yii::$app->urlManager->createUrl("sales/create-validation"),
+                                                'validationUrl' => Yii::$app->urlManager->createUrl("sales/validation?s=update"),
                                                 //'enableAjaxValidation' => true,
                                                 'options' => ['id' => $d->_id . 'E', 'class' => 'divTableRow hidden form-div', 'hidden' => '']]);
                                     $modelu->attributes = $d->attributes;
-                                    $datePicker = ($modelu->require_account_transfer == '1')? 'datepicker' : '';
+                                    $datePicker = ($modelu->require_account_transfer == '1') ? 'datepicker' : '';
                                     ?>
                                     <div class="divTableCell first">
                                         <?= Html::submitButton('', ['class' => '', 'style' => 'background: url(' . $baseUrl . 'images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
                                     </div>
                                     <div class="divTableCell">S<?= $d->uid ?></div>
                                     <?= $form->field($modelu, '_id', ['options' => ['class' => 'divTableCell hidden'], 'inputOptions' => ['class' => 'form-control hidden']])->textInput() ?>
-                                    <?= $form->field($modelu, 'index_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
+                                    <?= $form->field($modelu, 'index_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
                                     <?= $form->field($modelu, 'sale_executive', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($agentList, ['prompt' => 'Select']) ?>
                                     <?= $form->field($modelu, 'customer_type', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'switchC(this)']])->dropDownList($customerTypeList, ['prompt' => 'Select']) ?>
                                     <?= $form->field($modelu, 'order_type', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($orderTypeList, ['prompt' => 'Select']) ?>
-                                    <?= $form->field($modelu, 'customer_acc_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'readonly' => '']])->textInput() ?>
                                     <?= $form->field($modelu, 'customer_name', ['options' => ['class' => 'divTableCell', 'id' => 'customer'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'getC(this)'], 'enableAjaxValidation' => true])->dropDownList($customerList, ['prompt' => 'Select']) ?>
+                                    <?= $form->field($modelu, 'customer_acc_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'readonly' => '']])->textInput() ?>
                                     <?= $form->field($modelu, 'plan', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($planList, ['prompt' => 'Select']) ?>
                                     <?= $form->field($modelu, 'siebel_activity_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                                     <?= $form->field($modelu, 'require_finance', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                                     <?= $form->field($modelu, 'require_account_transfer', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'switchSAT(this)']])->dropDownList($YN, ['prompt' => 'Select']) ?>
-                                    <?= $form->field($modelu, 'submitted_to_AT', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control '.$datePicker, 'id'=>$d->_id.'-submitted_to_at', 'readonly' => ($datePicker)? false: '']])->textInput() ?>
-                                    <?= $form->field($modelu, 'sale_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
+                                    <?= $form->field($modelu, 'submitted_to_AT', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control ' . $datePicker, 'id' => $d->_id . '-submitted_to_at', 'readonly' => ($datePicker) ? false : '']])->textInput() ?>
+                                    <?= $form->field($modelu, 'sale_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
                                     <?= $form->field($modelu, 'order_state', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($orderStateList, ['prompt' => 'Select']) ?>
                                     <?php
                                     ActiveForm::end();

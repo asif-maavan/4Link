@@ -21,7 +21,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
     }
 
     .docupload{
-        height: auto;
+        /*height: auto;*/
         min-height: 60px;
     }
     .docupload .help-block{
@@ -29,6 +29,36 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
         /*margin-right: -40px;*/
         width: 269px;
     }
+    progress{
+        margin-top: -9px;
+        width: 93%;
+        height: 4px;
+        background-color: #F70505;
+        color: whitesmoke;
+        position: relative;
+    }
+    #progressbar{
+        margin-bottom: 1px;
+        display: inline-block;
+        width: 100%;
+        height: 4px;
+        border: 0;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-top-left-radius: 0px;
+        border-color: rgb(220, 214, 214);
+        /*box-shadow: 0px 0px 2px #888888;*/
+    }
+    #progressbar div{
+        margin: 0;
+        border: 0px;
+        background: rgb(73, 171, 80);
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-top-left-radius: 0px;}
+    .ui-progressbar .ui-progressbar-value {}
 
 </style>
 <div class="page-content">
@@ -167,7 +197,10 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                     <?= $form->field($documentModel, 'fileName', ['options' => ['class' => 'col-xs-6 col-md-4'], 'inputOptions' => ['class' => 'form-control input_style2', 'style' => "margin:12px -40px 0px 0px !important;color:black", 'placeholder' => 'Document Name']])->textInput() ?>
                     <div class="col-xs-6 col-md-4"><a href="javascript:;" class="selectfile-btn" onclick="upload();"><img src="<?= $baseUrl ?>images/selectfile-btn.png" alt=""/></a></div>
                     <?= $form->field($documentModel, 'pdfFile', ['options' => ['class' => 'upload-img'], 'inputOptions' => [ 'class' => 'custom-file-input', 'style' => 'display:none;', 'accept' => 'application/pdf']])->fileInput()->label(false); ?>
+                    <div id="progressbar" class="hidden"></div>
+<!--<progress value="20" max="100"></progress>-->
                 </div>
+
                 <div id="documents">
                     <?php
                     if (count($documents) > 0) {
@@ -186,7 +219,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         }
                     } else {
                         ?>
-                    <h3 id="ndf" class="text-center">No Document Found</h3>
+                        <h3 id="ndf" class="text-center">No Document Found</h3>
 
                     <?php }
                     ?>

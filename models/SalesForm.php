@@ -80,6 +80,8 @@ class SalesForm extends Model {
         return [
             [['index_no', 'sale_executive', 'customer_type', 'order_type', 'customer_acc_no', 'customer_name', 'plan', 'siebel_activity_no', 'require_finance', 'require_account_transfer', 'sale_no'], 'required', 'on' => ['create', 'update']],
             [['_id','submitted_to_AT', 'order_state'], 'safe'],
+            ['index_no', 'unique', 'targetClass' => 'app\common\models\Sales', 'message' => 'This index_no is already taken.'],//, 'on' => ['create', 'update']
+            ['sale_no', 'unique', 'targetClass' => 'app\common\models\Sales', 'message' => 'This sale_no is already taken.'],
         ];
     }
 

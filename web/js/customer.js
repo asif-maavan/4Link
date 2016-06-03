@@ -15,6 +15,31 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             dataType: "json",
+            beforeSend: function (XMLHttpRequest) {
+                $("#progressbar").progressbar({value: 0});
+                $("#progressbar").removeClass('hidden');
+            },
+            xhr: function ()
+            {
+                var xhr = new window.XMLHttpRequest();
+                //Upload progress
+                xhr.upload.addEventListener("progress", function (evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        $("#progressbar").progressbar({value: percentComplete * 100});//Do something with upload progress
+//                        console.log(percentComplete);
+                    }
+                }, false);
+                //Download progress
+                xhr.addEventListener("progress", function (evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        //Do something with download progress
+//                        console.log(percentComplete);
+                    }
+                }, false);
+                return xhr;
+            },
             success: function (data) {
                 $('#uploadform-filename').val('');
                 if (data.msgType == 'SUC') {
@@ -28,6 +53,8 @@ $(document).ready(function () {
                                 <div class="col-sm-1 uploaded-files-img"><a href="javascript:;" onclick="rmvdoc(\'' + data.document.id.$id + '\')"><img src="' + baseUrl + 'images/doc-icon5.png" width="23" height="27" alt=""></a></div>\
                             </div>';
                     $('#documents').prepend(doc);
+                    $("#progressbar").progressbar({value: 100});
+                    $("#progressbar").addClass('hidden');
                     $('#ndf').remove();
                 }
                 Msg(data.msg, data.msgType);
@@ -35,6 +62,7 @@ $(document).ready(function () {
         });
     });
 });
+
 function upload() {
     var name = $('#uploadform-filename');
     if (name.val()) {
@@ -111,7 +139,7 @@ function rmvdoc(id) {
                 if (data.msgType == 'SUC') {
                     toastr.success('Document is successfuly Removed')
                     $('#doc-' + id).remove();
-                    if($('#documents div').length==0){
+                    if ($('#documents div').length == 0) {
                         $('#documents').append('<h3 id="ndf" class="text-center">No Document Found</h3>');
                     }
                 }

@@ -250,7 +250,7 @@ footer .copy{
 .hdr_user_info {
     float: right;
     margin: 15px -45px 0 0;
-    width: 250px;
+    /*width: 250px;*/
 }
 .hdr_user_info img{ margin:0 10px 0 0;}
 .content-box-large {
