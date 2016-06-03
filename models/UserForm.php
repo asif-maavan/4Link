@@ -77,6 +77,7 @@ class UserForm extends Model {
                 $tmpStr = 1;
             }
             $user->user_id = $tmpStr;
+            $user->report_to = ['_id' => $user->report_to, 'name' => \app\components\GlobalFunction::getReportToList($user->_id, $user->user_role)[$user->report_to]];
             if ($user->save()) {
                 return ['msgType' => 'SUC', 'id' => $user->_id];
             } else {
@@ -116,6 +117,7 @@ class UserForm extends Model {
             
             $user->attributes = $postParams;
             $user->user_role = intval($user->user_role);
+            $user->report_to = ['_id' => $user->report_to, 'name' => \app\components\GlobalFunction::getReportToList($user->_id, $user->user_role)[$user->report_to]];
             
             if (!empty($postParams['password'])) {
                 $user->password = md5($postParams['password']);

@@ -92,7 +92,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <div id="account_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->account_no ?></div>
                                     <div id="address" class="divTableCell cel-padding text-center vertical-align"><?= $d->address ?></div>
                                     <div id="phone" class="divTableCell cel-padding text-center vertical-align"><?= $d->phone ?></div>
-                                    <div id="sales_agent" class="divTableCell cel-padding text-center vertical-align"><?= (!is_array($d->sales_agent) && isset($agentList[$d->sales_agent])) ? $agentList[$d->sales_agent] : $d->sales_agent['name'] ?></div>
+                                    <div id="sales_agent" class="divTableCell cel-padding text-center vertical-align"><?= (!is_array($d->sales_agent)) ? (isset($agentList[$d->sales_agent])? $agentList[$d->sales_agent] : $d->sales_agent ): $d->sales_agent['name'] ?></div>
                                     <div id="agent_phone" class="divTableCell cel-padding text-center vertical-align"><?= $d->agent_phone ?></div>
                                 </div>
                                 <?php

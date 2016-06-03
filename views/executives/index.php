@@ -60,7 +60,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <div class="divTableCell cel-padding text-center vertical-align">E<?= $d->user_id ?></div>
                                     <div id="customer_acc" class="divTableCell cel-padding text-center vertical-align"><?= $d->first_name.' '.$d->last_name ?></div>
                                     <div id="first_name" class="divTableCell cel-padding text-center vertical-align"><?= 9 ?></div>
-                                    <div id="account_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->report_to ?></div>
+                                    <div id="account_no" class="divTableCell cel-padding text-center vertical-align"><?= (!is_array($d->report_to)) ? $d->report_to : $d->report_to['name'] ?></div>
                                     <div id="address" class="divTableCell cel-padding text-center vertical-align"><?= date('d-M-Y', strtotime($d->created)) ?></div>
                                     <div id="phone" class="divTableCell cel-padding text-center vertical-align"><?= date('d-M-Y', strtotime($d->created)) ?></div>
                                     <div id="sales_agent" class="divTableCell cel-padding text-center vertical-align"><?= 44 ?></div>

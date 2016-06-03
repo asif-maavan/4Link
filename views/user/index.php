@@ -95,7 +95,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         foreach ($data as $d) {
                             $userList = \app\components\GlobalFunction::getReportToList($d->_id, $d->user_role);
                             ?>
-                                    <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
+                            <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
                                 <div class="divTableCell first"><a href="javascript:;" onclick="edit('<?= $d->_id ?>');"><img src="<?= $baseUrl ?>images/edit_icon.png" class="save_icon"/></a></div>
                                 <div class="divTableCell text-center"><span><?= $d->user_id ?></span></div>
                                 <div id="first_name" class="divTableCell text-center"><?= $d->first_name ?></div>
@@ -104,7 +104,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 <div id="email" class="divTableCell text-center"><?= $d->email ?></div>
                                 <div id="phone" class="divTableCell text-center"><?= $d->phone ?></div>
                                 <div id="user_role" class="divTableCell text-center"><?= (isset($roleList[$d->user_role])) ? $roleList[$d->user_role] : $d->user_role ?></div>
-                                <div id="report_to" class="divTableCell text-center"><?= (isset($userList[$d->report_to])) ? $userList[$d->report_to] : $d->report_to ?></div>
+                                <div id="report_to" class="divTableCell text-center"><?= (!is_array($d->report_to)) ? (isset($agentList[$d->report_to])? $agentList[$d->report_to] : $d->report_to ): $d->report_to['name'] ?></div>
                                 <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd" disabled=""></div>
                                 <div class="divTableCell">  <input type="password" value="******" class="form-control" id="pwd" disabled=""></div>
                             </div>
