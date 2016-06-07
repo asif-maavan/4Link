@@ -128,17 +128,95 @@ class UserController extends AppController {
             if ($retData['msgType'] == 'ERR') {
                 $model->errors = $retData['msgArr'];
 //                exit(json_encode(['msgType' => 'ERR', 'msgArr' => $retData['msgArr']]));
-            } else{
+            } else {
                 $this->redirect(Yii::$app->urlManager->createUrl("user/my-account"));
                 //exit();
-            }  
+            }
         }
-        
+
         return $this->render('myAccount', [
                     'model' => $model,
                     'profilePic' => $profilePic,
                     'roleList' => GlobalFunction::getUserRoles(),
         ]);
-    } // end MyAccount
+    }
 
-}// end class
+// end MyAccount
+    // user forgot password
+    public function actionForgot() {
+        /** @var \amnah\yii2\user\models\forms\ForgotForm $model */
+        // load post data and send email
+        $this->layout = "loginLayout";
+        $model = new UserForm();
+        $model->scenario = 'forgot';
+        if ($model->load(Yii::$app->request->post())) {
+            // set flash (which will show on the current page)              // set flash (which will show on the current page)  
+            if ($model->validate()) {
+                $string = md5(time() . rand(1000, 9999));
+                $user = User::findOne(['email' => $model->email]);
+                $user->forgot_password_token = $string;
+                if ($user->save()) {
+                    $email = $model->email;
+                    $subject = 'Password Reset';
+                    $url = \yii\helpers\Url::base(true) . '/user/reset?token=' . $string;
+                    $message = "Dear $model->first_name $model->last_name,<br /><br />Please <a href='$url'>click here</a> to reset your password.<br /><br />Thank you for Using 4link";
+                    $result = GlobalFunction::sendMail(['emailTo' => $email, 'message' => $message, 'subject' => $subject]);
+                    Yii::$app->session->setFlash("Forgot-success", Yii::t("app", "Instructions to reset your password have been sent"));
+//                echo json_encode($result);
+                }
+            }
+//            else {
+//                var_dump($model->getErrors()); //or print_r($errors)
+//                exit;
+//            }
+        }
+        return $this->render("forgot", [
+                    'model' => $model,
+        ]);
+    }
+
+    // user reset password after email athentication
+    public function actionReset() {
+        $this->layout = "loginLayout";
+        $token = Yii::$app->request->get('token');
+        $model = $msg = '';
+        if ($token != '') {
+            $user = User::findOne(['forgot_password_token' => $token]);
+            if (empty($user)) {
+                Yii::$app->session->setFlash("Forgot-error", Yii::t("app", "Your link has expired."));
+            } else {
+                $model = new UserForm();
+                $model->scenario = 'reset';
+                $model->attributes = $user->attributes;
+                if ($model->load(Yii::$app->request->post())) {
+                    $model->email = $user->email;
+                    $result = $model->resetPassword();
+                    if($result['msgType'] == 'ERR'){
+                        ;
+                    }else{
+                        Yii::$app->session->setFlash("Forgot-success", Yii::t("app", "Your password has been successfully changed"));
+                    }
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash("Forgot-error", Yii::t("app", "Invalid request."));
+        }
+
+        return $this->render("reset", [
+                    'model' => $model,
+        ]);
+    }
+    
+    public function actionResetValidation() {
+        $model = new UserForm();
+        $model->scenario = 'reset';
+        //$params['UserForm'] = Yii::$app->request->post('UserForm')[$id];
+        //echo json_encode($params);
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {//echo json_encode($model->attributes);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+    }
+
+// end class
+}

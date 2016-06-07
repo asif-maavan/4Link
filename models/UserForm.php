@@ -7,7 +7,6 @@ use yii\base\Model;
 use app\common\models\User;
 use yii\web\UploadedFile;
 
-
 /**
  * LoginForm is the model behind the login form.
  */
@@ -29,10 +28,14 @@ class UserForm extends Model {
     public function rules() {
         return [
             // email and password are both required
-            [['first_name', 'user_role'], 'required'],
+            [['first_name', 'user_role'], 'required', 'on' => 'default'],
             [['first_name', 'last_name', 'email', 'address', 'phone', 'user_role', 'report_to', 'password', 'confirm_password'], 'required', 'on' => 'create'],
             [['first_name', 'last_name', 'address', 'phone', 'user_role', 'report_to'], 'required', 'on' => 'update'],
             [['first_name', 'last_name', 'address', 'phone'], 'required', 'on' => 'profile'],
+            ['email', 'required', 'on' => 'forgot'],
+            [['first_name', 'last_name', 'user_role'], 'safe', 'on' => 'forgot'],
+            [['password', 'confirm_password'], 'required', 'on' => 'reset'],
+            [['first_name', 'last_name', 'email', 'user_role'], 'safe', 'on' => 'reset'],
             [['_id', 'user_id', 'email', 'password', 'confirm_password', 'user_role', 'profile_picture'], 'safe'],
             ['password', 'string', 'min' => 6],
             ['confirm_password', 'validatePassword'],
@@ -42,13 +45,24 @@ class UserForm extends Model {
             ['email', 'validateEmail'],
         ];
     }
-    
+
     public function validateEmail($attribute, $params) {
-        $whereParams = ['and', ['not', '_id', new \MongoId($this->_id)], ['email'=>$this->email]];
-        $models = \app\components\GlobalFunction::getListing(['className' => 'app\common\models\User', 'whereParams' => $whereParams, 'selectParams' => ['index_no']]);
-        if (count($models) > 0) {
-            //echo count($models);
-            $this->addError($attribute, 'This email is already taken');
+        if ($this->scenario == 'forgot') {
+            $whereParams = ['email' => $this->email];
+            //$models = \app\components\GlobalFunction::getListing(['className' => 'app\common\models\User', 'whereParams' => $whereParams, 'selectParams' => ['index_no']]);
+            $models = User::findOne($whereParams);
+            if (count($models) == 0) {
+                $this->addError($attribute, 'Email not found');
+            } else {
+                $this->attributes = $models->attributes;
+            }
+        } else {
+            $whereParams = ['and', ['not', '_id', new \MongoId($this->_id)], ['email' => $this->email]];
+            $models = \app\components\GlobalFunction::getListing(['className' => 'app\common\models\User', 'whereParams' => $whereParams, 'selectParams' => ['index_no']]);
+            if (count($models) > 0) {
+                //echo count($models);
+                $this->addError($attribute, 'This email is already taken');
+            }
         }
     }
 
@@ -99,26 +113,26 @@ class UserForm extends Model {
             $id = $postParams['_id'];
             unset($postParams['_id']);
         }
-        
+
         if ($id == Yii::$app->user->identity->_id)
             $this->user_role = Yii::$app->user->identity->user_role;
         if ($this->validate()) {
 
             $user = User::findModel($id);
-            
-            if($this->profile_picture){
-                if(!empty($user->profile_picture)){
-                    unlink('uploads/'.$user->profile_picture);
+
+            if ($this->profile_picture) {
+                if (!empty($user->profile_picture)) {
+                    unlink('uploads/' . $user->profile_picture);
                 }
-                $fileName = $id.'-'.$this->profile_picture->baseName . '.' . $this->profile_picture->extension;
+                $fileName = $id . '-' . $this->profile_picture->baseName . '.' . $this->profile_picture->extension;
                 $this->profile_picture->saveAs('uploads/' . $fileName);
                 $user->profile_picture = $fileName;
             }
-            
+
             $user->attributes = $postParams;
             $user->user_role = intval($user->user_role);
             $user->report_to = ['_id' => $user->report_to, 'name' => \app\components\GlobalFunction::getReportToList($user->_id, $user->user_role)[$user->report_to]];
-            
+
             if (!empty($postParams['password'])) {
                 $user->password = md5($postParams['password']);
             } else {
@@ -137,4 +151,27 @@ class UserForm extends Model {
         }
     }
 
+    // reset user password
+    public function resetPassword() {
+        if ($this->validate()) {
+            $user = User::findOne(['email' => $this->email]);
+            if ($user) {
+                $user->password = md5($this->password);
+                
+                if ($user->save()) {
+                    $user->forgot_password_token = '';
+                    $user->save();
+                    return ['msgType' => 'SUC'];
+                } else {
+                    $this->errors = $errors = $user->getErrors();
+                    return ['msgType' => 'ERR', 'msgArr' => $errors];
+                }
+            } else {
+                return ['msgType' => 'ERR', 'msgArr' => 'user not found'];
+            }
+        }
+        return ['msgType' => 'ERR', 'msgArr' => $this->getErrors()];
+    }
+
+// end class
 }

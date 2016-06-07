@@ -3,6 +3,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -27,11 +28,7 @@ AppAsset::register($this);
                     <table class="twelve columns" style="text-align:center;margin:0 auto">
                         <tr style="padding:0;vertical-align:top;text-align:center;margin:0 auto">
                             <td>
-                                <?php if($module == 'sunline') { ?>
-                                <a href="http://www.sunlinetravels.com"><img src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl; ?>/images/email-logo.png"></a>
-                                <?php } else { ?>
-                                <a href="http://www.sellmileage.com"><img src="<?php echo "http://" . $_SERVER["HTTP_HOST"] . Yii::$app->request->baseUrl; ?>/images/logo-mileage.png"></a>
-                                <?php } ?>
+                                <a href="<?=Url::base(true) ?>"><img src="<?php echo Url::base(true); ?>/images/logo.png"></a>
                             </td>
                         </tr>
                     </table>
@@ -39,22 +36,18 @@ AppAsset::register($this);
             </tr>
         </table>
 
-        <table style="width:100%;margin:0;padding-top: 40px;">
+        <table style="width:100%;margin:0;padding-top: 40px;color:black;">
             <tr><td><?php echo $message; ?></td></tr>
         </table>
 
-        <table style="margin:0 auto;text-align:inherit;width:100%!important;padding:0;background-color:#6c6968;height:50px;
-               font-family: 'Open Sans';max-width:1280px;width:100%;background-color:#6c6968 !important;border-bottom:1px solid #ddd !important;text-align: center !important;color: #FFF !important;font-size:14px !important;margin-top:50px;">
+        <table style="margin:0 auto;text-align:inherit;width:100%!important;padding:0;background-color:#5ab3e8;height:50px;
+               font-family: 'Open Sans';max-width:1280px;width:100%;border-bottom:1px solid #ddd !important;text-align: center !important;color: #FFF !important;font-size:14px !important;margin-top:50px;">
             <tr >
                 <td style="text-align:center;">
                     <table class="twelve columns" style="text-align:center;margin:0 auto">
                         <tr style="padding:0;vertical-align:top;text-align:center;font-family:'Open Sans' !important;margin:0 auto;">
                             <td>
-                                <?php if($module == 'sunline') { ?>
-                                © <?php echo date("Y"); ?> Sunline Travel Inc. All Rights Reserved
-                                <?php } else { ?>
-                                © <?php echo date("Y"); ?> Sell Mileage Inc. All Rights Reserved
-                                <?php } ?>
+                                © <?php echo date("Y"); ?> 4Link. All Rights Reserved
                             </td>
                         </tr>
                     </table>

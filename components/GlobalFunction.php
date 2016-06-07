@@ -183,9 +183,9 @@ class GlobalFunction {
         $emailTo = $params['emailTo'];
         $message = $params['message'];
         $subject = $params['subject'];
-        $module = $params['module'];
+        $module = '';//$params['module'];
         $files = (isset($params['files']) ? $params['files'] : []);
-        $emailFrom = (isset($params['emailFrom']) && $params['emailFrom'] != "" ? $params['emailFrom'] : ($module == 'sunline' ? ["sunline@sunlineadmin.com" => 'Sunline Team'] : ["sellmileage@sunlineadmin.com" => 'Sellmileage Team']));
+        $emailFrom = ['admin@4link.com'=> '4link'];//'4link@4linkadmin.com';
 
         $message = Yii::$app->mailer->compose('html-email-01', ['message' => $message, 'module' => $module])
                 ->setFrom($emailFrom)

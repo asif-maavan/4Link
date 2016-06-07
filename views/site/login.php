@@ -25,7 +25,7 @@ $this->title = Yii::t('app', 'Login');
             $form->field($model, 'password', ['inputOptions' => ['placeholder' => 'Password', 'class' => 'login-txtbx lock-img',]])->passwordInput()->label(false)
             ?>
             <!--<div><input type="text" class="login-txtbx up-down-img" value="Depot"></div>-->
-            <div class="forgot-pass"><a href="#">Forgot Password?</a></div>
+            <div class="forgot-pass"><a href="<?= Yii::$app->urlManager->createUrl("user/forgot"); ?>">Forgot Password?</a></div>
 <!--            <div><a href="#" class="login-btn">Log In</a></div>-->
             <div><?= Html::submitButton(Yii::t('app', 'LogIn'), ['class' => ['login-btn'], 'name' => 'login-button']) ?></div>
         </div>

@@ -47,6 +47,7 @@ class User extends ActiveRecord implements IdentityInterface {
             'password',
             'profile_picture',
             'auth_key',
+            'forgot_password_token',
             'created',
             'created_by',
             'updated',
@@ -62,7 +63,7 @@ class User extends ActiveRecord implements IdentityInterface {
             [['_id', 'user_id', 'first_name', 'last_name', 'email', 'phone', 'address', 'report_to', 'password', 'user_role', 'profile_picture', 'auth_key'], 'safe'],
             [['email', 'password', 'first_name', 'auth_key'], 'string', 'max' => 50],
             ['created', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'create'],
-            ['created_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'create'],
+            ['created_by', 'default', 'value' => isset(Yii::$app->user->identity->email)? Yii::$app->user->identity->email: '', 'on' => 'create'],
                 //['updated', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'update'],
                 //['updated_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'update'],
         ];
