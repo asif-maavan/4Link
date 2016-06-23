@@ -37,6 +37,7 @@ class Sales extends ActiveRecord {
             'customer_name',
             'team_leader',
             'account_type',
+            'submitted',
             'documents',
             'plan', //plane
             'plan_group',
@@ -92,7 +93,7 @@ class Sales extends ActiveRecord {
     public function rules() {
         return [
             [['uid', 'index_no', 'sale_executive',
-            'customer_type', 'order_type', 'customer_acc_no', 'customer_name', 'require_finance', 'sale_no', 'team_leader', 'account_type', 'documents',
+            'customer_type', 'order_type', 'customer_acc_no', 'customer_name', 'require_finance', 'sale_no', 'team_leader', 'account_type', 'submitted','documents',
             'plan', //plane
             'plan_group', 'plan_type', 'QTY', 'MRC', 'contract_period', 'contract_renewal_date', 'pipe_line', 'siebel_activity_no', 'four_link_points',
             'f_indicator', // finance

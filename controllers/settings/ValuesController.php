@@ -27,37 +27,27 @@ class ValuesController extends Controller {
     public function actionIndex() {
         $classAType = 'app\common\models\AccountType';
         $classOType = 'app\common\models\OrderType';
+        $classValues = 'app\common\models\Values';
         $sort = '';
         $AccModel = new AccountTypeForm();
         $AccModelu = new AccountTypeForm();
         $OrModel = new OrderTypeForm();
         $OrModelu = new OrderTypeForm();
+        $valuesModel = new \app\models\ValuesForm();
         if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
-//            if (Yii::$app->request->post()) {                 // create Plan
-//                $model->load(Yii::$app->request->post());
-//                $retData = $model->createOrUpdate();
-//                if ($retData['msgType'] == 'ERR') {
-//                    ;
-//                } else {
-//                    $model = new PlanForm();
-//                }
-//            }
 
-//            if (Yii::$app->request->get()) {
-//                $sort = Yii::$app->request->get('sort');
-//            }
-//            $AcCount = GlobalFunction::getCount(['className' => $className, 'whereParams' => '', 'nameS' => '']);
-//            $pagination = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
             $AcData = GlobalFunction::getListing(['className' => $classAType, 'pagination' => '', 'whereParams' => '', 'nameS' => '', 'sort' => $sort, 'selectParams' => ['_id', 'type_name']]);
             $OrData = GlobalFunction::getListing(['className' => $classOType, 'pagination' => '', 'whereParams' => '', 'nameS' => '', 'sort' => $sort, 'selectParams' => ['_id', 'type_name']]);
+            $VData = GlobalFunction::getListing(['className' => $classValues, 'pagination' => '', 'whereParams' => '', 'nameS' => '', 'sort' => $sort, 'selectParams' => ['_id', 'name', 'value']]);
             return $this->render('index', [
                         'accountData' => $AcData,
                         'orderData' => $OrData,
+                        'VData' => $VData,
                         'AccModel' => $AccModel,
                         'AccModelu' => $AccModelu,
                         'OrModel' => $OrModel,
                         'OrModelu' => $OrModelu,
-                            //'pagination' => $pagination,
+                        'valuesModel' => $valuesModel,
             ]);
         } else {
             $data = User::getListing(['whereParams' => ['email' => Yii::$app->user->identity->email]]);
@@ -82,7 +72,7 @@ class ValuesController extends Controller {
                 if (Yii::$app->request->isAjax) {
                     exit(json_encode(['msgType' => 'SUC']));
                 } else
-                    $this->redirect(Yii::$app->urlManager->createUrl("settings/values/"));
+                    $this->redirect(Yii::$app->urlManager->createUrl("settings/values#at/"));
                 //exit(json_encode(['msgType' => 'SUC']));
             }
         }
@@ -115,12 +105,12 @@ class ValuesController extends Controller {
                 if (Yii::$app->request->isAjax) {
                     exit(json_encode(['msgType' => 'SUC']));
                 } else
-                    $this->redirect(Yii::$app->urlManager->createUrl("settings/values/"));
+                    $this->redirect(Yii::$app->urlManager->createUrl("settings/values#ot/"));
                 //exit(json_encode(['msgType' => 'SUC']));
             }
         }
     }
-    
+
     public function actionDeleteOrderType() {
         if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
             $id = Yii::$app->request->post('_id');
@@ -135,6 +125,25 @@ class ValuesController extends Controller {
         }
     }
 
-}
+    // values
+    public function actionValue() {
+        if (!Yii::$app->request->isAjax && Yii::$app->request->post()) {
+            //$id = Yii::$app->request->post('_id');
+            $model = new \app\models\ValuesForm();
+            $model->load(Yii::$app->request->post());
+            $name = $model->name;
+            if ($name == 'est_finance' || $name == 'est_AT' || $name == 'est_LD' || $name == 'est_RG') {
+                
+                $retData = $model->createOrUpdate();
+                if ($retData['msgType'] == 'ERR') {
+                    exit(json_encode(['msgType' => 'ERR', 'msgArr' => $retData['msgArr']]));
+                } else {
+                    return $this->redirect(Yii::$app->urlManager->createUrl("settings/values#est/"));
+                    //exit(json_encode(['msgType' => 'SUC']));
+                }
+            }
+        }
+    }
 
 // end class
+}

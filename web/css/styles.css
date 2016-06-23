@@ -227,8 +227,7 @@ footer .copy{
     display: block;
 }
 .back_btn2 {
-    padding: 12px 0 0 12px;
-    padding-bottom: 5px;
+    padding: 20px 0 0 12px;
 }
 .back_btn2 a {
     padding: 0px 0 5px 0;
@@ -375,6 +374,91 @@ footer .copy{
 
 /*---------------------------------------------------------------------------*/
 
+/*-------------------------------------Sales Detail Starts--------------------------------------*/
+
+.sales-detail-upper-wraper{ margin-bottom:5px; border:#d7d7d7 solid 1px; background-color:#efefef;}
+.sales-detail-upper-title {
+    font-size: 18px;
+    padding: 17px 10px 10px 10px;
+}
+.back_btn3 {
+    padding: 12px 0 0 12px;
+    padding-bottom: 5px;
+}
+.back_btn3 a {
+    padding: 0px 0 5px 0;
+    display: block;
+}
+.save-btn-2 {
+    display: inline-block;
+    border: solid #092c74 1px;
+    float: right;
+    padding: 7px 60px 6px 60px;
+    color: #FFF !important;
+    font-size: 18px;
+    line-height: 20px;
+    margin: 10px 0 10px 0;
+    background: #5ab3e8;
+    -webkit-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    font-family: 'Open Sans', sans-serif;
+}
+.ui-d {
+    font-size: 20px;
+    padding: 16px;
+    text-align: center;
+    line-height: 38px;
+}
+.camp-info3 {
+    display: block;
+    margin: 0px 0px 20px 0px;
+    color: #333;
+    font-size: 20px;
+    line-height: 14px;
+    font-weight: bold;
+    padding-bottom: 22px;
+    border-bottom: solid 1px #dadada;
+}
+.camp-info3 span {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin: 40px 10px 0px 0px;
+    background: #25bec0;
+}
+.arrow2{
+    cursor: pointer;
+    height: 36px;
+    width: 40px;
+    position: absolute;
+    right: -54px;
+    background: #FFF url(../images/down_2.png) no-repeat right center !important;
+    top: 2px;
+}
+
+.custlabel_2 {
+    font-size: 16px;
+    color: #000;
+    padding: 8px 0 0 0;
+    width: 140px;
+    float: left;
+}	
+.input_dis {
+    background-color: #f7f7f7 !important;
+    border: none !important;
+}	
+.textarea_style {
+    border-radius: 0px !important;
+    font-size: 18px;
+    color: #000;
+    border: solid 1px #bbbbbb;
+    margin-left: 15px;
+    width: 761px;
+    float: left;
+    height: 135px;
+}
+/*-------------------------------------Sales Detail Ends--------------------------------------*/
+
 .content-box-header:after {
   clear:both;
 }
@@ -516,7 +600,7 @@ footer .copy{
 	width:269px;
 	font-size:18px;
 	color:#000;
-    border: solid 1px #bbbbbb !important;
+    border: solid 1px #bbbbbb;
 }
 .input_style2 {
     border-radius: 0px !important;

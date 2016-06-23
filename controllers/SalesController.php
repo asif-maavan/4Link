@@ -36,7 +36,7 @@ class SalesController extends Controller {
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update', 'delete', 'validation'],
+                        'actions' => ['index', 'create', 'update', 'delete', 'validation', 'detail'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -59,17 +59,17 @@ class SalesController extends Controller {
             if ($model->customer_type == '1') {
                 $customer = new \app\models\CustomerForm();
                 $customer->scenario = 'createFromSale';
-                $params['CustomerForm'] = ['first_name' => $model->customer_name, 'customer_acc' => $model->customer_acc_no];
+                $params['CustomerForm'] = ['first_name' => $model->customer_name, 'customer_acc' => $model->customer_acc_no, 'sales_agent' => $model->sale_executive];
                 $customer->load($params);
                 $ret = $customer->createOrUpdate($params['CustomerForm']);
                 if ($ret['msgType'] == 'ERR') {
                     $cstmr = FALSE;
-                    return json_encode($ret['msgArr']).'<br>------------<br>'.json_encode($customer->attributes);
-                }else{
+                    return json_encode($ret['msgArr']) . '<br>------------<br>' . json_encode($customer->attributes);
+                } else {
                     $model->customer_name = $customer->_id;
                 }
             }
-            if($cstmr) {
+            if ($cstmr) {
                 $retData = $model->createOrUpdate(Yii::$app->request->post('SalesForm'));
                 if ($retData['msgType'] == 'ERR') {
                     ;
@@ -131,6 +131,53 @@ class SalesController extends Controller {
             } else {
                 exit(json_encode(['msgType' => 'SUC']));
             }
+        }
+    }
+
+    // sales detail
+    public function actionDetail($id) {
+
+        $sale = \app\common\models\Sales::findOne($id);
+        if (count($sale) > 0) {
+            $model = new SalesForm();
+            $model->scenario = 'detail';
+            $model->attributes = $sale->attributes;
+            
+            if (Yii::$app->request->post()) {                 // Detail Update
+                $model->load(Yii::$app->request->post());
+                $retData = $model->createOrUpdate(Yii::$app->request->post('SalesForm'));
+
+                if ($retData['msgType'] == 'ERR') {
+                    exit(json_encode(['msgType' => 'ERR', 'msgArr' => $retData['msgArr']]));
+                } else {
+                    $this->refresh(); //exit(json_encode(['msgType' => 'SUC']));
+                }
+            }
+            
+            $estData = GlobalFunction::getListing(['className' => 'app\common\models\Values', 'pagination' => '', 'whereParams' => '', 'nameS' => '', 'selectParams' => ['_id', 'name', 'value']]);
+            $estList=[];
+            foreach ($estData as $value) {
+                $estList[$value->name] = $value->value;
+            }
+
+            return $this->render('detail', [
+                        'model' => $model,
+                        'countryList' => GlobalFunction::getCountries(),
+                        'agentList' => GlobalFunction::getAgentList(),
+                        'customerTypeList' => GlobalFunction::getCustomerTypes(),
+                        'YN' => GlobalFunction::getYN(),
+                        'orderTypeList' => GlobalFunction::getOrderTypeList(),
+                        'customerList' => GlobalFunction::getCustomerList(),
+                        'planList' => GlobalFunction::getPlansList(),
+                        'planTypeList' => GlobalFunction::getPlanTypeList(),
+                        'orderStateList' => GlobalFunction::getOrderStateList(),
+                        'states' => GlobalFunction::getSalesDetailStatesList(),
+                        'estList' => $estList,
+            ]);
+        } else {
+            return $this->render('detail', [
+                        'errmsg' => 'In valid Customer ID',
+            ]);
         }
     }
 

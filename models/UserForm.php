@@ -131,7 +131,8 @@ class UserForm extends Model {
 
             $user->attributes = $postParams;
             $user->user_role = intval($user->user_role);
-            $user->report_to = ['_id' => $user->report_to, 'name' => \app\components\GlobalFunction::getReportToList($user->_id, $user->user_role)[$user->report_to]];
+            if (isset($postParams['report_to']))
+                $user->report_to = ['_id' => $user->report_to, 'name' => \app\components\GlobalFunction::getReportToList($user->_id, $user->user_role)[$user->report_to]];
 
             if (!empty($postParams['password'])) {
                 $user->password = md5($postParams['password']);
@@ -157,7 +158,7 @@ class UserForm extends Model {
             $user = User::findOne(['email' => $this->email]);
             if ($user) {
                 $user->password = md5($this->password);
-                
+
                 if ($user->save()) {
                     $user->forgot_password_token = '';
                     $user->save();

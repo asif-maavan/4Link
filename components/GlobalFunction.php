@@ -8,6 +8,18 @@ use app\common\models\User;
 
 class GlobalFunction {
 
+    function subDiff($d1, $d2, $date = FALSE) {
+        $d1 = str_replace('/', '-', $d1);
+        $d2 = str_replace('/', '-', $d2);
+        $date1 = new DateTime($d1);
+        $date2 = new DateTime($d2);
+        $diff = date_diff($date1, $date2);
+        if ($date) {
+            return $diff;
+        }
+        return $diff->format("%R%a");
+    }
+
     public static function getUserRoles() {
         return [User::ROLE_ADMIN => 'Admin',
             User::ROLE_manager => 'Manager',
@@ -21,16 +33,22 @@ class GlobalFunction {
             2 => 'Pre-Paid'];
     }
 
+    public static function getSalesDetailStatesList() {
+        return ['Activated' => 'Activated',
+            'Rejected' => 'Rejected',
+            'Cancelled' => 'Cancelled'];
+    }
+
     public static function getReportToList($id, $role) {
         $className = 'app\common\models\User';
         $role = (intval($role) == 5) ? intval($role) - 2 : intval($role) - 1;
-        
-        if($id == 'new'){
+
+        if ($id == 'new') {
             $whereParams = ['between', 'user_role', 2, $role];
-        }else{
+        } else {
             $whereParams = ['and', ['not', '_id', new \MongoId($id)], ['between', 'user_role', 2, $role]];
         }
-        
+
         $params = ['className' => $className, 'whereParams' => $whereParams, 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'user_id', 'first_name', 'last_name']];
         $data = GlobalFunction::getListing($params);
         $list = [];
@@ -41,13 +59,13 @@ class GlobalFunction {
             }
         } else {
             $list[1] = 'No One';
-        }           
+        }
         return $list;
     }
-    
+
     public static function getAgentList() {
         $className = 'app\common\models\User';
-        
+
         $whereParams = ['user_role' => User::ROLE_executive];
         $params = ['className' => $className, 'whereParams' => $whereParams, 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'user_id', 'first_name', 'last_name']];
         $data = GlobalFunction::getListing($params);
@@ -57,21 +75,21 @@ class GlobalFunction {
             foreach ($data as $value) {
                 $list[$value->_id->{'$id'}] = $value->first_name . ' ' . $value->last_name;
             }
-        }         
+        }
         return $list;
     }
-    
-    public static function getCustomerTypes(){
+
+    public static function getCustomerTypes() {
         return['1' => 'New',
             '2' => 'Existing'];
     }
-    
-    public static function getYN(){
+
+    public static function getYN() {
         return['1' => 'Yes',
             '2' => 'NO'];
     }
-    
-    public static function getOrderStateList(){
+
+    public static function getOrderStateList() {
         return['Created' => 'Created',
             'Verified' => 'Verified',
             'Finance Approval' => 'Finance Approval',
@@ -82,8 +100,8 @@ class GlobalFunction {
             'Rejected' => 'Rejected',
             'Cancelled' => 'Cancelled'];
     }
-    
-    public static function getOrderTypeList(){
+
+    public static function getOrderTypeList() {
         $className = 'app\common\models\OrderType';
         $params = ['className' => $className, 'whereParams' => '', 'nameS' => '', 'sort' => 'type_name', 'selectParams' => ['_id', 'type_name']];
         $data = GlobalFunction::getListing($params);
@@ -93,11 +111,11 @@ class GlobalFunction {
             foreach ($data as $value) {
                 $list[$value->_id->{'$id'}] = $value->type_name;
             }
-        }         
+        }
         return $list;
     }
-    
-    public static function getCustomerList(){
+
+    public static function getCustomerList() {
         $className = 'app\common\models\Customer';
         $params = ['className' => $className, 'whereParams' => '', 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'first_name']];
         $data = GlobalFunction::getListing($params);
@@ -107,11 +125,11 @@ class GlobalFunction {
             foreach ($data as $value) {
                 $list[$value->_id->{'$id'}] = $value->first_name;
             }
-        }         
+        }
         return $list;
     }
-    
-    public static function getPlansList(){
+
+    public static function getPlansList() {
         $className = 'app\common\models\Plans';
         $params = ['className' => $className, 'whereParams' => '', 'nameS' => '', 'sort' => 'name', 'selectParams' => ['_id', 'name']];
         $data = GlobalFunction::getListing($params);
@@ -121,11 +139,9 @@ class GlobalFunction {
             foreach ($data as $value) {
                 $list[$value->_id->{'$id'}] = $value->name;
             }
-        }         
+        }
         return $list;
     }
-    
-    
 
 //    ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     public static function getMonths() {
@@ -183,9 +199,9 @@ class GlobalFunction {
         $emailTo = $params['emailTo'];
         $message = $params['message'];
         $subject = $params['subject'];
-        $module = '';//$params['module'];
+        $module = ''; //$params['module'];
         $files = (isset($params['files']) ? $params['files'] : []);
-        $emailFrom = ['admin@4link.com'=> '4link'];//'4link@4linkadmin.com';
+        $emailFrom = ['admin@4link.com' => '4link']; //'4link@4linkadmin.com';
 
         $message = Yii::$app->mailer->compose('html-email-01', ['message' => $message, 'module' => $module])
                 ->setFrom($emailFrom)

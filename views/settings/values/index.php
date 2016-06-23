@@ -16,6 +16,13 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
     .help-block{
         font-size: 12px;
     }
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
 </style>
 
 <!--<script src="<?php echo Yii::$app->request->baseUrl; ?>/js/user.js"></script>-->
@@ -38,7 +45,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
     </div>
     <div class="col-md-10 content_wraper">
         <div class="content-box-large3" style="height: auto;min-height: 651px;">
-            <div class="row">
+            <div id="at" class="row">
                 <p>Account Type</p>
             </div>	
             <div class="row accounttable">
@@ -124,7 +131,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
             <div class="clearfix"></div>	
             <br><br>
             <!-- Order Type :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
-            <div class="row">
+            <div id="ot" class="row">
                 <p>Order Type</p>
             </div>	
             <div class="row accounttable">
@@ -206,6 +213,121 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                     ?>
                     <!--</div>-->          
 
+                </div>
+            </div> <!--'end Order type -->
+            <div class="clearfix"></div>	
+            <br><br>
+
+            <!-- Sale Estimation :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::-->
+            <div id="est" class="row">
+                <p>Sale Estimation</p>
+            </div>	
+            <div class="row accounttable">
+                <p>Sale Estimation</p>
+                <div class="account-contents">
+                    <div class="rec-row">
+                        <?php
+                        foreach ($VData as $key => $value) {
+                            $VData[$value->name] = $VData[$key];
+                            unset($VData[$key]);
+                        }
+                        if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
+                            $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
+                                        'fieldConfig' => ['template' => "{input}{error}"],
+                                        'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        'options' => ['id' => 'F-form', 'class' => 'clearfix ordtype']]);
+                            $valuesModel->value = (isset($VData['est_finance']->value)) ? $VData['est_finance']->value : '';
+                            ?>
+                            <div class="rec-btns">
+                                <span>
+                                    <a href="#"><img src="<?= $baseUrl ?>images/spacer.png" alt=""></a> 
+                                    <!--<a href="#" class="margin_l15"><img src="<?= $baseUrl ?>images/save_icon2.png" alt=""></a>-->
+                                    <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
+                                </span>
+                            </div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'est_finance']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">Est. of Finance</span></div>
+                            <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
+                            <?php
+                            ActiveForm::end();
+                        }
+                        ?>
+                    </div>
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,Account Transfer-->
+                    <div class="rec-row">
+                        <?php
+                        if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
+                            $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
+                                        'fieldConfig' => ['template' => "{input}{error}"],
+                                        'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        'options' => ['id' => 'AT-form', 'class' => 'clearfix ordtype']]);
+                            $valuesModel->value = (isset($VData['est_AT']->value)) ? $VData['est_AT']->value : '';
+                            ?>
+                            <div class="rec-btns">
+                                <span>
+                                    <a href="#"><img src="<?= $baseUrl ?>images/spacer.png" alt=""></a> 
+                                    <!--<a href="#" class="margin_l15"><img src="<?= $baseUrl ?>images/save_icon2.png" alt=""></a>-->
+                                    <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
+                                </span>
+                            </div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'est_AT']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">Est. of Account Transfer</span></div>
+                            <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
+                            <?php
+                            ActiveForm::end();
+                        }
+                        ?>
+                    </div>
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,Logistics/Delivery-->
+                    <div class="rec-row">
+                        <?php
+                        if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
+                            $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
+                                        'fieldConfig' => ['template' => "{input}{error}"],
+                                        'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        'options' => ['id' => 'LD-form', 'class' => 'clearfix ordtype']]);
+                            $valuesModel->value = (isset($VData['est_LD']->value)) ? $VData['est_LD']->value : '';
+                            ?>
+                            <div class="rec-btns">
+                                <span>
+                                    <a href="#"><img src="<?= $baseUrl ?>images/spacer.png" alt=""></a> 
+                                    <!--<a href="#" class="margin_l15"><img src="<?= $baseUrl ?>images/save_icon2.png" alt=""></a>-->
+                                    <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
+                                </span>
+                            </div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'est_LD']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">Est. of Logistics/Delivery</span></div>
+                            <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
+                            <?php
+                            ActiveForm::end();
+                        }
+                        ?>
+                    </div>
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,Resolver Group-->
+                    <div class="rec-row">
+                        <?php
+                        if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
+                            $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
+                                        'fieldConfig' => ['template' => "{input}{error}"],
+                                        'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        'options' => ['id' => 'RG-form', 'class' => 'clearfix ordtype']]);
+                            $valuesModel->value = (isset($VData['est_RG']->value)) ? $VData['est_RG']->value : '';
+                            ?>
+                            <div class="rec-btns">
+                                <span>
+                                    <a href="#"><img src="<?= $baseUrl ?>images/spacer.png" alt=""></a> 
+                                    <!--<a href="#" class="margin_l15"><img src="<?= $baseUrl ?>images/save_icon2.png" alt=""></a>-->
+                                    <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
+                                </span>
+                            </div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'est_RG']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">Est. of Resolver Group</span></div>
+                            <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'width:25%;margin-left: 5%;'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
+                            <?php
+                            ActiveForm::end();
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
 

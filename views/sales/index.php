@@ -106,7 +106,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 ?>
                                 <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
                                     <div class="divTableCell cel-padding first vertical-align"><a href="javascript:;" onclick="edit('<?= $d->_id ?>');"><img src="<?= $baseUrl ?>images/edit_icon.png" class="save_icon"/></a></div>
-                                    <div class="divTableCell cel-padding text-center vertical-align"><a title="See Detail" href="javascript:;">S<?= $d->uid ?></a></div>
+                                    <div class="divTableCell cel-padding text-center vertical-align"><a title="See Detail" href="<?= Yii::$app->urlManager->createUrl("sales/detail?id=".$d->_id); ?>">S<?= $d->uid ?></a></div>
                                     <div id="index_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->index_no ?></div>
                                     <div id="sale_executive" class="divTableCell cel-padding text-center vertical-align"><?= $d->sale_executive['name'] ?></div>
                                     <div id="customer_type" class="divTableCell cel-padding text-center vertical-align"><?= $customerTypeList[$d->customer_type] ?></div>
