@@ -74,7 +74,7 @@ $baseUrl = Yii::$app->request->baseUrl;
         </div>
 
 
-        <div class="page-content">
+        <div class="container">
 
             <?= $content ?>
         </div>

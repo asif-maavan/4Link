@@ -60,9 +60,14 @@ class ExecutivesController extends Controller {
         $count = GlobalFunction::getCount(['className' => $className, 'whereParams' => $whereParams, 'nameS' => $nameS]);
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
         $data = GlobalFunction::getListing(['className' => $className, 'pagination' => $pagination, 'whereParams' => $whereParams, 'nameS' => $nameS, 'sort' => $sort, 'selectParams' => ['_id', 'user_id', 'profile_picture', 'first_name', 'last_name', 'email', 'phone', 'address', 'report_to', 'password', 'user_role', 'created']]);
-
+        $stats=[];
+        foreach ($data as $value) {
+            $stats[$value->user_id] = GlobalFunction::getExecutiveStats($value->_id);
+        }
+        
         return $this->render('index', [
                     'data' => $data,
+                    'stats' => $stats,
                     'pagination' => $pagination,
         ]);
     }

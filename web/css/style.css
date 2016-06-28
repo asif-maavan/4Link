@@ -1,8 +1,18 @@
 @charset "utf-8";
 /* CSS Document */
 
+@media (min-width: 1200px){
+    .container {
+        width: 1208px !important;
+    }
+}
+
+.navbar{
+    margin-bottom: 5px;
+}
 .page-content > .row {
     margin-top: 20px;
+    width: 100% !important;
 }
 
 .form-control {
@@ -121,4 +131,9 @@
     height: 40px; 
     padding: 9px 0;
     font-weight: normal;
+}
+
+.cal-img{
+    background: #FFF url(../images/calendar.jpg) no-repeat right center !important;
+    background-position: 96% 50% !important;
 }

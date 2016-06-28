@@ -106,7 +106,7 @@ class Sales extends ActiveRecord {
             'order_state', // order state
             'date_of_order_state', 'estimated_activation_date', 'est_submission_difference', 'est_actual_difference', 'total_MRC_per_order',
             'total_FLP_per_order'], 'safe'],
-            ['created', 'default', 'value' => date("Y-m-d H:i:s"), 'on' => 'create'],
+            ['created', 'default', 'value' => new \MongoDate(), 'on' => 'create'],
             ['created_by', 'default', 'value' => Yii::$app->user->identity->email, 'on' => 'create'],
         ];
     }
@@ -119,7 +119,7 @@ class Sales extends ActiveRecord {
                 'attributes' => [
                     ActiveRecord::EVENT_BEFORE_UPDATE => 'updated',
                 ],
-                'value' => date("Y-m-d H:i:s"),
+                'value' => new \MongoDate(),
             ],
             [
                 'class' => AttributeBehavior::className(),

@@ -30,19 +30,19 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
 
             <div class="content-box-large app-content-box-large" style="height: auto;">
 
-<!--                <div class="row cstname">
-                    <form class="form-inline" method="get">
-                        <input type="text" class="cstname-txtbx2 cstname-img" name="nameS" placeholder="Customer Name" value="<?php echo Yii::$app->request->get('nameS'); ?>" >
-                    </form>
-                </div>-->
+                <!--                <div class="row cstname">
+                                    <form class="form-inline" method="get">
+                                        <input type="text" class="cstname-txtbx2 cstname-img" name="nameS" placeholder="Customer Name" value="<?php echo Yii::$app->request->get('nameS'); ?>" >
+                                    </form>
+                                </div>-->
                 <div class="divTable">
                     <div class="divTableBody">
                         <div class="divTableRow">
                             <div class="divTableCell th_bg row_1 first">Picture</div>
                             <div class="divTableCell th_bg row_2 text-center">UID<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'user_id') ? 'user_id' : '-user_id' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-user_id' || Yii::$app->request->get('sort') != 'user_id') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a>&nbsp;</div>  <!-- <img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/> -->
                             <div class="divTableCell th_bg row_3 text-center">Name<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'first_name') ? 'first_name' : '-first_name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-first_name' || Yii::$app->request->get('sort') != 'first_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                            <div class="divTableCell th_bg row_4 text-center">Delayed<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'first_name') ? 'first_name' : '-first_name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-first_name' || Yii::$app->request->get('sort') != 'first_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                            <div class="divTableCell th_bg row_5 text-center">Manager<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'account_no') ? 'account_no' : '-account_no' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-account_no' || Yii::$app->request->get('sort') != 'account_no') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                            <div class="divTableCell th_bg row_4 text-center">Delayed</div>
+                            <div class="divTableCell th_bg row_5 text-center">Manager<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'report_to.name') ? 'report_to.name' : '-report_to.name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-report_to.name' || Yii::$app->request->get('sort') != 'report_to.name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
                             <div class="divTableCell th_bg row_date text-center">Start Date</div>
                             <div class="divTableCell th_bg row_date text-center">Last Sale Date</div>
                             <div class="divTableCell th_bg row_8 text-center">Total MRC</div>
@@ -56,17 +56,17 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             foreach ($data as $d) {
                                 ?>
                                 <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" > 
-                                    <div class="divTableCell cel-padding first vertical-align"><div class="profile-div"><img class="img-responsive" src="<?= $baseUrl ?><?=($d->profile_picture)? 'uploads/'.$d->profile_picture: 'images/user-img1.png' ?>" class="save_icon"/></div></div>
+                                    <div class="divTableCell cel-padding first vertical-align"><div class="profile-div"><img class="img-responsive" src="<?= $baseUrl ?><?= ($d->profile_picture) ? 'uploads/' . $d->profile_picture : 'images/user-img1.png' ?>" class="save_icon"/></div></div>
                                     <div class="divTableCell cel-padding text-center vertical-align">E<?= $d->user_id ?></div>
-                                    <div id="customer_acc" class="divTableCell cel-padding text-center vertical-align"><?= $d->first_name.' '.$d->last_name ?></div>
-                                    <div id="first_name" class="divTableCell cel-padding text-center vertical-align"><?= 9 ?></div>
+                                    <div id="customer_acc" class="divTableCell cel-padding text-center vertical-align"><?= $d->first_name . ' ' . $d->last_name ?></div>
+                                    <div id="first_name" class="divTableCell cel-padding text-center vertical-align"><?= isset($stats[$d->user_id]['delayed']) ? $stats[$d->user_id]['delayed'] : '-' ?></div>
                                     <div id="account_no" class="divTableCell cel-padding text-center vertical-align"><?= (!is_array($d->report_to)) ? $d->report_to : $d->report_to['name'] ?></div>
                                     <div id="address" class="divTableCell cel-padding text-center vertical-align"><?= date('d-M-Y', strtotime($d->created)) ?></div>
-                                    <div id="phone" class="divTableCell cel-padding text-center vertical-align"><?= date('d-M-Y', strtotime($d->created)) ?></div>
-                                    <div id="sales_agent" class="divTableCell cel-padding text-center vertical-align"><?= 44 ?></div>
-                                    <div id="agent_phone" class="divTableCell cel-padding text-center vertical-align"><?= 4 ?></div>
-                                    <div id="agent_phone" class="divTableCell cel-padding text-center vertical-align"><?= 55 ?></div>
-                                    <div id="agent_phone" class="divTableCell cel-padding text-center vertical-align"><?= 5 ?></div>
+                                    <div id="phone" class="divTableCell cel-padding text-center vertical-align"><?= isset($stats[$d->user_id]['last_sale_date']) ? date('d-M-Y', $stats[$d->user_id]['last_sale_date']->sec) : '-' //\DateTime::createFromFormat('d/m/Y', $stats[$d->user_id]['last_sale_date'])->format('d-M-Y') ?></div>
+                                    <div id="sales_agent" class="divTableCell cel-padding text-center vertical-align"><?= isset($stats[$d->user_id]['total_MRC']) ? $stats[$d->user_id]['total_MRC'] : '-' ?></div>
+                                    <div id="agent_phone" class="divTableCell cel-padding text-center vertical-align"><?= isset($stats[$d->user_id]['avg_MRC']) ? $stats[$d->user_id]['avg_MRC'] : '-' ?></div>
+                                    <div id="agent_phone" class="divTableCell cel-padding text-center vertical-align"><?= isset($stats[$d->user_id]['total_FLP']) ? $stats[$d->user_id]['total_FLP'] : '-' ?></div>
+                                    <div id="agent_phone" class="divTableCell cel-padding text-center vertical-align"><?= isset($stats[$d->user_id]['avg_FLP']) ? $stats[$d->user_id]['avg_FLP'] : '-' ?></div>
                                 </div>
                             <?php } ?>
 

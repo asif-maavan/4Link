@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerJsFile('@web/js/sales.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $baseUrl = Yii::$app->request->baseUrl . '/';
 
-$sdate = ($model->order_state == 'Created') ? $model->created : $model->date_of_order_state;
+$sdate = ($model->order_state == 'Created') ? date('Y-m-d H:i:s', $model->created->sec) : $model->date_of_order_state;
 //$since = (int) ((time() - strtotime($sdate)) / (60 * 60 * 24));
 $since = subDiff(date('d/m/Y', strtotime($sdate)), date('d/m/Y'), TRUE);
 $since = $since->format("%a");
@@ -99,7 +99,7 @@ function subDiff($d1, $d2, $date = FALSE) {
                             </div>                        
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Team Leader:</div>
-                                <div class="col-xs-6"><input id="team_leader" type="text" disabled class="form-control input_style input_dis" value="<?= ($model->team_leader) ? $model->team_leader : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input id="team_leader" type="text" disabled class="form-control input_style input_dis" value="<?= ($model->team_leader) ? $model->team_leader['name'] : '-' ?>" id="usr"></div>
                             </div>                        
 
                         </div>

@@ -133,18 +133,20 @@ class SalesForm extends Model {
                 $sale->uid = $tmpStr;
             }
             $params['customer_name'] = '' . $this->customer_name;
+            
+            $sale->attributes = $params; //$this->attributes;
             if (isset($params['order_state']) && $sale->order_state != $params['order_state']) {
                 $this->date_of_order_state = $sale->date_of_order_state = date("Y-m-d H:i:s");
             }
-            $sale->attributes = $params; //$this->attributes;
             if ($this->scenario == 'create' && !$this->order_state) {
                 $sale->order_state = 'Created';
+                $sale->date_of_order_state = date("Y-m-d H:i:s");
             }
 
             $executive = \app\common\models\User::findOne($sale->sale_executive);
             $plan = \app\common\models\Plans::findOne($sale->plan);
             $sale->sale_executive = ['_id' => $sale->sale_executive, 'name' => \app\components\GlobalFunction::getAgentList()[$sale->sale_executive]];
-            $sale->team_leader = $executive->report_to['name'];
+            $sale->team_leader = $executive->report_to;
             $sale->order_type = ['_id' => $sale->order_type, 'name' => \app\components\GlobalFunction::getOrderTypeList()[$sale->order_type]];
             $this->customer_name = $sale->customer_name = ['_id' => $sale->customer_name, 'name' => \app\components\GlobalFunction::getCustomerList()[$sale->customer_name]];
             $sale->plan = ['_id' => $sale->plan, 'name' => \app\components\GlobalFunction::getPlansList()[$sale->plan]];

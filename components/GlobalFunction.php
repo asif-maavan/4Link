@@ -39,6 +39,35 @@ class GlobalFunction {
             'Cancelled' => 'Cancelled'];
     }
 
+    public static function getExecutiveStats($id) {
+        $className = 'app\common\models\Sales';
+        $whereParams ['sale_executive._id'] = '' . $id;
+        $params = ['className' => $className, 'whereParams' => $whereParams, 'nameS' => '', 'sort' => '_id', 'selectParams' => ['_id', 'created', 'submitted', 'total_MRC_per_order', 'total_FLP_per_order', 'est_actual_difference']];
+        $data = GlobalFunction::getListing($params);
+        $stats = [];
+
+        $n = count($data);
+        //echo $id . ' - ' . $n . '<br>';
+        if ($n > 0) {
+
+            $totalMRC = $totalFLP = $delayed = 0;
+            foreach ($data as $value) {
+                if ($value->est_actual_difference > 0) {
+                    ++$delayed;
+                }
+                $totalMRC += $value->total_MRC_per_order;
+                $totalFLP += $value->total_FLP_per_order;
+                $stats['last_sale_date'] = $value->created;
+            }
+            $stats['total_MRC'] = $totalMRC;
+            $stats['avg_MRC'] = intval($totalMRC / $n);
+            $stats['total_FLP'] = $totalFLP;
+            $stats['avg_FLP'] = intval($totalFLP / $n);
+            $stats['delayed'] = $delayed;
+        }
+        return $stats;
+    }
+
     public static function getReportToList($id, $role) {
         $className = 'app\common\models\User';
         $role = (intval($role) == 5) ? intval($role) - 2 : intval($role) - 1;
@@ -48,6 +77,25 @@ class GlobalFunction {
         } else {
             $whereParams = ['and', ['not', '_id', new \MongoId($id)], ['between', 'user_role', 2, $role]];
         }
+
+        $params = ['className' => $className, 'whereParams' => $whereParams, 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'user_id', 'first_name', 'last_name']];
+        $data = GlobalFunction::getListing($params);
+        $list = [];
+        //var_dump($data);
+        if (count($data) > 0) {
+            foreach ($data as $value) {
+                $list[$value->_id->{'$id'}] = $value->first_name . ' ' . $value->last_name;
+            }
+        } else {
+            $list[1] = 'No One';
+        }
+        return $list;
+    }
+
+    public static function getTeamLeadList() {
+        $className = 'app\common\models\User';
+
+        $whereParams = ['between', 'user_role', 2, 3];
 
         $params = ['className' => $className, 'whereParams' => $whereParams, 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'user_id', 'first_name', 'last_name']];
         $data = GlobalFunction::getListing($params);
