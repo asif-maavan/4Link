@@ -32,7 +32,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
                     $('#' + id + 'D #require_account_transfer').text($('#' + id + 'E #salesform-require_account_transfer option:selected').text());
                     var submitted_to_at = ($('#' + id + 'E #' + id + '-submitted_to_at').val()) ? $('#' + id + 'E #' + id + '-submitted_to_at').val() : '-';
                     $('#' + id + 'D #submitted_to_AT').text(submitted_to_at);
-                    $('#' + id + 'D #sale_no').text($('#' + id + 'E #salesform-sale_no').val());
+                    $('#' + id + 'D #so_no').text($('#' + id + 'E #salesform-so_no').val());
                     $('#' + id + 'D #order_state').text($('#' + id + 'E #salesform-order_state option:selected').text());
                     $('#' + id + 'E').addClass('hidden');
                     $('#' + id + 'D').removeClass('hidden');
@@ -161,6 +161,78 @@ function getPlan() {
     }
 }
 // UI tweeks for Detail page
+function toggleFIN(target) {
+    selected = $(target).val();
+    if (selected == '1') {
+        $('#salesform-f_indicator').val('');
+        $('#salesform-submitted_to_finance').val('');
+        $('#salesform-f_response').val('');
+        
+        $('#salesform-f_indicator').attr('disabled', false);
+        $('#salesform-f_state').attr('disabled', false);
+        $('#salesform-submitted_to_finance').attr('disabled', false);
+        $('#salesform-f_response').attr('disabled', false);
+        
+        $('#salesform-f_indicator').removeClass('input_dis');
+        $('#salesform-f_state').removeClass('input_dis');
+        $('#salesform-submitted_to_finance').removeClass('input_dis');
+        $('#salesform-f_response').removeClass('input_dis');
+
+    } else {
+        $('#salesform-f_indicator').attr('disabled', true);
+        $('#salesform-f_state').attr('disabled', true);
+        $('#salesform-submitted_to_finance').attr('disabled', true);
+        $('#salesform-f_response').attr('disabled', true);
+        
+        $('#salesform-f_indicator').val('-');
+        $('#salesform-f_state').val('');
+        $('#salesform-submitted_to_finance').val('-');
+        $('#salesform-f_response').val('-');
+        $('#f_difference').val('-');
+        
+        $('#salesform-f_indicator').addClass('input_dis');
+        $('#salesform-f_state').addClass('input_dis');
+        $('#salesform-submitted_to_finance').addClass('input_dis');
+        $('#salesform-f_response').addClass('input_dis');
+    }
+}
+
+function toggleAT(target) {
+    selected = $(target).val();
+    if (selected == '1') {
+        $('#salesform-at_indicator').val('');
+        $('#salesform-submitted_to_at').val('');
+        $('#salesform-at_response').val('');
+        
+        $('#salesform-at_indicator').attr('disabled', false);
+        $('#salesform-at_state').attr('disabled', false);
+        $('#salesform-submitted_to_at').attr('disabled', false);
+        $('#salesform-at_response').attr('disabled', false);
+        
+        $('#salesform-at_indicator').removeClass('input_dis');
+        $('#salesform-at_state').removeClass('input_dis');
+        $('#salesform-submitted_to_at').removeClass('input_dis');
+        $('#salesform-at_response').removeClass('input_dis');
+
+    } else {
+        $('#salesform-at_indicator').attr('disabled', true);
+        $('#salesform-at_state').attr('disabled', true);
+        $('#salesform-submitted_to_at').attr('disabled', true);
+        $('#salesform-at_response').attr('disabled', true);
+        
+        $('#salesform-at_indicator').val('-');
+        $('#salesform-at_state').val('');
+        $('#salesform-submitted_to_at').val('-');
+        $('#salesform-at_response').val('-');
+        $('#at_difference').val('-');
+        
+        $('#salesform-at_indicator').addClass('input_dis');
+        $('#salesform-at_state').addClass('input_dis');
+        $('#salesform-submitted_to_at').addClass('input_dis');
+        $('#salesform-at_response').addClass('input_dis');
+    }
+}
+
 function toggleLD(target) {
     selected = $(target).val();
     if (selected == '1') {

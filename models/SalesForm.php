@@ -58,7 +58,7 @@ class SalesForm extends Model {
     public $LD_indicator; // logistics delivery  
     public $require_logistic_dep;
     public $LD_state;
-    public $sale_no;
+    public $so_no;
     public $submitted_to_LD;
     public $LD_response;
     public $LD_comments;
@@ -80,13 +80,13 @@ class SalesForm extends Model {
     // Rules
     public function rules() {
         return [
-            [['index_no', 'sale_executive', 'customer_type', 'order_type', 'customer_acc_no', 'customer_name', 'plan', 'siebel_activity_no', 'require_finance', 'require_account_transfer', 'sale_no'], 'required', 'on' => ['create', 'update']],
-            [['_id', 'uid', 'submitted_to_AT', 'order_state', 'created'], 'safe'],
-            [['sale_executive', 'order_type', 'customer_name', 'plan', 'QTY', 'siebel_activity_no', 'submitted', 'sale_no', 'require_logistic_dep', 'require_resolver_group'], 'required', 'on' => 'detail'],
-            [['index_no', 'plan_group', 'plan_type', 'team_leader', 'customer_type', 'customer_acc_no', 'account_type', 'QTY', 'MRC', 'contract_period', 'four_link_points', 'f_indicator', 'require_finance', 'submitted_to_finance', 'f_response', 'f_state', 'f_comments', 'AT_indicator', 'require_account_transfer', 'AT_response', 'AT_state', 'AT_comments', 'LD_indicator', 'LD_state', 'submitted_to_LD', 'LD_response', 'LD_comments', 'RG_indicator', 'submitted_to_RG', 'RG_response', 'RG_state', 'RG_comments', 'date_of_order_state', 'estimated_activation_date', 'est_submission_difference', 'est_actual_difference', 'total_MRC_per_order', 'total_FLP_per_order'], 'safe', 'on' => 'detail'],
+            [['index_no', 'sale_executive', 'customer_type', 'order_type', 'customer_acc_no', 'customer_name', 'plan'], 'required', 'on' => ['create', 'update']],
+            [['_id', 'uid', 'submitted_to_AT', 'order_state', 'created', 'siebel_activity_no', 'require_finance', 'require_account_transfer', 'so_no'], 'safe'],
+            [['sale_executive', 'order_type', 'customer_name', 'plan', 'QTY', 'siebel_activity_no', 'submitted', 'so_no'], 'required', 'on' => 'detail'],
+            [['index_no', 'plan_group', 'plan_type', 'team_leader', 'customer_type', 'customer_acc_no', 'account_type', 'QTY', 'MRC', 'contract_period', 'four_link_points', 'f_indicator', 'submitted_to_finance', 'f_response', 'f_state', 'f_comments', 'AT_indicator', 'AT_response', 'AT_state', 'AT_comments', 'LD_indicator', 'LD_state', 'submitted_to_LD', 'LD_response', 'LD_comments', 'RG_indicator', 'submitted_to_RG', 'RG_response', 'RG_state', 'RG_comments', 'require_logistic_dep', 'require_resolver_group', 'date_of_order_state', 'estimated_activation_date', 'est_submission_difference', 'est_actual_difference', 'total_MRC_per_order', 'total_FLP_per_order'], 'safe', 'on' => 'detail'],
             ['QTY', 'number', 'on' => 'detail'],
             ['index_no', 'validateIndex'], //, 'on' => ['create', 'update']
-            ['sale_no', 'validateSaleNo'],
+            //['so_no', 'validateSaleNo'],
         ];
     }
 
@@ -99,14 +99,14 @@ class SalesForm extends Model {
         }
     }
 
-    public function validateSaleNo($attribute, $params) {
-        $whereParams = ['and', ['not', '_id', new \MongoId($this->_id)], ['sale_no' => $this->sale_no]];
-        $models = \app\components\GlobalFunction::getListing(['className' => 'app\common\models\Sales', 'whereParams' => $whereParams, 'selectParams' => ['index_no']]);
-        if (count($models) > 0) {
-            //echo count($models);
-            $this->addError($attribute, 'This Sale No is already taken');
-        }
-    }
+//    public function validateSaleNo($attribute, $params) {
+//        $whereParams = ['and', ['not', '_id', new \MongoId($this->_id)], ['so_no' => $this->so_no]];
+//        $models = \app\components\GlobalFunction::getListing(['className' => 'app\common\models\Sales', 'whereParams' => $whereParams, 'selectParams' => ['index_no']]);
+//        if (count($models) > 0) {
+//            //echo count($models);
+//            $this->addError($attribute, 'This Sale No is already taken');
+//        }
+//    }
 
     // create & update
     public function createOrUpdate($params) {

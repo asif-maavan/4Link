@@ -50,7 +50,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             From:
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-4"><input type="text" name="from" class="form-control input_style dbg-date-img datepicker cal-img" id="usr" value="<?php echo Yii::$app->request->get('from'); ?>"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-4"><input type="text" name="from" class="form-control input_style dbg-date-img datepicker cal-img" id="usr" value="<?= Yii::$app->request->get('from') ? Yii::$app->request->get('from') : date('01/m/Y'); ?>"></div>
                     <div class="col-lg-5 col-md-5 col-sm-3">
                         <div class="labelfix text-right">
                             Manager/Supervisor:
@@ -87,7 +87,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                 <div class="row">
                     <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
                         <div class="labelfix">
-                            Sale Number:
+                            SO Number:
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-9 col-xs-7"><input type="text" name="sale" class="form-control input_style" id="usr"></div>                 	
@@ -100,7 +100,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             <table class="responsive_table responsive_table_bg">
                                 <thead class="responsive_table_thead">
                                     <tr class="responsive_table_head">
-                                        <th class="responsive_table_th">Sale Number <a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'sale_no') ? 'sale_no' : '-sale_no' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-sale_no' || Yii::$app->request->get('sort') != 'sale_no') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></th>
+                                        <th class="responsive_table_th">SO Number <a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'so_no') ? 'so_no' : '-so_no' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-so_no' || Yii::$app->request->get('sort') != 'so_no') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></th>
                                         <th class="responsive_table_th">Date Created <a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'created') ? 'created' : '-created' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-created' || Yii::$app->request->get('sort') != 'created') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></th>
                                         <th class="responsive_table_th">Value</th>
                                         <th class="responsive_table_th">Current State <a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'order_state') ? 'order_state' : '-order_state' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-order_state' || Yii::$app->request->get('sort') != 'order_state') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></th>
@@ -119,7 +119,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                             <tr class="responsive_table_tr">
                                                 <td class="responsive_table_td">
                                                     <div class="responsive_table_title_column">Framework</div>
-                                                    <div class="responsive_table_value"><?= $d->sale_no ?></div>
+                                                    <div class="responsive_table_value"><?= $d->so_no ?></div>
                                                 </td>
                                                 <td class="responsive_table_td">
                                                     <div class="responsive_table_title_column">Twitter Bootstrap</div>
@@ -127,7 +127,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                                 </td>
                                                 <td class="responsive_table_td">
                                                     <div class="responsive_table_title_column">Foundation</div>
-                                                    <div class="responsive_table_value">$7,295</div>
+                                                    <div class="responsive_table_value"><?= $d->QTY ? '$' . $d->QTY * $d->four_link_points : '-' ?></div>
                                                 </td>
                                                 <td class="responsive_table_td">
                                                     <div class="responsive_table_title_column">Semantic-ui</div>

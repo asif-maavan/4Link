@@ -60,7 +60,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             <div class="divTableCell th_bg row_9 text-center" style="width: 79px !important">Require Finance</div>
                             <div class="divTableCell th_bg row_9 text-center" style="width: 74px !important">Require Account Transfer</div>
                             <div class="divTableCell th_bg row_9 text-center">Submitted to A.T</div>
-                            <div class="divTableCell th_bg row_9 text-center">Sale Number</div>
+                            <div class="divTableCell th_bg row_9 text-center">SO Number</div>
                             <div class="divTableCell th_bg row_9 text-center">Order State</div>
 
                         </div>
@@ -90,7 +90,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             <?= $form->field($model, 'require_finance', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                             <?= $form->field($model, 'require_account_transfer', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'switchSAT(this)']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                             <?= $form->field($model, 'submitted_to_AT', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'readonly' => '']])->textInput() ?>
-                            <?= $form->field($model, 'sale_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
+                            <?= $form->field($model, 'so_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
                             <?= $form->field($model, 'order_state', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($orderStateList, ['prompt' => 'Select']) ?>
                             <!--<div class="divTableCell">&nbsp;</div>-->
                             <?php
@@ -118,7 +118,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <div id="require_finance" class="divTableCell cel-padding text-center vertical-align"><?= $YN[$d->require_finance] ?></div>
                                     <div id="require_account_transfer" class="divTableCell cel-padding text-center vertical-align"><?= $YN[$d->require_account_transfer] ?></div>
                                     <div id="submitted_to_AT" class="divTableCell cel-padding text-center vertical-align"><?= ($d->submitted_to_AT) ? $d->submitted_to_AT : '-' ?></div>
-                                    <div id="sale_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->sale_no ?></div>
+                                    <div id="so_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->so_no ?></div>
                                     <div id="order_state" class="divTableCell cel-padding text-center vertical-align"><?= $d->order_state ?></div>
                                 </div>
                                 <?php
@@ -147,7 +147,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <?= $form->field($modelu, 'require_finance', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                                     <?= $form->field($modelu, 'require_account_transfer', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'switchSAT(this)']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                                     <?= $form->field($modelu, 'submitted_to_AT', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control ' . $datePicker, 'id' => $d->_id . '-submitted_to_at', 'readonly' => ($datePicker) ? false : '']])->textInput() ?>
-                                    <?= $form->field($modelu, 'sale_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
+                                    <?= $form->field($modelu, 'so_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
                                     <?= $form->field($modelu, 'order_state', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($orderStateList, ['prompt' => 'Select']) ?>
                                     <?php
                                     ActiveForm::end();

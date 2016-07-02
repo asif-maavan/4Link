@@ -214,12 +214,12 @@ function subDiff($d1, $d2, $date = FALSE) {
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Require Finance:</div>
-                                <div class="col-xs-6"><input type="text" disabled="" class="form-control input_style input_dis" value="<?= $YN[$model->require_finance] ?>" id="usr"></div>
-
+                                <?= $form->field($model, 'require_finance', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style', 'style' => '', 'onChange' => 'toggleFIN(this)']])->dropDownList($YN, ['prompt' => 'Select']) ?>
+                                
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Order Sub & F. Sub Difference:</div>
-                                <div class="col-xs-6"><input type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_finance)) ? subDiff($model->submitted, $model->submitted_to_finance) : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input id="f_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_finance)) ? subDiff($model->submitted, $model->submitted_to_finance) : '-' ?>" id="usr"></div>
                             </div>                        
                         </div>
                         <div class="col-xs-6">
@@ -227,6 +227,7 @@ function subDiff($d1, $d2, $date = FALSE) {
                                 <div class="col-xs-6 custlabel_2">Submitted to Finance:</div>
                                 <!--<div class="col-xs-6"><input type="text" class="form-control input_style" id="usr"></div>-->
                                 <?= $form->field($model, 'submitted_to_finance', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $_fDisable, 'style' => '', 'disabled' => $fDisable]])->textInput() ?>
+                                <input type="button" value="submitted_to_finance">
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">F. Response:</div>
@@ -277,12 +278,11 @@ function subDiff($d1, $d2, $date = FALSE) {
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Require A.T.:</div>
-                                <div class="col-xs-6"><input type="text" disabled="" class="form-control input_style input_dis" value="<?= $YN[$model->require_account_transfer] ?>" id="usr"></div>
-
+                                <?= $form->field($model, 'require_account_transfer', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style', 'style' => '', 'onChange' => 'toggleAT(this)']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Order Sub & A.T. Sub Difference:</div>
-                                <div class="col-xs-6"><input type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_AT)) ? subDiff($model->submitted, $model->submitted_to_AT) : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input id="at_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_AT)) ? subDiff($model->submitted, $model->submitted_to_AT) : '-' ?>" id="usr"></div>
 
                             </div>                        
                         </div>
@@ -363,7 +363,7 @@ function subDiff($d1, $d2, $date = FALSE) {
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Sale Number:</div>
 <!--                                <div class="col-xs-6"><input type="text" class="form-control input_style" id="usr"></div>-->
-                                <?= $form->field($model, 'sale_no', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style ', 'style' => ''], 'enableAjaxValidation' => true])->textInput() ?>
+                                <?= $form->field($model, 'so_no', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style ', 'style' => ''], 'enableAjaxValidation' => true])->textInput() ?>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Submitted to L. D.:</div>

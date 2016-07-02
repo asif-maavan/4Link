@@ -66,7 +66,7 @@ class Sales extends ActiveRecord {
             'LD_indicator', // logistics delivery  
             'require_logistic_dep',
             'LD_state',
-            'sale_no',
+            'so_no',
             'submitted_to_LD',
             'LD_response',
             'LD_comments',
@@ -93,7 +93,7 @@ class Sales extends ActiveRecord {
     public function rules() {
         return [
             [['uid', 'index_no', 'sale_executive',
-            'customer_type', 'order_type', 'customer_acc_no', 'customer_name', 'require_finance', 'sale_no', 'team_leader', 'account_type', 'submitted','documents',
+            'customer_type', 'order_type', 'customer_acc_no', 'customer_name', 'require_finance', 'so_no', 'team_leader', 'account_type', 'submitted','documents',
             'plan', //plane
             'plan_group', 'plan_type', 'QTY', 'MRC', 'contract_period', 'contract_renewal_date', 'pipe_line', 'siebel_activity_no', 'four_link_points',
             'f_indicator', // finance
@@ -101,7 +101,7 @@ class Sales extends ActiveRecord {
             'AT_indicator', // account transfer
             'require_account_transfer', 'order_sub_AT_sub_difference', 'submitted_to_AT', 'AT_response', 'AT_state', 'AT_comments',
             'LD_indicator', // logistics delivery  
-            'require_logistic_dep', 'LD_state', 'sale_no', 'submitted_to_LD', 'LD_response', 'LD_comments', 'RG_indicator', 'require_resolver_group',
+            'require_logistic_dep', 'LD_state', 'so_no', 'submitted_to_LD', 'LD_response', 'LD_comments', 'RG_indicator', 'require_resolver_group',
             'submitted_to_RG', 'RG_response', 'RG_state', 'RG_comments',
             'order_state', // order state
             'date_of_order_state', 'estimated_activation_date', 'est_submission_difference', 'est_actual_difference', 'total_MRC_per_order',

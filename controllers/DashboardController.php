@@ -51,8 +51,12 @@ class DashboardController extends Controller {
         $whereParams = $indexS = $nameS = $sort = '';
 
         if (Yii::$app->request->get('from')) {
-            $date1 = \DateTime::createFromFormat('d/m/Y', Yii::$app->request->get('from'))->format('Y-m-d h:i:s');            //exit();
+            $date1 = \DateTime::createFromFormat('d/m/Y', Yii::$app->request->get('from'))->format('Y-m-d 00:00:00');            //exit();
             $date1 = new \MongoDate(strtotime($date1));
+            $date2 = new \MongoDate(strtotime(date("Y-m-d 00:00:00")));
+            $whereParams = ['between', 'created', $date1, $date2];
+        } else {
+            $date1 = new \MongoDate(strtotime(date("Y-m-01 00:00:00")));
             $date2 = new \MongoDate(strtotime(date("Y-m-d 00:00:00")));
             $whereParams = ['between', 'created', $date1, $date2];
         }
@@ -63,17 +67,17 @@ class DashboardController extends Controller {
                 $whereParams['team_leader._id'] = Yii::$app->request->get('manager');
         }
         if (Yii::$app->request->get('sale')) {
-            $whereParams['sale_no'] = Yii::$app->request->get('sale');
+            $whereParams['so_no'] = Yii::$app->request->get('sale');
         }
-        
+
         if (Yii::$app->request->get('sort')) {
             $sort = Yii::$app->request->get('sort');
         }
 
         $count = GlobalFunction::getCount(['className' => $className, 'whereParams' => $whereParams, 'nameS' => $nameS]);
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
-        $data = GlobalFunction::getListing(['className' => $className, 'pagination' => '', 'whereParams' => $whereParams, 'nameS' => $nameS, 'sort' => $sort, 'selectParams' => ['_id', 'sale_executive', 'submitted_to_AT', 'order_state', 'total_MRC_per_order', 'total_FLP_per_order']]);
-        $data2 = GlobalFunction::getListing(['className' => $className, 'pagination' => $pagination, 'whereParams' => $whereParams, 'nameS' => $nameS, 'sort' => $sort, 'selectParams' => ['_id', 'sale_no', 'created', 'submitted_to_AT', 'order_state']]);
+        $list = $data = GlobalFunction::getListing(['className' => $className, 'pagination' => '', 'whereParams' => $whereParams, 'nameS' => $nameS, 'sort' => $sort, 'selectParams' => ['_id', 'sale_executive', 'submitted_to_AT', 'order_state', 'total_MRC_per_order', 'total_FLP_per_order']]);
+        $data2 = GlobalFunction::getListing(['className' => $className, 'pagination' => $pagination, 'whereParams' => $whereParams, 'nameS' => $nameS, 'sort' => $sort, 'selectParams' => ['_id', 'so_no', 'created', 'submitted_to_AT', 'order_state', 'QTY', 'four_link_points']]);
 
         $graphData = [];
         array_push($graphData, ['Sales Executive', 'Total MRC', 'Total FLP']);
@@ -82,7 +86,7 @@ class DashboardController extends Controller {
         foreach ($data as $value) {
             $count = $mrc = $flp = 0;
             if (!isset($executives[$value->sale_executive['_id']])) {
-                foreach ($data as $sale) {
+                foreach ($list as $sale) {
                     if ($value->sale_executive['_id'] == $sale->sale_executive['_id']) {
                         $mrc+= $sale->total_MRC_per_order;
                         $flp+= $sale->total_FLP_per_order;
@@ -96,7 +100,7 @@ class DashboardController extends Controller {
 
         return $this->render('index', [
                     'data' => $data,
-                    'dataList' => $data2, 
+                    'dataList' => $data2,
                     'pagination' => $pagination,
                     'teamLeadList' => GlobalFunction::getTeamLeadList(),
                     'graphData' => $graphData,
