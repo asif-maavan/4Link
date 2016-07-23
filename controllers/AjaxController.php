@@ -18,7 +18,7 @@ class AjaxController extends AppController {
             $id = Yii::$app->request->post('id');
             $executive = \app\common\models\User::findOne($id);
             if ($executive) {
-                exit(json_encode(['msgType' => 'SUC', 'phone' => $executive->phone, 'agent'=>['report_to'=> $executive->report_to['name']]]));
+                exit(json_encode(['msgType' => 'SUC', 'phone' => $executive->phone, 'agent' => ['report_to' => $executive->report_to['name']]]));
             }
         }
     }
@@ -46,6 +46,59 @@ class AjaxController extends AppController {
                     'contract_period' => $plan->contract_period,
                     'fourlink_points' => $plan->fourlink_points];
                 exit(json_encode(['msgType' => 'SUC', 'plan' => $arr]));
+            }
+        }
+    }
+
+    public function actionSalesSubmitTo() {
+        if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
+            $id = Yii::$app->request->post('id');
+            $submitTo = Yii::$app->request->post('submitTo');
+            $sale = \app\common\models\Sales::findOne($id);
+            if ($sale) {
+                if ($submitTo == 'finance') {
+                    $sale->submitted_to_finance = new \MongoDate ();
+                    $sale->order_state = 'Submitted to FIN';
+                } elseif ($submitTo == 'AT') {
+                    $sale->submitted_to_AT = new \MongoDate ();
+                    $sale->order_state = 'Submitted to AT';
+                } elseif ($submitTo == 'LD') {
+                    $sale->submitted_to_LD = new \MongoDate ();
+                } elseif ($submitTo == 'RG') {
+                    $sale->submitted_to_RG = new \MongoDate ();
+                }
+
+                $result = $sale->save();
+                if ($result)
+                    exit(json_encode(['msgType' => 'SUC', 'result' => $result, 'status'=> $sale->order_state]));
+                else {
+                    exit(json_encode(['msgType' => 'ERR', 'result' => $sale->errors]));
+                }
+            }
+        }
+    }
+
+    public function actionSalesSoAssigned() {
+        if (Yii::$app->request->isAjax && Yii::$app->request->post()) {
+            $id = Yii::$app->request->post('id');
+            $SO = Yii::$app->request->post('so');
+            $sale = \app\common\models\Sales::findOne($id);
+            if ($sale) {
+                $status = '';
+                $sale->so_no = $SO;
+                if (!empty($sale->so_no)) {
+                    $sale->date_so_assigned = new \MongoDate ();
+                    $status = $sale->order_state = 'SO Assigned';
+                } else {
+                    $sale->date_so_assigned = NULL;
+                }
+
+                $result = $sale->save();
+                if ($result) {
+                    exit(json_encode(['msgType' => 'SUC', 'result' => $result, 'status' => $status]));
+                } else {
+                    exit(json_encode(['msgType' => 'ERR', 'result' => $sale->errors]));
+                }
             }
         }
     }

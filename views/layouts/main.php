@@ -47,7 +47,7 @@ $baseUrl = Yii::$app->request->baseUrl;
                     <div class="col-md-5 margin_fix">
                         <!-- Logo -->
                         <div class="logo margin_fix">
-                            <a href="index.html"><img src="<?= $baseUrl ?>/images/logo.png" width="139" height="47" alt=""/></a>
+                            <a href="<?= Url::toRoute(['/dashboard']); ?>"><img src="<?= $baseUrl ?>/images/logo.png" width="139" height="47" alt=""/></a>
                         </div>
                     </div>
                     <div class="col-md-4 hdr_user_info">
@@ -83,7 +83,7 @@ $baseUrl = Yii::$app->request->baseUrl;
             <div class="container">
 
                 <div class="copy text-center">
-                    Copyright <?php echo date("Y"); ?> <a href='#'>Website</a>
+                    Copyright <?php echo date("Y"); ?> <a href='#'>4link</a>
                 </div>
 
             </div>

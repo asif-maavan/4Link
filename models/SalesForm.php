@@ -82,11 +82,11 @@ class SalesForm extends Model {
         return [
             [['index_no', 'sale_executive', 'customer_type', 'order_type', 'customer_acc_no', 'customer_name', 'plan'], 'required', 'on' => ['create', 'update']],
             [['_id', 'uid', 'submitted_to_AT', 'order_state', 'created', 'siebel_activity_no', 'require_finance', 'require_account_transfer', 'so_no'], 'safe'],
-            [['sale_executive', 'order_type', 'customer_name', 'plan', 'QTY', 'siebel_activity_no', 'submitted', 'so_no'], 'required', 'on' => 'detail'],
-            [['index_no', 'plan_group', 'plan_type', 'team_leader', 'customer_type', 'customer_acc_no', 'account_type', 'QTY', 'MRC', 'contract_period', 'four_link_points', 'f_indicator', 'submitted_to_finance', 'f_response', 'f_state', 'f_comments', 'AT_indicator', 'AT_response', 'AT_state', 'AT_comments', 'LD_indicator', 'LD_state', 'submitted_to_LD', 'LD_response', 'LD_comments', 'RG_indicator', 'submitted_to_RG', 'RG_response', 'RG_state', 'RG_comments', 'require_logistic_dep', 'require_resolver_group', 'date_of_order_state', 'estimated_activation_date', 'est_submission_difference', 'est_actual_difference', 'total_MRC_per_order', 'total_FLP_per_order'], 'safe', 'on' => 'detail'],
+            [['sale_executive', 'order_type', 'customer_name', 'plan', 'QTY', 'siebel_activity_no', 'submitted'], 'required', 'on' => 'detail'],
+            [['index_no', 'plan_group', 'plan_type', 'team_leader', 'customer_type', 'customer_acc_no', 'account_type', 'QTY', 'MRC', 'contract_period', 'four_link_points', 'f_indicator', 'submitted_to_finance', 'f_response', 'f_state', 'f_comments', 'AT_indicator', 'AT_response', 'AT_state', 'AT_comments', 'LD_indicator', 'LD_state', 'submitted_to_LD', 'LD_response', 'LD_comments', 'RG_indicator', 'submitted_to_RG', 'RG_response', 'RG_state', 'RG_comments', 'require_logistic_dep', 'require_resolver_group', 'date_of_order_state', 'estimated_activation_date', 'est_submission_difference', 'est_actual_difference', 'total_MRC_per_order', 'total_FLP_per_order', 'so_no'], 'safe', 'on' => 'detail'],
             ['QTY', 'number', 'on' => 'detail'],
             ['index_no', 'validateIndex'], //, 'on' => ['create', 'update']
-            //['so_no', 'validateSaleNo'],
+                //['so_no', 'validateSaleNo'],
         ];
     }
 
@@ -107,7 +107,6 @@ class SalesForm extends Model {
 //            $this->addError($attribute, 'This Sale No is already taken');
 //        }
 //    }
-
     // create & update
     public function createOrUpdate($params) {
         if (isset($this->_id)) {
@@ -133,16 +132,29 @@ class SalesForm extends Model {
                 $sale->uid = $tmpStr;
             }
             $params['customer_name'] = '' . $this->customer_name;
-            
-            $sale->attributes = $params; //$this->attributes;
+
+            $orderStateDate = $sale->date_of_order_state;
+            $arcDate = $sale->date_ARC;
+            $verifiedDate = $sale->submitted;
             if (isset($params['order_state']) && $sale->order_state != $params['order_state']) {
-                $this->date_of_order_state = $sale->date_of_order_state = date("Y-m-d H:i:s");
-            }
-            if ($this->scenario == 'create' && !$this->order_state) {
-                $sale->order_state = 'Created';
-                $sale->date_of_order_state = date("Y-m-d H:i:s");
+                $orderStateDate = date("Y-m-d H:i:s");
+                if ($params['order_state'] == 'Activated' || $params['order_state'] == 'Rejected' || $params['order_state'] == 'Cancelled') {
+                    $arcDate = new \MongoDate ();
+                }
             }
 
+            $isRequireFIN = $sale->require_finance;
+            $isRequireAT = $sale->require_account_transfer;
+            $fState = $sale->f_state;
+            $atState = $sale->AT_state;
+
+            $sale->attributes = $params; //$this->attributes;
+            if ($this->scenario == 'create' && !$this->order_state) {
+                $sale->order_state = 'Created';
+                $orderStateDate = date("Y-m-d H:i:s");
+            }
+
+            $sale->date_of_order_state = $orderStateDate;
             $executive = \app\common\models\User::findOne($sale->sale_executive);
             $plan = \app\common\models\Plans::findOne($sale->plan);
             $sale->sale_executive = ['_id' => $sale->sale_executive, 'name' => \app\components\GlobalFunction::getAgentList()[$sale->sale_executive]];
@@ -155,6 +167,38 @@ class SalesForm extends Model {
             $sale->MRC = $plan->mrc;
             $sale->contract_period = $plan->contract_period;
             $sale->four_link_points = $plan->fourlink_points;
+            $sale->date_ARC = $arcDate;
+            if (!empty($verifiedDate) && $sale->submitted != $verifiedDate) {
+                $sale->order_state = 'Verified';
+            }
+            if ($sale->require_finance != $isRequireFIN) {
+                $sale->date_require_fin = !empty($sale->require_finance) ? new \MongoDate () : NULL;
+            }
+            if ($sale->require_account_transfer != $isRequireAT) {
+                $sale->date_require_at = !empty($sale->require_account_transfer) ? new \MongoDate () : NULL;
+            }
+            if ($sale->f_state != $fState) {
+                $sale->date_fin_approved = !empty($sale->f_state) ? new \MongoDate () : NULL;
+                $sale->order_state = ($sale->f_state == 'Activated') ? 'FIN Approved' : $sale->order_state;
+            }
+            if ($sale->AT_state != $atState) {
+                $sale->date_at_approved = !empty($sale->AT_state) ? new \MongoDate () : NULL;
+                $sale->order_state = ($sale->AT_state == 'Activated') ? 'AT Approved' : $sale->order_state;
+            }
+
+            if ($this->require_finance != '1') {
+                $sale->f_indicator = $this->f_indicator = '-';
+                $sale->f_state = $this->f_state = '';
+                $sale->submitted_to_finance = $this->submitted_to_finance = '';
+                $sale->f_response = $this->f_response = '-';
+            }
+            if ($this->require_account_transfer != '1') {
+                $sale->AT_indicator = $this->AT_indicator = '-';
+                $sale->AT_state = $this->AT_state = '';
+                $sale->submitted_to_AT = $this->submitted_to_AT = '';
+                $sale->AT_response = $this->AT_response = '-';
+            }
+
             if ($this->scenario == 'detail') {
                 if ($this->require_logistic_dep != '1') {
                     $sale->LD_indicator = $this->LD_indicator = '-';

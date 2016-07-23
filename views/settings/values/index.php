@@ -225,6 +225,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
             <div class="row accounttable">
                 <p>Sale Estimation</p>
                 <div class="account-contents">
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,, Verified -->
                     <div class="rec-row">
                         <?php
                         foreach ($VData as $key => $value) {
@@ -234,9 +235,9 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
                             $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
                                         'fieldConfig' => ['template' => "{input}{error}"],
-                                        'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        //'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
                                         'options' => ['id' => 'F-form', 'class' => 'clearfix ordtype']]);
-                            $valuesModel->value = (isset($VData['est_finance']->value)) ? $VData['est_finance']->value : '';
+                            $valuesModel->value = (isset($VData['Verified']->value)) ? $VData['Verified']->value : '';
                             ?>
                             <div class="rec-btns">
                                 <span>
@@ -245,23 +246,23 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
                                 </span>
                             </div>
-                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'est_finance']])->textInput() ?>
-                            <div class="rec-email" style="width:21%"><span id="type_name">Est. of Finance</span></div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'Verified']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">Verified</span></div>
                             <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
                             <?php
                             ActiveForm::end();
                         }
                         ?>
                     </div>
-                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,Account Transfer-->
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,Submitted to FIN -->
                     <div class="rec-row">
                         <?php
                         if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
                             $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
                                         'fieldConfig' => ['template' => "{input}{error}"],
-                                        'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        //'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
                                         'options' => ['id' => 'AT-form', 'class' => 'clearfix ordtype']]);
-                            $valuesModel->value = (isset($VData['est_AT']->value)) ? $VData['est_AT']->value : '';
+                            $valuesModel->value = (isset($VData['Submitted to FIN']->value)) ? $VData['Submitted to FIN']->value : '';
                             ?>
                             <div class="rec-btns">
                                 <span>
@@ -270,23 +271,23 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
                                 </span>
                             </div>
-                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'est_AT']])->textInput() ?>
-                            <div class="rec-email" style="width:21%"><span id="type_name">Est. of Account Transfer</span></div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'Submitted to FIN']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">Submitted to FIN</span></div>
                             <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
                             <?php
                             ActiveForm::end();
                         }
                         ?>
                     </div>
-                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,Logistics/Delivery-->
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,, FIN Approved -->
                     <div class="rec-row">
                         <?php
                         if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
                             $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
                                         'fieldConfig' => ['template' => "{input}{error}"],
-                                        'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        //'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
                                         'options' => ['id' => 'LD-form', 'class' => 'clearfix ordtype']]);
-                            $valuesModel->value = (isset($VData['est_LD']->value)) ? $VData['est_LD']->value : '';
+                            $valuesModel->value = (isset($VData['FIN Approved']->value)) ? $VData['FIN Approved']->value : '';
                             ?>
                             <div class="rec-btns">
                                 <span>
@@ -295,23 +296,23 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
                                 </span>
                             </div>
-                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'est_LD']])->textInput() ?>
-                            <div class="rec-email" style="width:21%"><span id="type_name">Est. of Logistics/Delivery</span></div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'FIN Approved']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">FIN Approved</span></div>
                             <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
                             <?php
                             ActiveForm::end();
                         }
                         ?>
                     </div>
-                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,Resolver Group-->
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,Submitted to AT-->
                     <div class="rec-row">
                         <?php
                         if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
                             $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
                                         'fieldConfig' => ['template' => "{input}{error}"],
-                                        'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        //'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
                                         'options' => ['id' => 'RG-form', 'class' => 'clearfix ordtype']]);
-                            $valuesModel->value = (isset($VData['est_RG']->value)) ? $VData['est_RG']->value : '';
+                            $valuesModel->value = (isset($VData['Submitted to AT']->value)) ? $VData['Submitted to AT']->value : '';
                             ?>
                             <div class="rec-btns">
                                 <span>
@@ -320,8 +321,83 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
                                 </span>
                             </div>
-                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'est_RG']])->textInput() ?>
-                            <div class="rec-email" style="width:21%"><span id="type_name">Est. of Resolver Group</span></div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'Submitted to AT']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">Submitted to AT</span></div>
+                            <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'width:25%;margin-left: 5%;'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
+                            <?php
+                            ActiveForm::end();
+                        }
+                        ?>
+                    </div>
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,AT Approved-->
+                    <div class="rec-row">
+                        <?php
+                        if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
+                            $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
+                                        'fieldConfig' => ['template' => "{input}{error}"],
+                                        //'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        'options' => ['id' => 'AT-Approved-form', 'class' => 'clearfix ordtype']]);
+                            $valuesModel->value = (isset($VData['AT Approved']->value)) ? $VData['AT Approved']->value : '';
+                            ?>
+                            <div class="rec-btns">
+                                <span>
+                                    <a href="#"><img src="<?= $baseUrl ?>images/spacer.png" alt=""></a> 
+                                    <!--<a href="#" class="margin_l15"><img src="<?= $baseUrl ?>images/save_icon2.png" alt=""></a>-->
+                                    <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
+                                </span>
+                            </div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'AT Approved']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">AT Approved</span></div>
+                            <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'width:25%;margin-left: 5%;'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
+                            <?php
+                            ActiveForm::end();
+                        }
+                        ?>
+                    </div>
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,,SO Assigned-->
+                    <div class="rec-row">
+                        <?php
+                        if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
+                            $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
+                                        'fieldConfig' => ['template' => "{input}{error}"],
+                                        //'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        'options' => ['id' => 'SO-form', 'class' => 'clearfix ordtype']]);
+                            $valuesModel->value = (isset($VData['SO Assigned']->value)) ? $VData['SO Assigned']->value : '';
+                            ?>
+                            <div class="rec-btns">
+                                <span>
+                                    <a href="#"><img src="<?= $baseUrl ?>images/spacer.png" alt=""></a> 
+                                    <!--<a href="#" class="margin_l15"><img src="<?= $baseUrl ?>images/save_icon2.png" alt=""></a>-->
+                                    <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
+                                </span>
+                            </div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'SO Assigned']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">SO Assigned</span></div>
+                            <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'width:25%;margin-left: 5%;'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
+                            <?php
+                            ActiveForm::end();
+                        }
+                        ?>
+                    </div>
+                    <!--..,,,,,,,,,,,,,,,,,,,,,,,,,,, ARC -->
+                    <div class="rec-row">
+                        <?php
+                        if (Yii::$app->user->identity->user_role == User::ROLE_ADMIN) {
+                            $form = ActiveForm::begin(['action' => Yii::$app->urlManager->createUrl("settings/values/value"),
+                                        'fieldConfig' => ['template' => "{input}{error}"],
+                                        //'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        'options' => ['id' => 'ARC-form', 'class' => 'clearfix ordtype']]);
+                            $valuesModel->value = (isset($VData['ARC']->value)) ? $VData['ARC']->value : '';
+                            ?>
+                            <div class="rec-btns">
+                                <span>
+                                    <a href="#"><img src="<?= $baseUrl ?>images/spacer.png" alt=""></a> 
+                                    <!--<a href="#" class="margin_l15"><img src="<?= $baseUrl ?>images/save_icon2.png" alt=""></a>-->
+                                    <?= Html::submitButton('', ['class' => 'margin_l15', 'style' => 'background: url(' . $baseUrl . 'images/save_icon2.png) no-repeat center center; width:42%; height:23px;border:0']) ?>
+                                </span>
+                            </div>
+                            <?= $form->field($valuesModel, 'name', ['options' => ['class' => 'rec-email hidden', 'style' => 'margin-left: 5%;width:25%'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'value' => 'ARC']])->textInput() ?>
+                            <div class="rec-email" style="width:21%"><span id="type_name">Activated/Rejected/Cancelled</span></div>
                             <?= $form->field($valuesModel, 'value', ['options' => ['class' => 'rec-email', 'style' => 'width:25%;margin-left: 5%;'], 'inputOptions' => ['class' => 'form-control', 'placeholder' => "Days", 'type' => "number", 'min' => "0"]])->textInput() ?>
                             <?php
                             ActiveForm::end();

@@ -13,6 +13,38 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerJsFile('https://www.gstatic.com/charts/loader.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile('@web/js/dashboard.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $baseUrl = Yii::$app->request->baseUrl . '/';
+
+function getBarStats($model) {
+    $verified = (!empty($model->created) && !empty($model->submitted)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->created->sec), $model->submitted) : 0;
+    $finSubmitted = (!empty($model->date_require_fin) && !empty($model->submitted_to_finance)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_require_fin->sec), date('d/m/Y', $model->submitted_to_finance->sec)) : 0;
+    $finApproved = (!empty($model->submitted_to_finance) && !empty($model->date_fin_approved)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->submitted_to_finance->sec), date('d/m/Y', $model->date_fin_approved->sec)) : 0;
+    $atSubmitted = (!empty($model->date_require_at) && !empty($model->submitted_to_AT)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_require_at->sec), date('d/m/Y', $model->submitted_to_AT->sec)) : 0;
+    $atApproved = (!empty($model->submitted_to_AT) && !empty($model->date_at_approved)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->submitted_to_AT->sec), date('d/m/Y', $model->date_at_approved->sec)) : 0;
+    $soAssigned = 0;
+    if (!empty($model->date_so_assigned)) {
+        if (!empty($model->date_at_approved)) {
+            $soAssigned = \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_at_approved->sec), date('d/m/Y', $model->date_so_assigned->sec));
+        } elseif (!empty($model->date_fin_approved)) {
+            $soAssigned = \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_fin_approved->sec), date('d/m/Y', $model->date_so_assigned->sec));
+        } elseif (!empty($model->submitted)) {
+            $soAssigned = \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->submitted), date('d/m/Y', $model->date_so_assigned->sec));
+        }
+    }
+    $arc = (!empty($model->date_ARC) && !empty($model->date_so_assigned)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_so_assigned->sec), date('d/m/Y', $model->date_ARC->sec)) : 0;
+
+    $stats = [1 => $verified, 2 => $finSubmitted, 3 => $finApproved, 4 => $atSubmitted, 5 => $atApproved, 6 => $soAssigned, 7 => $arc, 'total' => ($verified + $finSubmitted + $finApproved + $atSubmitted + $atApproved + $soAssigned + $arc)];
+    return $stats;
+}
+
+function getMaxDays($data) {
+    $max = 0;
+    foreach ($data as $d) {
+        $stats = getBarStats($d);
+        if ($max < $stats['total'])
+            $max = $stats['total'];
+    }
+    return $max;
+}
 ?>
 <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>-->
 <script>
@@ -28,6 +60,24 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
     }
     .responsive_table_th img {
         padding-left: 0px !important; 
+    }
+    .bar{background-color: #d7f2ff;
+         height: 19px;
+         width: 100%;
+         border: 2px solid;
+         border-color: #c5c5c5;}
+    .bar-head{
+        width: 100%;
+        color: #a6a6a6;
+        font-size: smaller;
+        margin: 0;
+    }
+    .bar-base{
+        width: 100%;
+        margin-bottom: 0;
+        font-size: small;
+        font-weight: 500;
+        color: #222222;
     }
 </style>
 
@@ -90,7 +140,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             SO Number:
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-sm-9 col-xs-7"><input type="text" name="sale" class="form-control input_style" id="usr"></div>                 	
+                    <div class="col-lg-3 col-md-4 col-sm-9 col-xs-7"><input type="text" name="sale" value="<?= !empty(Yii::$app->request->get('sale')) ? Yii::$app->request->get('sale') : '' ?>" class="form-control input_style" id="usr"></div>                 	
                 </div>
                 <button type="submit" class="btn-search hidden">Search</button>
                 <!--</form>-->
@@ -106,15 +156,17 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                         <th class="responsive_table_th">Current State <a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'order_state') ? 'order_state' : '-order_state' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-order_state' || Yii::$app->request->get('sort') != 'order_state') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></th>
                                         <th class="responsive_table_th">
                                             <div class="text-left">State Durations</div>
-                                            <div class="th-desc">(1="Created", 2="Verified", 3="Finance Approval", 4="Finance Approved", 5="Account Transfer Approved", 6="Out for Delivery Activated/Rejected/Cancelled")</div>
+                                            <div class="th-desc">(1="Verified", 2="Submitted to FIN", 3="FIN Approved", 4="Submitted to AT", 5="AT Approved", 6="SO Assigned", 7="Activated/Rejected/Cancelled")</div>
                                         </th>
                                         <th class="responsive_table_th brn">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody class="responsive_table_tbody">
                                     <?php
+                                    $max = getMaxDays($dataList);
                                     if (count($dataList) > 0) {
                                         foreach ($dataList as $d) {
+                                            $stats = getBarStats($d);
                                             ?>
                                             <tr class="responsive_table_tr">
                                                 <td class="responsive_table_td">
@@ -135,11 +187,57 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                                 </td>
                                                 <td class="responsive_table_td">
                                                     <div class="responsive_table_title_column">Metro UI</div>
-                                                    <div class="responsive_table_value"><img src="<?= $baseUrl ?>images/b1.png" /></div>
+                                                    <!--<div class="responsive_table_value"><img src="<?= $baseUrl ?>images/b1.png" /></div>-->
+                                                    <div class="responsive_table_value">
+                                                        <div style="width:91%;height:auto;margin:auto;background-color: #d7ffff;">
+                                                            <div style="width:auto;height:auto;margin:auto;">
+                                                                <?php
+                                                                $first = $last = '';
+                                                                $count = 0;
+                                                                foreach ($stats as $key => $value) {
+                                                                    if ($value > 0 && $key != 'total') {
+                                                                        $last = $key;
+                                                                        $count++;
+                                                                        if ($count == 1) {
+                                                                            $first = $key;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                foreach ($stats as $key => $value) {
+                                                                    if ($value > 0 && $key != 'total') {
+                                                                        //echo $first . '-' . $last;
+                                                                        $late = ($estValues[$key] < $value) ? TRUE : FALSE;
+                                                                        $bRadius = ($key == 1) ? 'border-top-left-radius: 10px;border-bottom-left-radius: 10px;' : '';
+                                                                        $bRadius = ($key == $last) ? $bRadius . 'border-top-right-radius: 10px;border-bottom-right-radius: 10px;' : $bRadius;
+                                                                        if ($key == $first && $key == $last)
+                                                                            $border = '';
+                                                                        elseif ($key == $first)
+                                                                            $border = 'border-right-width: 1px;';
+                                                                        elseif ($key == $last) {
+                                                                            $border = 'border-left-width: 1px;';
+                                                                        } else
+                                                                            $border = 'border-left-width: 1px;border-right-width: 1px;';
+
+                                                                        $borderColor = ($late) ? 'border-color: #ff0000;' : 'border-color: #c5c5c5;';
+                                                                        $color = ($late) ? 'background-color: #ffbcbc;' : 'background-color: #d7f2ff;';
+                                                                        $with = (($value / ($max)) * (100));
+                                                                        ?>
+                                                                        <div style="width:<?= $with . '%' ?>;float: left; margin:auto;">
+                                                                            <p class="text-center bar-head" style=""><?= $key ?></p>
+                                                                            <div class="bar" style="background-color: #d7f2ff;<?= $bRadius . $border . $borderColor . $color ?>" ></div>
+                                                                            <p class="text-center bar-base" style=""><?= $value ?></p>
+                                                                        </div>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td class="responsive_table_td brn">
                                                     <div class="responsive_table_title_column">Kube</div>
-                                                    <div class="responsive_table_value"><span>15d</span></div>
+                                                    <div class="responsive_table_value"><span><?= $stats['total'] . 'd' ?></span></div>
                                                 </td>
                                             </tr>
 
@@ -148,7 +246,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     }
                                     ?>
 
-                                    <tr class="responsive_table_tr">
+<!--                                    <tr class="responsive_table_tr">
                                         <td class="responsive_table_td">
                                             <div class="responsive_table_title_column">Framework</div>
                                             <div class="responsive_table_value">42</div>
@@ -258,7 +356,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                             <div class="responsive_table_title_column">Kube</div>
                                             <div class="responsive_table_value"><span>15d</span></div>
                                         </td>
-                                    </tr>
+                                    </tr>-->
 
                                 </tbody>
                             </table>

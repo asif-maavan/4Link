@@ -8,16 +8,16 @@ use app\common\models\User;
 
 class GlobalFunction {
 
-    function subDiff($d1, $d2, $date = FALSE) {
+    public static function dateDiff($d1, $d2, $date = FALSE) {
         $d1 = str_replace('/', '-', $d1);
         $d2 = str_replace('/', '-', $d2);
-        $date1 = new DateTime($d1);
-        $date2 = new DateTime($d2);
+        $date1 = new \DateTime($d1);
+        $date2 = new \DateTime($d2);
         $diff = date_diff($date1, $date2);
         if ($date) {
             return $diff;
         }
-        return $diff->format("%R%a");
+        return $diff->format("%a");
     }
 
     public static function getUserRoles() {
@@ -138,12 +138,12 @@ class GlobalFunction {
     }
 
     public static function getOrderStateList() {
-        return['Created' => 'Created',
-            'Verified' => 'Verified',
-            'Finance Approval' => 'Finance Approval',
-            'Finance Approved' => 'Finance Approved',
-            'Account Transfer Approved' => 'Account Transfer Approved',
-            'Out for Delivery' => 'Out for Delivery',
+        return['Verified' => 'Verified',
+            'Submitted to FIN' => 'Submitted to FIN',
+            'FIN Approved' => 'FIN Approved',
+            'Submitted to AT' => 'Submitted to AT',
+            'AT Approved' => 'AT Approved',
+            'SO Assigned' => 'SO Assigned',
             'Activated' => 'Activated',
             'Rejected' => 'Rejected',
             'Cancelled' => 'Cancelled'];

@@ -145,8 +145,8 @@ function getPlan() {
                     $('#mrc').val(data.plan.mrc);
                     $('#contract_period').val(data.plan.contract_period);
                     $('#fourlink_points').val(data.plan.fourlink_points);
-                    if($('#salesform-qty').val()){
-                        
+                    if ($('#salesform-qty').val()) {
+
                     }
                 }
 
@@ -167,15 +167,15 @@ function toggleFIN(target) {
         $('#salesform-f_indicator').val('');
         $('#salesform-submitted_to_finance').val('');
         $('#salesform-f_response').val('');
-        
+
         $('#salesform-f_indicator').attr('disabled', false);
         $('#salesform-f_state').attr('disabled', false);
         $('#salesform-submitted_to_finance').attr('disabled', false);
         $('#salesform-f_response').attr('disabled', false);
-        
+
         $('#salesform-f_indicator').removeClass('input_dis');
         $('#salesform-f_state').removeClass('input_dis');
-        $('#salesform-submitted_to_finance').removeClass('input_dis');
+        //$('#salesform-submitted_to_finance').removeClass('input_dis');
         $('#salesform-f_response').removeClass('input_dis');
 
     } else {
@@ -183,16 +183,16 @@ function toggleFIN(target) {
         $('#salesform-f_state').attr('disabled', true);
         $('#salesform-submitted_to_finance').attr('disabled', true);
         $('#salesform-f_response').attr('disabled', true);
-        
+
         $('#salesform-f_indicator').val('-');
         $('#salesform-f_state').val('');
-        $('#salesform-submitted_to_finance').val('-');
+        //$('#salesform-submitted_to_finance').val('-');
         $('#salesform-f_response').val('-');
         $('#f_difference').val('-');
-        
+
         $('#salesform-f_indicator').addClass('input_dis');
         $('#salesform-f_state').addClass('input_dis');
-        $('#salesform-submitted_to_finance').addClass('input_dis');
+        //$('#salesform-submitted_to_finance').addClass('input_dis');
         $('#salesform-f_response').addClass('input_dis');
     }
 }
@@ -203,12 +203,12 @@ function toggleAT(target) {
         $('#salesform-at_indicator').val('');
         $('#salesform-submitted_to_at').val('');
         $('#salesform-at_response').val('');
-        
+
         $('#salesform-at_indicator').attr('disabled', false);
         $('#salesform-at_state').attr('disabled', false);
         $('#salesform-submitted_to_at').attr('disabled', false);
         $('#salesform-at_response').attr('disabled', false);
-        
+
         $('#salesform-at_indicator').removeClass('input_dis');
         $('#salesform-at_state').removeClass('input_dis');
         $('#salesform-submitted_to_at').removeClass('input_dis');
@@ -219,13 +219,13 @@ function toggleAT(target) {
         $('#salesform-at_state').attr('disabled', true);
         $('#salesform-submitted_to_at').attr('disabled', true);
         $('#salesform-at_response').attr('disabled', true);
-        
+
         $('#salesform-at_indicator').val('-');
         $('#salesform-at_state').val('');
         $('#salesform-submitted_to_at').val('-');
         $('#salesform-at_response').val('-');
         $('#at_difference').val('-');
-        
+
         $('#salesform-at_indicator').addClass('input_dis');
         $('#salesform-at_state').addClass('input_dis');
         $('#salesform-submitted_to_at').addClass('input_dis');
@@ -239,12 +239,12 @@ function toggleLD(target) {
         $('#salesform-ld_indicator').val('');
         $('#salesform-submitted_to_ld').val('');
         $('#salesform-ld_response').val('');
-        
+
         $('#salesform-ld_indicator').attr('disabled', false);
         $('#salesform-ld_state').attr('disabled', false);
         $('#salesform-submitted_to_ld').attr('disabled', false);
         $('#salesform-ld_response').attr('disabled', false);
-        
+
         $('#salesform-ld_indicator').removeClass('input_dis');
         $('#salesform-ld_state').removeClass('input_dis');
         $('#salesform-submitted_to_ld').removeClass('input_dis');
@@ -255,13 +255,13 @@ function toggleLD(target) {
         $('#salesform-ld_state').attr('disabled', true);
         $('#salesform-submitted_to_ld').attr('disabled', true);
         $('#salesform-ld_response').attr('disabled', true);
-        
+
         $('#salesform-ld_indicator').val('-');
         $('#salesform-ld_state').val('');
         $('#salesform-submitted_to_ld').val('-');
         $('#salesform-ld_response').val('-');
         $('#LD_difference').val('-');
-        
+
         $('#salesform-ld_indicator').addClass('input_dis');
         $('#salesform-ld_state').addClass('input_dis');
         $('#salesform-submitted_to_ld').addClass('input_dis');
@@ -276,12 +276,12 @@ function toggleRG(target) {
         $('#salesform-submitted_to_rg').val('');
         $('#salesform-rg_response').val('');
         $('#salesform-rg_state').val('');
-        
+
         $('#salesform-rg_indicator').attr('disabled', false);
         $('#salesform-submitted_to_rg').attr('disabled', false);
         $('#salesform-rg_response').attr('disabled', false);
         $('#salesform-rg_state').attr('disabled', false);
-        
+
         $('#salesform-rg_indicator').removeClass('input_dis');
         $('#salesform-submitted_to_rg').removeClass('input_dis');
         $('#salesform-rg_response').removeClass('input_dis');
@@ -292,13 +292,13 @@ function toggleRG(target) {
         $('#salesform-submitted_to_rg').attr('disabled', true);
         $('#salesform-rg_response').attr('disabled', true);
         $('#salesform-rg_state').attr('disabled', true);
-        
+
         $('#salesform-rg_indicator').val('-');
         $('#salesform-submitted_to_rg').val('');
         $('#salesform-rg_response').val('-');
         $('#salesform-rg_state').val('');
         $('#RG_difference').val('-');
-        
+
         $('#salesform-rg_indicator').addClass('input_dis');
         $('#salesform-submitted_to_rg').addClass('input_dis');
         $('#salesform-rg_response').addClass('input_dis');
@@ -317,4 +317,49 @@ function formReset(formId) {
     $('#' + formId + ' :selected').attr('selected', 'selected');
     $('#' + formId + ' :not(:checked)').removeAttr('checked');
     $('#' + formId + ' :not(:selected)').removeAttr('selected');
+}
+
+function submitTo(dep) {
+    eid = event.target.id;
+    if ($('#' + eid).html() != '<b>Submitted</b>') {
+        id = $('#salesform-_id').val();
+        $.ajax({
+            type: "POST",
+            url: baseUrl + "ajax/sales-submit-to",
+            data: {id: id, submitTo: dep},
+            dataType: "json",
+            success: function (data) {
+                if (data.msgType == 'SUC') {
+                    $('#' + eid).attr('disabled', true);
+                    $('#' + eid).unbind('click');
+                    $('#' + eid).html('<b>Submitted</b>');
+                    if (data.status)
+                        $(".ost").val(data.status);
+                    toastr.success('Submitted to ' + dep + ' successfuly');
+                }
+
+            }
+        });
+    } else {
+        return false;
+    }
+}
+
+function soAssigned() {
+    id = $('#salesform-_id').val();
+    so = $('#salesform-so_no').val();
+    $.ajax({
+        type: "POST",
+        url: baseUrl + "ajax/sales-so-assigned",
+        data: {id: id, so: so},
+        dataType: "json",
+        success: function (data) {
+            if (data.msgType == 'SUC') {
+                if (data.status != '')
+                    $(".ost").val(data.status);
+                toastr.success('SO is changed successfuly.');
+            }
+
+        }
+    });
 }

@@ -43,6 +43,10 @@ function subDiff($d1, $d2, $date = FALSE) {
     .datepicker{
         background: #FFF url(../images/calendar.jpg) no-repeat right center;background-position: 96% 50% !important;
     }
+    .submit-date-btn{
+        width: 100%;
+        height: 40px;
+    }
 </style>
 <div class="page-content">
     <div class="row">
@@ -198,7 +202,7 @@ function subDiff($d1, $d2, $date = FALSE) {
 
             <!--............................................................ Finance  -->
             <?php
-            $fDisable = ($model->require_finance == '1') ? FALSE : true;
+            $fDisable = ($model->require_finance == '1') ? FALSE : TRUE;
             $_fDisable = $fDisable ? 'input_dis' : '';
             ?>
             <div class="row" style="background-color:#fff; margin-top:10px;">
@@ -215,19 +219,21 @@ function subDiff($d1, $d2, $date = FALSE) {
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Require Finance:</div>
                                 <?= $form->field($model, 'require_finance', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style', 'style' => '', 'onChange' => 'toggleFIN(this)']])->dropDownList($YN, ['prompt' => 'Select']) ?>
-                                
+
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Order Sub & F. Sub Difference:</div>
-                                <div class="col-xs-6"><input id="f_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_finance)) ? subDiff($model->submitted, $model->submitted_to_finance) : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input id="f_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_finance)) ? subDiff($model->submitted, date('d/m/Y', $model->submitted_to_finance->sec)) : '-' ?>" id="usr"></div>
                             </div>                        
                         </div>
                         <div class="col-xs-6">
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Submitted to Finance:</div>
                                 <!--<div class="col-xs-6"><input type="text" class="form-control input_style" id="usr"></div>-->
-                                <?= $form->field($model, 'submitted_to_finance', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $_fDisable, 'style' => '', 'disabled' => $fDisable]])->textInput() ?>
-                                <input type="button" value="submitted_to_finance">
+                                <?= ''; //$form->field($model, 'submitted_to_finance', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $_fDisable, 'style' => '', 'disabled' => $fDisable]])->textInput() ?>
+                                <div class="col-xs-6">
+                                    <a id="salesform-submitted_to_finance"  href="javascript:;" class="btn btn-primary submit-date-btn" <?= ($fDisable || !empty($model->submitted_to_finance)) ? 'disabled' : '' ?> <?= empty($model->submitted_to_finance) ? 'onclick="submitTo(\'finance\');"' : '' ?> > <?= (!empty($model->submitted_to_finance)) ? '<b>Submitted</b>' : '<b>Submit</b>' ?> </a>
+                                </div>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">F. Response:</div>
@@ -282,7 +288,7 @@ function subDiff($d1, $d2, $date = FALSE) {
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Order Sub & A.T. Sub Difference:</div>
-                                <div class="col-xs-6"><input id="at_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_AT)) ? subDiff($model->submitted, $model->submitted_to_AT) : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input id="at_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_AT)) ? subDiff($model->submitted, date('d/m/Y', $model->submitted_to_AT->sec)) : '-' ?>" id="usr"></div>
 
                             </div>                        
                         </div>
@@ -290,7 +296,10 @@ function subDiff($d1, $d2, $date = FALSE) {
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Submitted to A.T.:</div>
                                 <!--<div class="col-xs-6"><input type="text" class="form-control input_style" id="usr"></div>-->
-                                <?= $form->field($model, 'submitted_to_AT', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fATDisable, 'style' => '', 'disabled' => $ATDisable]])->textInput() ?>
+                                <?= '';//$form->field($model, 'submitted_to_AT', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fATDisable, 'style' => '', 'disabled' => $ATDisable]])->textInput() ?>
+                                <div class="col-xs-6">
+                                    <a id="salesform-submitted_to_at"  href="javascript:;" class="btn btn-primary submit-date-btn" <?= ($ATDisable || !empty($model->submitted_to_AT)) ? 'disabled' : '' ?> <?= empty($model->submitted_to_AT) && !$ATDisable ? 'onclick="submitTo(\'AT\');"' : '' ?> > <?= (!empty($model->submitted_to_AT)) ? '<b>Submitted</b>' : '<b>Submit</b>' ?> </a>
+                                </div>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">A.T. Response:</div>
@@ -346,7 +355,7 @@ function subDiff($d1, $d2, $date = FALSE) {
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Order Sub &amp; L.D. Sub Difference:</div>
-                                <div class="col-xs-6"><input id="LD_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_LD)) ? subDiff($model->submitted, $model->submitted_to_LD) : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input id="LD_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_LD)) ? subDiff($model->submitted, date('d/m/Y', $model->submitted_to_LD->sec)) : '-' ?>" id="usr"></div>
                             </div>   
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2"> State:</div>
@@ -361,14 +370,17 @@ function subDiff($d1, $d2, $date = FALSE) {
                         </div>
                         <div class="col-xs-6">
                             <div class="row custrow"> 
-                                <div class="col-xs-6 custlabel_2">Sale Number:</div>
+                                <div class="col-xs-6 custlabel_2">SO Number:</div>
 <!--                                <div class="col-xs-6"><input type="text" class="form-control input_style" id="usr"></div>-->
-                                <?= $form->field($model, 'so_no', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style ', 'style' => ''], 'enableAjaxValidation' => true])->textInput() ?>
+                                <?= $form->field($model, 'so_no', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style ', 'style' => '', 'onchange'=>"soAssigned();"], 'enableAjaxValidation' => true])->textInput() ?>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Submitted to L. D.:</div>
                                 <!--<div class="col-xs-6"><input type="text" class="form-control input_style" id="usr"></div>-->
-                                <?= $form->field($model, 'submitted_to_LD', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fLDDisable, 'style' => '', 'disabled' => $LDDisable]])->textInput() ?>
+                                <?= '';//$form->field($model, 'submitted_to_LD', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fLDDisable, 'style' => '', 'disabled' => $LDDisable]])->textInput() ?>
+                                <div class="col-xs-6">
+                                    <a id="salesform-submitted_to_ld"  href="javascript:;" class="btn btn-primary submit-date-btn" <?= ($LDDisable || !empty($model->submitted_to_LD)) ? 'disabled' : '' ?> <?= empty($model->submitted_to_LD) && !$LDDisable ? 'onclick="submitTo(\'LD\');"' : '' ?> > <?= (!empty($model->submitted_to_LD)) ? '<b>Submitted</b>' : '<b>Submit</b>' ?> </a>
+                                </div>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">L.D. Response:</div>
@@ -413,13 +425,16 @@ function subDiff($d1, $d2, $date = FALSE) {
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Order Sub &amp; R.G. Sub Difference:</div>
-                                <div class="col-xs-6"><input id="RG_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_RG)) ? subDiff($model->submitted, $model->submitted_to_RG) : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input id="RG_difference" type="text" disabled="" class="form-control input_style input_dis" value="<?= (!empty($model->submitted) && !empty($model->submitted_to_RG)) ? subDiff($model->submitted, date('d/m/Y', $model->submitted_to_RG->sec)) : '-' ?>" id="usr"></div>
                             </div>                        
                         </div>
                         <div class="col-xs-6">
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Submitted to R. G.:</div>
-                                <?= $form->field($model, 'submitted_to_RG', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fRGDisable, 'style' => '', 'disabled' => $RGDisable]])->textInput() ?>
+                                <?= '';//$form->field($model, 'submitted_to_RG', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fRGDisable, 'style' => '', 'disabled' => $RGDisable]])->textInput() ?>
+                                <div class="col-xs-6">
+                                    <a id="salesform-submitted_to_rg"  href="javascript:;" class="btn btn-primary submit-date-btn" <?= ($RGDisable || !empty($model->submitted_to_RG)) ? 'disabled' : '' ?> <?= empty($model->submitted_to_RG) && !$RGDisable ? 'onclick="submitTo(\'RG\');"' : '' ?> > <?= (!empty($model->submitted_to_RG)) ? '<b>Submitted</b>' : '<b>Submit</b>' ?> </a>
+                                </div>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">R.G. Response:</div>

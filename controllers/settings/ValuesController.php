@@ -127,12 +127,12 @@ class ValuesController extends Controller {
 
     // values
     public function actionValue() {
-        if (!Yii::$app->request->isAjax && Yii::$app->request->post()) {
+        if (Yii::$app->request->post()) {
             //$id = Yii::$app->request->post('_id');
             $model = new \app\models\ValuesForm();
             $model->load(Yii::$app->request->post());
             $name = $model->name;
-            if ($name == 'est_finance' || $name == 'est_AT' || $name == 'est_LD' || $name == 'est_RG') {
+            if ($name == 'Verified' || $name == 'Submitted to FIN' || $name == 'FIN Approved' || $name == 'Submitted to AT' || $name == 'AT Approved' || $name == 'SO Assigned'  || $name == 'ARC') {
                 
                 $retData = $model->createOrUpdate();
                 if ($retData['msgType'] == 'ERR') {
@@ -141,6 +141,8 @@ class ValuesController extends Controller {
                     return $this->redirect(Yii::$app->urlManager->createUrl("settings/values#est/"));
                     //exit(json_encode(['msgType' => 'SUC']));
                 }
+            }  else {
+                return $this->redirect(Yii::$app->urlManager->createUrl("settings/values/"));
             }
         }
     }
