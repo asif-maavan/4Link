@@ -296,7 +296,7 @@ function subDiff($d1, $d2, $date = FALSE) {
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Submitted to A.T.:</div>
                                 <!--<div class="col-xs-6"><input type="text" class="form-control input_style" id="usr"></div>-->
-                                <?= '';//$form->field($model, 'submitted_to_AT', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fATDisable, 'style' => '', 'disabled' => $ATDisable]])->textInput() ?>
+                                <?= ''; //$form->field($model, 'submitted_to_AT', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fATDisable, 'style' => '', 'disabled' => $ATDisable]])->textInput() ?>
                                 <div class="col-xs-6">
                                     <a id="salesform-submitted_to_at"  href="javascript:;" class="btn btn-primary submit-date-btn" <?= ($ATDisable || !empty($model->submitted_to_AT)) ? 'disabled' : '' ?> <?= empty($model->submitted_to_AT) && !$ATDisable ? 'onclick="submitTo(\'AT\');"' : '' ?> > <?= (!empty($model->submitted_to_AT)) ? '<b>Submitted</b>' : '<b>Submit</b>' ?> </a>
                                 </div>
@@ -372,12 +372,12 @@ function subDiff($d1, $d2, $date = FALSE) {
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">SO Number:</div>
 <!--                                <div class="col-xs-6"><input type="text" class="form-control input_style" id="usr"></div>-->
-                                <?= $form->field($model, 'so_no', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style ', 'style' => '', 'onchange'=>"soAssigned();"], 'enableAjaxValidation' => true])->textInput() ?>
+                                <?= $form->field($model, 'so_no', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style ', 'style' => '', 'onchange' => "soAssigned();"], 'enableAjaxValidation' => true])->textInput() ?>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Submitted to L. D.:</div>
                                 <!--<div class="col-xs-6"><input type="text" class="form-control input_style" id="usr"></div>-->
-                                <?= '';//$form->field($model, 'submitted_to_LD', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fLDDisable, 'style' => '', 'disabled' => $LDDisable]])->textInput() ?>
+                                <?= ''; //$form->field($model, 'submitted_to_LD', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fLDDisable, 'style' => '', 'disabled' => $LDDisable]])->textInput() ?>
                                 <div class="col-xs-6">
                                     <a id="salesform-submitted_to_ld"  href="javascript:;" class="btn btn-primary submit-date-btn" <?= ($LDDisable || !empty($model->submitted_to_LD)) ? 'disabled' : '' ?> <?= empty($model->submitted_to_LD) && !$LDDisable ? 'onclick="submitTo(\'LD\');"' : '' ?> > <?= (!empty($model->submitted_to_LD)) ? '<b>Submitted</b>' : '<b>Submit</b>' ?> </a>
                                 </div>
@@ -431,7 +431,7 @@ function subDiff($d1, $d2, $date = FALSE) {
                         <div class="col-xs-6">
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Submitted to R. G.:</div>
-                                <?= '';//$form->field($model, 'submitted_to_RG', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fRGDisable, 'style' => '', 'disabled' => $RGDisable]])->textInput() ?>
+                                <?= ''; //$form->field($model, 'submitted_to_RG', ['options' => ['class' => 'col-xs-6'], 'inputOptions' => ['class' => 'form-control input_style datepicker ' . $fRGDisable, 'style' => '', 'disabled' => $RGDisable]])->textInput() ?>
                                 <div class="col-xs-6">
                                     <a id="salesform-submitted_to_rg"  href="javascript:;" class="btn btn-primary submit-date-btn" <?= ($RGDisable || !empty($model->submitted_to_RG)) ? 'disabled' : '' ?> <?= empty($model->submitted_to_RG) && !$RGDisable ? 'onclick="submitTo(\'RG\');"' : '' ?> > <?= (!empty($model->submitted_to_RG)) ? '<b>Submitted</b>' : '<b>Submit</b>' ?> </a>
                                 </div>
@@ -543,18 +543,20 @@ function getEstDate($model, $est) {
         $date = $model->submitted;
         $date = str_replace('/', '-', $date);
         $date = new DateTime($date);
+
+        $date->add(new DateInterval('P' . $est["Verified"] . 'D'));
         if ($model->require_finance == '1') {
-            $date->add(new DateInterval('P' . $est["est_finance"] . 'D'));
+            $date->add(new DateInterval('P' . $est["Submitted to FIN"] . 'D'));
+            $date->add(new DateInterval('P' . $est["FIN Approved"] . 'D'));
         }
         if ($model->require_account_transfer == '1') {
-            $date->add(new DateInterval('P' . $est["est_AT"] . 'D'));
+            $date->add(new DateInterval('P' . $est["Submitted to AT"] . 'D'));
+            $date->add(new DateInterval('P' . $est["AT Approved"] . 'D'));
         }
-        if ($model->require_logistic_dep == '1') {
-            $date->add(new DateInterval('P' . $est["est_LD"] . 'D'));
-        }
-        if ($model->require_resolver_group == '1') {
-            $date->add(new DateInterval('P' . $est["est_RG"] . 'D'));
-        }
+
+        $date->add(new DateInterval('P' . $est["SO Assigned"] . 'D'));
+
+        $date->add(new DateInterval('P' . $est["ARC"] . 'D'));
         return $date;
     }
     return $date;

@@ -18,6 +18,12 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
     .cel-padding{
         word-break: break-word;
     }
+    .submit-date-btn{
+        width: 100%;
+        height: 34px;
+        font-size: 12px;
+        padding: 6px 5px;
+    }
 </style>
 <div class="page-content">
     <div class="row mg-top-o">
@@ -89,8 +95,10 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                             <?= $form->field($model, 'siebel_activity_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                             <?= $form->field($model, 'require_finance', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                             <?= $form->field($model, 'require_account_transfer', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'switchSAT(this)']])->dropDownList($YN, ['prompt' => 'Select']) ?>
-                            <?= $form->field($model, 'submitted_to_AT', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'readonly' => '']])->textInput() ?>
-                            <?= $form->field($model, 'so_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
+                            <div id="submitted_to_AT" class="divTableCell cel-padding text-center vertical-align">-</div>
+                            <?= ''; //$form->field($model, 'submitted_to_AT', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'readonly' => '']])->textInput() ?>
+                            <div id="so_no" class="divTableCell cel-padding text-center vertical-align">-</div>
+                            <?='';// $form->field($model, 'so_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
                             <?= $form->field($model, 'order_state', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($orderStateList, ['prompt' => 'Select']) ?>
                             <!--<div class="divTableCell">&nbsp;</div>-->
                             <?php
@@ -104,9 +112,9 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         if (count($data) > 0) {
                             foreach ($data as $d) {
                                 ?>
-                                <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
+                                                                                                        <div id="<?= $d->_id . 'D' ?>" class="divTableRow data" ondblclick="edit('<?= $d->_id ?>');"> <!--$('#<?= $d->_id . 'E' ?>').removeClass('hidden');$('#<?= $d->_id . 'D' ?>').addClass('hidden');-->
                                     <div class="divTableCell cel-padding first vertical-align"><a href="javascript:;" onclick="edit('<?= $d->_id ?>');"><img src="<?= $baseUrl ?>images/edit_icon.png" class="save_icon"/></a></div>
-                                    <div class="divTableCell cel-padding text-center vertical-align"><a title="See Detail" href="<?= Yii::$app->urlManager->createUrl("sales/detail?id=".$d->_id); ?>">S<?= $d->uid ?></a></div>
+                                    <div class="divTableCell cel-padding text-center vertical-align"><a title="See Detail" href="<?= Yii::$app->urlManager->createUrl("sales/detail?id=" . $d->_id); ?>">S<?= $d->uid ?></a></div>
                                     <div id="index_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->index_no ?></div>
                                     <div id="sale_executive" class="divTableCell cel-padding text-center vertical-align"><?= $d->sale_executive['name'] ?></div>
                                     <div id="customer_type" class="divTableCell cel-padding text-center vertical-align"><?= $customerTypeList[$d->customer_type] ?></div>
@@ -115,9 +123,9 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <div id="customer_acc_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->customer_acc_no ?></div>
                                     <div id="plan" class="divTableCell cel-padding text-center vertical-align"><?= $d->plan['name'] ?></div>
                                     <div id="siebel_activity_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->siebel_activity_no ?></div>
-                                    <div id="require_finance" class="divTableCell cel-padding text-center vertical-align"><?= $YN[$d->require_finance] ?></div>
-                                    <div id="require_account_transfer" class="divTableCell cel-padding text-center vertical-align"><?= $YN[$d->require_account_transfer] ?></div>
-                                    <div id="submitted_to_AT" class="divTableCell cel-padding text-center vertical-align"><?= ($d->submitted_to_AT) ? $d->submitted_to_AT : '-' ?></div>
+                                    <div id="require_finance" class="divTableCell cel-padding text-center vertical-align"><?= isset($YN[$d->require_finance]) ? $YN[$d->require_finance] : '-' ?></div>
+                                    <div id="require_account_transfer" class="divTableCell cel-padding text-center vertical-align"><?= isset($YN[$d->require_account_transfer]) ? $YN[$d->require_account_transfer] : '-' ?></div>
+                                    <div id="submitted_to_AT" class="divTableCell cel-padding text-center vertical-align"><?= (isset($d->submitted_to_AT->sec)) ? date('d/m/Y', $d->submitted_to_AT->sec) : '-' ?></div>
                                     <div id="so_no" class="divTableCell cel-padding text-center vertical-align"><?= $d->so_no ?></div>
                                     <div id="order_state" class="divTableCell cel-padding text-center vertical-align"><?= $d->order_state ?></div>
                                 </div>
@@ -129,7 +137,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                                 //'enableAjaxValidation' => true,
                                                 'options' => ['id' => $d->_id . 'E', 'class' => 'divTableRow hidden form-div', 'hidden' => '']]);
                                     $modelu->attributes = $d->attributes;
-                                    $datePicker = ($modelu->require_account_transfer == '1') ? 'datepicker' : '';
+                                    $isAT = ($modelu->require_account_transfer == '1') ? TRUE : FALSE;
                                     ?>
                                     <div class="divTableCell first">
                                         <?= Html::submitButton('', ['class' => '', 'style' => 'background: url(' . $baseUrl . 'images/save.png) no-repeat center center; width:100%; height:23px;border:0']) ?>
@@ -146,8 +154,16 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     <?= $form->field($modelu, 'siebel_activity_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                                     <?= $form->field($modelu, 'require_finance', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($YN, ['prompt' => 'Select']) ?>
                                     <?= $form->field($modelu, 'require_account_transfer', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => 'switchSAT(this)']])->dropDownList($YN, ['prompt' => 'Select']) ?>
-                                    <?= $form->field($modelu, 'submitted_to_AT', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control ' . $datePicker, 'id' => $d->_id . '-submitted_to_at', 'readonly' => ($datePicker) ? false : '']])->textInput() ?>
-                                    <?= $form->field($modelu, 'so_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
+                                    <div id="submitted_to_AT" class="divTableCell cel-padding text-center vertical-align">
+                                        <?php if ($isAT) { ?>
+                                            <a id="<?= $d->uid ?>-submitted_to_finance"  href="javascript:;" class="btn btn-primary submit-date-btn" <?= (!empty($modelu->submitted_to_AT)) ? 'disabled' : '' ?> <?= empty($modelu->submitted_to_AT) ? 'onclick="submitTo(\'AT\', \'' . $modelu->_id . '\');"' : '' ?> > <?= (!empty($modelu->submitted_to_AT)) ? '<b>Submitted</b>' : '<b>Submit</b>' ?> </a>
+                                            <?php
+                                        } else {
+                                            echo '-';
+                                        }
+                                        ?>
+                                    </div>       <?= ''; // $form->field($modelu, 'submitted_to_AT', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control ' . $datePicker, 'id' => $d->_id . '-submitted_to_at', 'readonly' => ($datePicker) ? false : '', 'value'=>'' ]])->textInput()       ?>
+                                    <?= $form->field($modelu, 'so_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'onchange'=>'soAssigned(\''.$modelu->_id.'\')'], 'enableAjaxValidation' => true])->textInput() ?>
                                     <?= $form->field($modelu, 'order_state', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'selectpicker form-control form-margin', 'data-show-subtext' => "true", 'style' => 'padding:0px;', 'onChange' => '']])->dropDownList($orderStateList, ['prompt' => 'Select']) ?>
                                     <?php
                                     ActiveForm::end();

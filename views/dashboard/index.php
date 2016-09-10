@@ -27,7 +27,7 @@ function getBarStats($model) {
         } elseif (!empty($model->date_fin_approved)) {
             $soAssigned = \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_fin_approved->sec), date('d/m/Y', $model->date_so_assigned->sec));
         } elseif (!empty($model->submitted)) {
-            $soAssigned = \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->submitted), date('d/m/Y', $model->date_so_assigned->sec));
+            $soAssigned = \app\components\GlobalFunction::dateDiff($model->submitted, date('d/m/Y', $model->date_so_assigned->sec));
         }
     }
     $arc = (!empty($model->date_ARC) && !empty($model->date_so_assigned)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_so_assigned->sec), date('d/m/Y', $model->date_ARC->sec)) : 0;
@@ -93,21 +93,21 @@ function getMaxDays($data) {
         <div class="col-md-12 content_wraper2">
 
             <!--<div class="content-box-large app-content-box-large" style="height: auto;">-->
-            <form  class="content-box-large app-content-box-large" style="height: auto;" action="<?php echo Yii::$app->urlManager->createUrl("dashboard"); ?>" method="get" role="form">
+            <form  id="sform" class="content-box-large app-content-box-large" style="height: auto;" action="<?php echo Yii::$app->urlManager->createUrl("dashboard"); ?>" method="get" role="form">
                 <div class="row">
                     <div class="col-lg-1 col-md-1 col-sm-1">
                         <div class="labelfix">                                                          
                             From:
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-4"><input type="text" name="from" class="form-control input_style dbg-date-img datepicker cal-img" id="usr" value="<?= Yii::$app->request->get('from') ? Yii::$app->request->get('from') : date('01/m/Y'); ?>"></div>
+                    <div class="col-lg-3 col-md-3 col-sm-4"><input type="text" name="from" class="form-control input_style dbg-date-img datepicker cal-img" id="usr" value="<?= Yii::$app->request->get('from') ? Yii::$app->request->get('from') : date('01/m/Y'); ?>" onchange="$('#sform').submit();"></div>
                     <div class="col-lg-5 col-md-5 col-sm-3">
                         <div class="labelfix text-right">
                             Manager/Supervisor:
                         </div>                                
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-4">
-                        <select name="manager" class="form-control input_style" id="sel2"> 
+                        <select name="manager" class="form-control input_style" id="sel2" onchange="$('#sform').submit();"> 
                             <option value="">All</option> 
                             <?php foreach ($teamLeadList as $key => $value) { ?>
                                 <option value="<?= $key ?>" <?= (Yii::$app->request->get('manager') == $key) ? 'selected' : '' ?>><?= $value ?></option> 
@@ -140,7 +140,7 @@ function getMaxDays($data) {
                             SO Number:
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-sm-9 col-xs-7"><input type="text" name="sale" value="<?= !empty(Yii::$app->request->get('sale')) ? Yii::$app->request->get('sale') : '' ?>" class="form-control input_style" id="usr"></div>                 	
+                    <div class="col-lg-3 col-md-4 col-sm-9 col-xs-7"><input type="text" name="sale" value="<?= (Yii::$app->request->get('sale')) ? Yii::$app->request->get('sale') : '' ?>" class="form-control input_style" id="usr"></div>                 	
                 </div>
                 <button type="submit" class="btn-search hidden">Search</button>
                 <!--</form>-->

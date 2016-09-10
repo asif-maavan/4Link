@@ -30,8 +30,13 @@ $(document).on('beforeSubmit', 'form', function (e) {
                     $('#' + id + 'D #siebel_activity_no').text($('#' + id + 'E #salesform-siebel_activity_no').val());
                     $('#' + id + 'D #require_finance').text($('#' + id + 'E #salesform-require_finance option:selected').text());
                     $('#' + id + 'D #require_account_transfer').text($('#' + id + 'E #salesform-require_account_transfer option:selected').text());
-                    var submitted_to_at = ($('#' + id + 'E #' + id + '-submitted_to_at').val()) ? $('#' + id + 'E #' + id + '-submitted_to_at').val() : '-';
-                    $('#' + id + 'D #submitted_to_AT').text(submitted_to_at);
+                    if ($('#' + id + 'E #salesform-require_account_transfer').val() == '1') {
+                        html = '<a id="' + id + '-submitted_to_finance" href="javascript:;" class="btn btn-primary submit-date-btn" onclick="submitTo(\'AT\', \'' + id + '\');"> <b>Submit</b> </a>';
+                        $('#' + id + 'E #submitted_to_AT').html(html);
+                    } else {
+                        $('#' + id + 'E #submitted_to_AT').html('-');
+                        $('#' + id + 'D #submitted_to_AT').html('-');
+                    }
                     $('#' + id + 'D #so_no').text($('#' + id + 'E #salesform-so_no').val());
                     $('#' + id + 'D #order_state').text($('#' + id + 'E #salesform-order_state option:selected').text());
                     $('#' + id + 'E').addClass('hidden');
@@ -113,20 +118,19 @@ function getC(target) {
 }
 
 function switchSAT(target) {
-    var type = $(target).val();
-    var formid = $(target).closest('form').attr('id');
-    var id = $('#' + formid + ' #salesform-_id').val();//alert($('#' + formid + ' #' + id + '-submitted_to_AT').val());
-    if (!id) {
-        id = 'salesform';
-    }
-    if (type == '1') {
-        $('#' + formid + ' #' + id + '-submitted_to_at').attr('readonly', false);
-        $('#' + formid + ' #' + id + '-submitted_to_at').datepicker({dateFormat: 'dd/mm/yy'});
-    } else {
-        $('#' + formid + ' #' + id + '-submitted_to_at').val('');
-        $('#' + formid + ' #' + id + '-submitted_to_at').attr('readonly', true);
-        $('#' + formid + ' #' + id + '-submitted_to_at').datepicker("destroy");
-    }
+//    var type = $(target).val();
+//    var formid = $(target).closest('form').attr('id');
+//    var id = $('#' + formid + ' #salesform-_id').val();
+//    if (!id) {
+//        id = 'salesform';
+//    }
+//    if (type == '1') {
+//        html = '<a id="' + id + '-submitted_to_finance" href="javascript:;" class="btn btn-primary submit-date-btn" onclick="submitTo(\'AT\', \'' + id + '\');"> <b>Submit</b> </a>';
+//        $('#' + formid + ' #submitted_to_AT').html(html);
+//    } else {
+//        $('#' + formid + ' #submitted_to_AT').html('-');
+//        $('#' + id + 'D #submitted_to_AT').html('-');
+//    }
 
 }
 //............................................ plan
@@ -319,10 +323,13 @@ function formReset(formId) {
     $('#' + formId + ' :not(:selected)').removeAttr('selected');
 }
 
-function submitTo(dep) {
-    eid = event.target.id;
-    if ($('#' + eid).html() != '<b>Submitted</b>') {
-        id = $('#salesform-_id').val();
+function submitTo(dep, sid) {
+    var target = $(event.target);
+    var eid = event.target.id ? event.target.id : target.parent().attr('id');
+    var formid = target.closest('form').attr('id');
+    if ($('#' + eid).html().trim() == '<b>Submit</b>') {
+
+        id = (sid) ? sid : $('#salesform-_id').val();
         $.ajax({
             type: "POST",
             url: baseUrl + "ajax/sales-submit-to",
@@ -333,8 +340,15 @@ function submitTo(dep) {
                     $('#' + eid).attr('disabled', true);
                     $('#' + eid).unbind('click');
                     $('#' + eid).html('<b>Submitted</b>');
-                    if (data.status)
-                        $(".ost").val(data.status);
+                    if (data.status) {
+                        if (sid) {
+                            $('#' + formid + ' #salesform-order_state').val(data.status);
+                            $('#' + sid + 'D #order_state').html(data.status);
+                            $('#' + sid + 'D #submitted_to_AT').html(data.date);
+                            formReset(id + 'E');
+                        } else
+                            $(".ost").val(data.status);
+                    }
                     toastr.success('Submitted to ' + dep + ' successfuly');
                 }
 
@@ -345,9 +359,11 @@ function submitTo(dep) {
     }
 }
 
-function soAssigned() {
-    id = $('#salesform-_id').val();
-    so = $('#salesform-so_no').val();
+function soAssigned(sid) {
+    var target = $(event.target);
+    id = sid ? sid : $('#salesform-_id').val();
+    so = sid ? target.val() : $('#salesform-so_no').val();
+    var formid = target.closest('form').attr('id');
     $.ajax({
         type: "POST",
         url: baseUrl + "ajax/sales-so-assigned",
@@ -355,11 +371,17 @@ function soAssigned() {
         dataType: "json",
         success: function (data) {
             if (data.msgType == 'SUC') {
-                if (data.status != '')
-                    $(".ost").val(data.status);
+                if (data.status != '') {
+                    if (sid) {
+                        $('#' + formid + ' #salesform-order_state').val(data.status);
+                        $('#' + sid + 'D #order_state').html(data.status);
+                        $('#' + sid + 'D #so_no').html(so);
+                        formReset(id + 'E');
+                    } else
+                        $(".ost").val(data.status);
+                }
                 toastr.success('SO is changed successfuly.');
             }
-
         }
     });
 }

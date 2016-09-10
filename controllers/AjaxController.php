@@ -70,7 +70,7 @@ class AjaxController extends AppController {
 
                 $result = $sale->save();
                 if ($result)
-                    exit(json_encode(['msgType' => 'SUC', 'result' => $result, 'status'=> $sale->order_state]));
+                    exit(json_encode(['msgType' => 'SUC', 'result' => $result, 'status'=> $sale->order_state, 'date'=>date('d/m/Y')]));
                 else {
                     exit(json_encode(['msgType' => 'ERR', 'result' => $sale->errors]));
                 }
