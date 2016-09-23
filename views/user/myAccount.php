@@ -68,7 +68,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         <div class="upload-img"><img id="prifile-image" class="img-responsive" src="<?= $baseUrl ?><?= ($profilePic) ? 'uploads/' . $profilePic : 'images/user-img1.png' ?>" alt="Image only"></div>
                     </div>
                     <div class="col-lg-10 col-md-9 col-sm-9">
-                        <div class="upload-img"><a href="javascript:;" onclick="$('#userform-profile_picture').click();">Upload Logo</a></div>
+                        <div class="upload-img"><a href="javascript:;" onclick="$('#userform-profile_picture').click();">Upload Picture</a></div>
                         <div class="upload-img" for="userform-profile_picture" style="float:left; margin: 43px 0 0 22px;" id="filename"></div>
                         <?= $form->field($model, 'profile_picture', ['options' => ['class' => 'upload-img'], 'inputOptions' => [ 'class' => 'custom-file-input', 'style' => 'display:none;', 'onChange' => "imagePreview(this);$('#filename').html($(this).val()); "]])->fileInput()->label(false); ?>
                     </div>

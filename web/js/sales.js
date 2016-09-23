@@ -43,7 +43,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
                     $('#' + id + 'D').removeClass('hidden');
 
                     formReset(id + 'E');
-                    toastr.success('Sale successfuly updated');
+                    toastr.success('Sale successfully updated');
                 }
 
             }
@@ -77,14 +77,16 @@ function switchC(target) {
     var type = $(target).val();
     var textInput = '<input type="text" id="salesform-customer_name" class="form-control" name="SalesForm[customer_name]">';
     var formid = $(target).closest('form').attr('id');
-    if (type == '1') {
-        if ($('#' + formid + ' #customer select').length)
+    if ($('#' + formid + ' #customer select').length)
             customerList = select = $('#' + formid + ' #customer select');
+    if (type == '1') {
         $('#' + formid + ' #customer select').remove();
         $('#' + formid + ' #customer').prepend(textInput);
+        $('#' + formid + ' #salesform-customer_acc_no').val('');
         $('#' + formid + ' #salesform-customer_acc_no').attr('readonly', false);
 
     } else {
+        $('#' + formid + ' #customer select').remove();
         $('#' + formid + ' #customer input').remove();
         if (customerList)
             $('#' + formid + ' #customer').prepend(customerList);
@@ -349,7 +351,7 @@ function submitTo(dep, sid) {
                         } else
                             $(".ost").val(data.status);
                     }
-                    toastr.success('Submitted to ' + dep + ' successfuly');
+                    toastr.success('Submitted to ' + dep + ' successfully');
                 }
 
             }
@@ -380,7 +382,7 @@ function soAssigned(sid) {
                     } else
                         $(".ost").val(data.status);
                 }
-                toastr.success('SO is changed successfuly.');
+                toastr.success('SO is changed successfully.');
             }
         }
     });

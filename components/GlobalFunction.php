@@ -20,6 +20,15 @@ class GlobalFunction {
         return $diff->format("%a");
     }
 
+    public static function getEstList() {
+        $estData = GlobalFunction::getListing(['className' => 'app\common\models\Values', 'pagination' => '', 'whereParams' => '', 'nameS' => '', 'selectParams' => ['_id', 'name', 'value']]);
+        $estList = [];
+        foreach ($estData as $value) {
+            $estList[$value->name] = $value->value;
+        }
+        return $estList;
+    }
+
     public static function getUserRoles() {
         return [User::ROLE_ADMIN => 'Admin',
             User::ROLE_manager => 'Manager',
@@ -165,13 +174,13 @@ class GlobalFunction {
 
     public static function getCustomerList() {
         $className = 'app\common\models\Customer';
-        $params = ['className' => $className, 'whereParams' => '', 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'first_name']];
+        $params = ['className' => $className, 'whereParams' => '', 'nameS' => '', 'sort' => 'first_name', 'selectParams' => ['_id', 'first_name', 'last_name']];
         $data = GlobalFunction::getListing($params);
         $list = [];
         //var_dump($data);
         if (count($data) > 0) {
             foreach ($data as $value) {
-                $list[$value->_id->{'$id'}] = $value->first_name;
+                $list[$value->_id->{'$id'}] = $value->first_name . ' ' . $value->last_name;
             }
         }
         return $list;

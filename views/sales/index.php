@@ -178,7 +178,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                     echo '</div></div>'
                     ?>
                     <div class="noOrder">
-                        <h1 style="text-align: center">No records found</h1>
+                        <h1 style="text-align: center">No Records Found</h1>
                     </div>
                 <?php } ?>
                 <div class="row">

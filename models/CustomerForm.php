@@ -41,12 +41,25 @@ class CustomerForm extends Model {
         return [
             [['first_name', 'customer_acc', 'account_no', 'address', 'phone', 'sales_agent', 'agent_phone'], 'required', 'on' => ['default', 'detail']],
             [['first_name', 'customer_acc'], 'required', 'on' => 'createFromSale'],
-            [['last_name', 'email', 'account_no', 'address', 'address2', 'city', 'zip','phone', 'sales_agent', 'agent_phone'], 'safe', 'on' => 'createFromSale'],
+            [['last_name', 'email', 'account_no', 'address', 'address2', 'city', 'zip', 'phone', 'sales_agent', 'agent_phone'], 'safe', 'on' => 'createFromSale'],
 //            [['first_name', 'customer_acc', 'account_no', 'email', 'phone','sales_agent', 'agent_phone'], 'required', 'on' => 'detail'],
             [['phone', 'agent_phone'], 'match', 'pattern' => '/^[0-9-]+$/', 'message' => 'only numeric characters and dashes are allowed.'],
             ['email', 'email'],
             [['_id', 'customer_id', 'last_name', 'account_no', 'email', 'address2', 'city', 'country', 'zip'], 'safe'],
+            [['first_name', 'last_name'], 'match', 'pattern' => '/^[a-zA-z ]*$/', 'message' => Yii::t('app', 'Use Alphabets only.')],
+            [['customer_acc', 'account_no'], 'number'],
+            ['customer_acc', 'validateAccNo'],
         ];
+    }
+
+    public function validateAccNo($attribute, $params) {
+
+        $whereParams = ['and', ['not', '_id', new \MongoId($this->_id)], ['customer_acc' => $this->customer_acc]];
+        $models = \app\components\GlobalFunction::getListing(['className' => 'app\common\models\Customer', 'whereParams' => $whereParams, 'selectParams' => ['index_no']]);
+        if (count($models) > 0) {
+            //echo count($models);
+            $this->addError($attribute, 'This Customer Account is already taken');
+        }
     }
 
     public function createOrUpdate($params) {

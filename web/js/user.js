@@ -35,7 +35,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
 //                $('#'+id+'D #confirm_password').text($('#'+id+'E #userform-confirm_password').val());
                     $('#' + id + 'E').addClass('hidden');
                     $('#' + id + 'D').removeClass('hidden');
-                    toastr.success('User successfuly updated');
+                    toastr.success('User successfully updated');
                 }
 
             }

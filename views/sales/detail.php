@@ -502,15 +502,15 @@ function subDiff($d1, $d2, $date = FALSE) {
                         <div class="col-xs-6">
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Est. & Actual Difference:</div>
-                                <div class="col-xs-6"><input type="text" name="SalesForm[est_actual_difference]" readonly="" class="form-control input_style input_dis" value="<?= ($model->date_of_order_state && getEstDate($model, $estList) != '-') ? subDiff(getEstDate($model, $estList)->format('d/m/Y'), date('d/m/Y', strtotime($model->date_of_order_state))) : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input type="text" name="SalesForm[est_actual_difference]" readonly="" class="form-control input_style input_dis" value="<?= $model->est_actual_difference ? $model->est_actual_difference : '-'; //($model->date_of_order_state && getEstDate($model, $estList) != '-') ? subDiff(getEstDate($model, $estList)->format('d/m/Y'), date('d/m/Y', strtotime($model->date_of_order_state))) : '-'  ?>" id="usr"></div>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Total M.R.C. Per Order:</div>
-                                <div class="col-xs-6"><input type="text" name="SalesForm[total_MRC_per_order]" readonly="" class="form-control input_style input_dis" value="<?= (!empty($model->MRC) && !empty($model->QTY)) ? $model->MRC * $model->QTY : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input type="text" name="SalesForm[total_MRC_per_order]" readonly="" class="form-control input_style input_dis" value="<?= $model->total_MRC_per_order ? $model->total_MRC_per_order : '-';//(!empty($model->MRC) && !empty($model->QTY)) ? $model->MRC * $model->QTY : '-' ?>" id="usr"></div>
                             </div>
                             <div class="row custrow"> 
                                 <div class="col-xs-6 custlabel_2">Total F.L.P. Per Order:</div>
-                                <div class="col-xs-6"><input type="text" name="SalesForm[total_FLP_per_order]" readonly="" class="form-control input_style input_dis" value="<?= (!empty($model->MRC) && !empty($model->QTY)) ? $model->four_link_points * $model->QTY : '-' ?>" id="usr"></div>
+                                <div class="col-xs-6"><input type="text" name="SalesForm[total_FLP_per_order]" readonly="" class="form-control input_style input_dis" value="<?= $model->total_FLP_per_order ? $model->total_FLP_per_order : '-';//(!empty($model->MRC) && !empty($model->QTY)) ? $model->four_link_points * $model->QTY : '-' ?>" id="usr"></div>
                             </div>
 
                         </div> 

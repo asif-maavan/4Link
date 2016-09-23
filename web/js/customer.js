@@ -4,47 +4,51 @@ $(document).ready(function () {
 //            });
 
     $('#uploadform-pdffile').on('change', function () {
+        file = $('uploadform-pdffile');
+        data = file.data('yiiActiveForm');
 
-        var formData = new FormData($('form')[0]);
-        var id = $('#customerform-_id').val();
-        //formData.append('file', $('input[type=file]')[0].files[0]);
-        $.ajax({
-            type: "POST",
-            url: baseUrl + "customers/document-upload?id=" + id,
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: "json",
-            beforeSend: function (XMLHttpRequest) {
-                $("#progressbar").progressbar({value: 0});
-                $("#progressbar").removeClass('hidden');
-            },
-            xhr: function ()
-            {
-                var xhr = new window.XMLHttpRequest();
-                //Upload progress
-                xhr.upload.addEventListener("progress", function (evt) {
-                    if (evt.lengthComputable) {
-                        var percentComplete = evt.loaded / evt.total;
-                        $("#progressbar").progressbar({value: percentComplete * 100});//Do something with upload progress
+        if (true) {
+
+            var formData = new FormData($('form')[0]);
+            var id = $('#customerform-_id').val();
+            //formData.append('file', $('input[type=file]')[0].files[0]);
+            $.ajax({
+                type: "POST",
+                url: baseUrl + "customers/document-upload?id=" + id,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                beforeSend: function (XMLHttpRequest) {
+                    $("#progressbar").progressbar({value: 0});
+                    $("#progressbar").removeClass('hidden');
+                },
+                xhr: function ()
+                {
+                    var xhr = new window.XMLHttpRequest();
+                    //Upload progress
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            $("#progressbar").progressbar({value: percentComplete * 100});//Do something with upload progress
 //                        console.log(percentComplete);
-                    }
-                }, false);
-                //Download progress
-                xhr.addEventListener("progress", function (evt) {
-                    if (evt.lengthComputable) {
-                        var percentComplete = evt.loaded / evt.total;
-                        //Do something with download progress
+                        }
+                    }, false);
+                    //Download progress
+                    xhr.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            //Do something with download progress
 //                        console.log(percentComplete);
-                    }
-                }, false);
-                return xhr;
-            },
-            success: function (data) {
-                $('#uploadform-filename').val('');
-                if (data.msgType == 'SUC') {
-                    var d = new Date(data.document.date);
-                    var doc = '<div id="doc-' + data.document.id.$id + '" class="row uploaded-files">\
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function (data) {
+                    $('#uploadform-filename').val('');
+                    if (data.msgType == 'SUC') {
+                        var d = new Date(data.document.date);
+                        var doc = '<div id="doc-' + data.document.id.$id + '" class="row uploaded-files">\
                                 <div class="col-sm-1" style="width:60px !important;"><img src="' + baseUrl + 'images/doc-icon1.png" class="uploaded-files-img2" alt=""></div>\
                                 <div class="col-sm-5" style="width: 36% !important;">' + data.document.name + '</div>\
                                 <div class="col-sm-4 width-fix"><img src="' + baseUrl + 'images/doc-icon2.png" class="uploaded-files-img2" alt="">' + $.datepicker.formatDate('MM dd, yy', d) + '</div>\
@@ -52,14 +56,20 @@ $(document).ready(function () {
                                 <div class="col-sm-1 uploaded-files-img"><a href="' + baseUrl + 'uploads/documents/' + data.document.file + '"><img src="' + baseUrl + 'images/doc-icon4.png" width="23" height="27" alt=""></a></div>\
                                 <div class="col-sm-1 uploaded-files-img"><a href="javascript:;" onclick="rmvdoc(\'' + data.document.id.$id + '\')"><img src="' + baseUrl + 'images/doc-icon5.png" width="23" height="27" alt=""></a></div>\
                             </div>';
-                    $('#documents').prepend(doc);
-                    $("#progressbar").progressbar({value: 100});
-                    $("#progressbar").addClass('hidden');
-                    $('#ndf').remove();
+                        $('#documents').prepend(doc);
+                        $("#progressbar").progressbar({value: 100});
+                        $("#progressbar").addClass('hidden');
+                        $('#ndf').remove();
+                    }else{
+                        $("#progressbar").addClass('hidden');
+                    }
+                    Msg(data.msg, data.msgType);
+                },
+                error: function () {
+                    Msg("Something went wrong, Please try again later.", "ERR");
                 }
-                Msg(data.msg, data.msgType);
-            }
-        });
+            });
+        }
     });
 });
 
@@ -99,7 +109,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
                     $('#' + id + 'D #agent_phone').text($('#' + id + 'E #customerform-agent_phone').val());
                     $('#' + id + 'E').addClass('hidden');
                     $('#' + id + 'D').removeClass('hidden');
-                    toastr.success('Customer successfuly updated');
+                    toastr.success('Customer successfully updated');
                 }
 
             }
@@ -137,7 +147,7 @@ function rmvdoc(id) {
             dataType: "json",
             success: function (data) {
                 if (data.msgType == 'SUC') {
-                    toastr.success('Document is successfuly Removed')
+                    toastr.success('Document is successfully Removed')
                     $('#doc-' + id).remove();
                     if ($('#documents div').length == 0) {
                         $('#documents').append('<h3 id="ndf" class="text-center">No Document Found</h3>');

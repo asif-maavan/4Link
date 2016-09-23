@@ -53,7 +53,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         if (true) {
                             $form = ActiveForm::begin([//'action' => Yii::$app->urlManager->createUrl("user/create"),
                                         'fieldConfig' => ['template' => "{input}{error}"],
-                                        //'validationUrl' => Yii::$app->urlManager->createUrl("user/create-validation"),
+                                        'validationUrl' => Yii::$app->urlManager->createUrl("customers/validation?s=default"),
                                         //'enableAjaxValidation' => true,
                                         //'enableClientValidation' => true,
                                         'options' => ['id' => 'create-form', 'class' => 'divTableRowblue']]);
@@ -63,7 +63,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 <!--<a href="#"><img src="images/save.png" class="save_icon" /></a>-->
                             </div>
                             <div class="divTableCell"><span>&nbsp;</span></div>
-                            <?= $form->field($model, 'customer_acc', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
+                            <?= $form->field($model, 'customer_acc', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'],'enableAjaxValidation' => true])->textInput() ?>
                             <?= $form->field($model, 'first_name', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                             <?= $form->field($model, 'account_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                             <?= $form->field($model, 'address', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => '']])->textarea() ?>
@@ -99,7 +99,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 if (true) {
                                     $form = ActiveForm::begin([//'action' => Yii::$app->urlManager->createUrl("user/create"),
                                                 'fieldConfig' => ['template' => "{input}{error}"],
-                                                'validationUrl' => Yii::$app->urlManager->createUrl("user/update-validation"),
+                                                'validationUrl' => Yii::$app->urlManager->createUrl("customers/validation?s=default"),
                                                 //'enableAjaxValidation' => true,
                                                 'options' => ['id' => $d->_id . 'E', 'class' => 'divTableRow hidden form-div', 'hidden' => '']]);
                                     $modelu->attributes = $d->attributes;
@@ -110,7 +110,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                     </div>
                                     <div class="divTableCell"><span>C<?= $d->customer_id ?></span></div>
                                     <?= $form->field($modelu, '_id', ['options' => ['class' => 'divTableCell hidden'], 'inputOptions' => ['class' => 'form-control hidden']])->textInput() ?>
-                                    <?= $form->field($modelu, 'customer_acc', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
+                                    <?= $form->field($modelu, 'customer_acc', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control'], 'enableAjaxValidation' => true])->textInput() ?>
                                     <?= $form->field($modelu, 'first_name', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                                     <?= $form->field($modelu, 'account_no', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                                     <?= $form->field($modelu, 'address', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => '',]])->textarea() ?>

@@ -15,12 +15,12 @@ $this->registerJsFile('@web/js/dashboard.js', ['depends' => [\yii\web\JqueryAsse
 $baseUrl = Yii::$app->request->baseUrl . '/';
 
 function getBarStats($model) {
-    $verified = (!empty($model->created) && !empty($model->submitted)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->created->sec), $model->submitted) : 0;
-    $finSubmitted = (!empty($model->date_require_fin) && !empty($model->submitted_to_finance)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_require_fin->sec), date('d/m/Y', $model->submitted_to_finance->sec)) : 0;
-    $finApproved = (!empty($model->submitted_to_finance) && !empty($model->date_fin_approved)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->submitted_to_finance->sec), date('d/m/Y', $model->date_fin_approved->sec)) : 0;
-    $atSubmitted = (!empty($model->date_require_at) && !empty($model->submitted_to_AT)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_require_at->sec), date('d/m/Y', $model->submitted_to_AT->sec)) : 0;
-    $atApproved = (!empty($model->submitted_to_AT) && !empty($model->date_at_approved)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->submitted_to_AT->sec), date('d/m/Y', $model->date_at_approved->sec)) : 0;
-    $soAssigned = 0;
+    $verified = (!empty($model->created) && !empty($model->submitted)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->created->sec), $model->submitted) : null;
+    $finSubmitted = (!empty($model->date_require_fin) && !empty($model->submitted_to_finance)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_require_fin->sec), date('d/m/Y', $model->submitted_to_finance->sec)) : null;
+    $finApproved = (!empty($model->submitted_to_finance) && !empty($model->date_fin_approved)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->submitted_to_finance->sec), date('d/m/Y', $model->date_fin_approved->sec)) : null;
+    $atSubmitted = (!empty($model->date_require_at) && !empty($model->submitted_to_AT)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_require_at->sec), date('d/m/Y', $model->submitted_to_AT->sec)) : null;
+    $atApproved = (!empty($model->submitted_to_AT) && !empty($model->date_at_approved)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->submitted_to_AT->sec), date('d/m/Y', $model->date_at_approved->sec)) : null;
+    $soAssigned = null;
     if (!empty($model->date_so_assigned)) {
         if (!empty($model->date_at_approved)) {
             $soAssigned = \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_at_approved->sec), date('d/m/Y', $model->date_so_assigned->sec));
@@ -30,7 +30,7 @@ function getBarStats($model) {
             $soAssigned = \app\components\GlobalFunction::dateDiff($model->submitted, date('d/m/Y', $model->date_so_assigned->sec));
         }
     }
-    $arc = (!empty($model->date_ARC) && !empty($model->date_so_assigned)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_so_assigned->sec), date('d/m/Y', $model->date_ARC->sec)) : 0;
+    $arc = (!empty($model->date_ARC) && !empty($model->date_so_assigned)) ? \app\components\GlobalFunction::dateDiff(date('d/m/Y', $model->date_so_assigned->sec), date('d/m/Y', $model->date_ARC->sec)) : null;
 
     $stats = [1 => $verified, 2 => $finSubmitted, 3 => $finApproved, 4 => $atSubmitted, 5 => $atApproved, 6 => $soAssigned, 7 => $arc, 'total' => ($verified + $finSubmitted + $finApproved + $atSubmitted + $atApproved + $soAssigned + $arc)];
     return $stats;
@@ -150,6 +150,7 @@ function getMaxDays($data) {
                             <table class="responsive_table responsive_table_bg">
                                 <thead class="responsive_table_thead">
                                     <tr class="responsive_table_head">
+                                        <th class="responsive_table_th" style="padding-left: 5px;padding-right: 5px;">UID</th>
                                         <th class="responsive_table_th">SO Number <a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'so_no') ? 'so_no' : '-so_no' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-so_no' || Yii::$app->request->get('sort') != 'so_no') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></th>
                                         <th class="responsive_table_th">Date Created <a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'created') ? 'created' : '-created' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-created' || Yii::$app->request->get('sort') != 'created') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></th>
                                         <th class="responsive_table_th">Value</th>
@@ -169,6 +170,10 @@ function getMaxDays($data) {
                                             $stats = getBarStats($d);
                                             ?>
                                             <tr class="responsive_table_tr">
+                                                <td class="responsive_table_td" style="padding-left: 5px;padding-right: 5px;">
+                                                    <div class="responsive_table_title_column">Framework</div>
+                                                    <div class="responsive_table_value"><?= 'S' . $d->uid ?></div>
+                                                </td>
                                                 <td class="responsive_table_td">
                                                     <div class="responsive_table_title_column">Framework</div>
                                                     <div class="responsive_table_value"><?= $d->so_no ?></div>
@@ -194,20 +199,24 @@ function getMaxDays($data) {
                                                                 <?php
                                                                 $first = $last = '';
                                                                 $count = 0;
+                                                                $zeros = 0;
                                                                 foreach ($stats as $key => $value) {
-                                                                    if ($value > 0 && $key != 'total') {
+                                                                    if ($value >= 0 && $value != null && $key != 'total') {
                                                                         $last = $key;
                                                                         $count++;
                                                                         if ($count == 1) {
                                                                             $first = $key;
                                                                         }
+                                                                        if ($value == 0) {
+                                                                            $zeros++;
+                                                                        }
                                                                     }
                                                                 }
                                                                 foreach ($stats as $key => $value) {
-                                                                    if ($value > 0 && $key != 'total') {
+                                                                    if ($value >= 0 && $value != null && $key != 'total') {
                                                                         //echo $first . '-' . $last;
                                                                         $late = ($estValues[$key] < $value) ? TRUE : FALSE;
-                                                                        $bRadius = ($key == 1) ? 'border-top-left-radius: 10px;border-bottom-left-radius: 10px;' : '';
+                                                                        $bRadius = ($key == $first) ? 'border-top-left-radius: 10px;border-bottom-left-radius: 10px;' : '';
                                                                         $bRadius = ($key == $last) ? $bRadius . 'border-top-right-radius: 10px;border-bottom-right-radius: 10px;' : $bRadius;
                                                                         if ($key == $first && $key == $last)
                                                                             $border = '';
@@ -220,9 +229,10 @@ function getMaxDays($data) {
 
                                                                         $borderColor = ($late) ? 'border-color: #ff0000;' : 'border-color: #c5c5c5;';
                                                                         $color = ($late) ? 'background-color: #ffbcbc;' : 'background-color: #d7f2ff;';
-                                                                        $with = (($value / ($max)) * (100));
+                                                                        $max = $max == 0 ? 1 : $max;
+                                                                        $with = (($value / ($max+($zeros*2))) * (99.6));
                                                                         ?>
-                                                                        <div style="width:<?= $with . '%' ?>;float: left; margin:auto;">
+                                                                        <div style="width:<?= $with . '%' ?>;float: left; margin:auto;min-width: 6px;">
                                                                             <p class="text-center bar-head" style=""><?= $key ?></p>
                                                                             <div class="bar" style="background-color: #d7f2ff;<?= $bRadius . $border . $borderColor . $color ?>" ></div>
                                                                             <p class="text-center bar-base" style=""><?= $value ?></p>

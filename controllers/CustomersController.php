@@ -37,7 +37,7 @@ class CustomersController extends Controller {
                 ],
                 'rules' => [
                     [
-                        'actions' => ['index', 'create', 'update', 'delete', 'detail', 'document-upload', 'remove-doc'],
+                        'actions' => ['index', 'create', 'update', 'delete', 'detail', 'document-upload', 'remove-doc', 'validation'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -190,6 +190,16 @@ class CustomersController extends Controller {
             } else {
                 exit(json_encode(['msgType' => 'SUC', 'msg' => 'File not found']));
             }
+        }
+    }
+    
+    public function actionValidation($s) {
+        $model = new CustomerForm();
+        $model->scenario = $s;
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {//echo json_encode($model->attributes);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
         }
     }
 

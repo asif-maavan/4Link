@@ -84,7 +84,10 @@ class SalesForm extends Model {
             [['_id', 'uid', 'submitted_to_AT', 'order_state', 'created', 'siebel_activity_no', 'require_finance', 'require_account_transfer', 'so_no'], 'safe'],
             [['sale_executive', 'order_type', 'customer_name', 'plan', 'QTY', 'siebel_activity_no', 'submitted'], 'required', 'on' => 'detail'],
             [['index_no', 'plan_group', 'plan_type', 'team_leader', 'customer_type', 'customer_acc_no', 'account_type', 'QTY', 'MRC', 'contract_period', 'four_link_points', 'f_indicator', 'submitted_to_finance', 'f_response', 'f_state', 'f_comments', 'AT_indicator', 'AT_response', 'AT_state', 'AT_comments', 'LD_indicator', 'LD_state', 'submitted_to_LD', 'LD_response', 'LD_comments', 'RG_indicator', 'submitted_to_RG', 'RG_response', 'RG_state', 'RG_comments', 'require_logistic_dep', 'require_resolver_group', 'date_of_order_state', 'estimated_activation_date', 'est_submission_difference', 'est_actual_difference', 'total_MRC_per_order', 'total_FLP_per_order', 'so_no'], 'safe', 'on' => 'detail'],
-            ['QTY', 'number', 'on' => 'detail'],
+            [['customer_acc_no', 'QTY'], 'number'],
+            [['customer_name'], 'match', 'pattern' => '/^[a-zA-z ]*$/', 'when' => function($model) {
+                    return (isset($model->customer_type) && $model->customer_type == '1');
+                }, 'enableClientValidation' => false, 'on'=>'create','message' => Yii::t('app', 'Use Alphabets only.')],
             ['index_no', 'validateIndex'], //, 'on' => ['create', 'update']
                 //['so_no', 'validateSaleNo'],
         ];
@@ -153,6 +156,9 @@ class SalesForm extends Model {
                 $sale->order_state = 'Created';
                 $orderStateDate = date("Y-m-d H:i:s");
             }
+            if($this->order_state==''){
+                $sale->order_state = 'Created';
+            }
 
             $sale->date_of_order_state = $orderStateDate;
             $executive = \app\common\models\User::findOne($sale->sale_executive);
@@ -167,8 +173,14 @@ class SalesForm extends Model {
             $sale->MRC = $plan->mrc;
             $sale->contract_period = $plan->contract_period;
             $sale->four_link_points = $plan->fourlink_points;
+            $estDate = $this->getEstDate();            
             $sale->date_ARC = $arcDate;
-            if (!empty($verifiedDate) && $sale->submitted != $verifiedDate) {
+//            order state values after calculations
+            $sale->est_actual_difference = ($this->date_of_order_state && $estDate != '-') ? \app\components\GlobalFunction::dateDiff($estDate->format('d/m/Y'), date('d/m/Y', strtotime($this->date_of_order_state)),TRUE)->format("%R%a") : '';
+            $sale->total_MRC_per_order = (!empty($this->MRC) && !empty($this->QTY)) ? $this->MRC * $this->QTY : '';
+            $sale->total_FLP_per_order = (!empty($this->MRC) && !empty($this->QTY)) ? $this->four_link_points * $this->QTY : '' ;
+            
+            if ((!empty($verifiedDate) && $sale->submitted != $verifiedDate) || empty($verifiedDate)) {
                 $sale->order_state = 'Verified';
             }
             if ($sale->require_finance != $isRequireFIN) {
@@ -224,6 +236,32 @@ class SalesForm extends Model {
             $errors = $this->getErrors();
             return ['msgType' => 'ERR', 'msgArr' => $errors];
         }
+    }
+    
+    public function getEstDate() {
+        $est = \app\components\GlobalFunction::getEstList();
+        $date = '-';
+        if ($this->submitted) {
+            $date = $this->submitted;
+            $date = str_replace('/', '-', $date);
+            $date = new \DateTime($date);
+
+            $date->add(new \DateInterval('P' . $est["Verified"] . 'D'));
+            if ($this->require_finance == '1') {
+                $date->add(new \DateInterval('P' . $est["Submitted to FIN"] . 'D'));
+                $date->add(new \DateInterval('P' . $est["FIN Approved"] . 'D'));
+            }
+            if ($this->require_account_transfer == '1') {
+                $date->add(new \DateInterval('P' . $est["Submitted to AT"] . 'D'));
+                $date->add(new \DateInterval('P' . $est["AT Approved"] . 'D'));
+            }
+
+            $date->add(new \DateInterval('P' . $est["SO Assigned"] . 'D'));
+
+            $date->add(new \DateInterval('P' . $est["ARC"] . 'D'));
+            return $date;
+        }
+        return $date;
     }
 
 // end class

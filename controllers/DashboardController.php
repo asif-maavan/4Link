@@ -54,11 +54,11 @@ class DashboardController extends Controller {
         if (Yii::$app->request->get('from')) {
             $date1 = \DateTime::createFromFormat('d/m/Y', Yii::$app->request->get('from'))->format('Y-m-d 00:00:00');            //exit();
             $date1 = new \MongoDate(strtotime($date1));
-            $date2 = new \MongoDate(strtotime(date("Y-m-d 00:00:00")));
+            $date2 = new \MongoDate(strtotime(date("Y-m-d 23:59:59")));
             $whereParams = ['between', 'created', $date1, $date2];
         } else {
             $date1 = new \MongoDate(strtotime(date("Y-m-01 00:00:00")));
-            $date2 = new \MongoDate(strtotime(date("Y-m-d 00:00:00")));
+            $date2 = new \MongoDate(strtotime(date("Y-m-d 23:59:59")));
             $whereParams = ['between', 'created', $date1, $date2];
         }
         if (Yii::$app->request->get('sale')) {
@@ -79,7 +79,7 @@ class DashboardController extends Controller {
         $count = GlobalFunction::getCount(['className' => $className, 'whereParams' => $whereParams, 'nameS' => $nameS]);
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => Yii::$app->params['pageSize']]);
         $list = $data = GlobalFunction::getListing(['className' => $className, 'pagination' => '', 'whereParams' => $whereParams, 'nameS' => $nameS, 'sort' => $sort, 'selectParams' => ['_id', 'sale_executive', 'submitted_to_AT', 'order_state', 'total_MRC_per_order', 'total_FLP_per_order']]);
-        $data2 = GlobalFunction::getListing(['className' => $className, 'pagination' => $pagination, 'whereParams' => $whereParams, 'nameS' => $nameS, 'sort' => $sort, 'selectParams' => ['_id', 'so_no', 'created', 'order_state', 'QTY', 'four_link_points', 'submitted', 'date_require_fin', 'submitted_to_finance', 'date_fin_approved', 'date_require_at', 'submitted_to_AT', 'date_at_approved', 'date_so_assigned', 'date_ARC']]);
+        $data2 = GlobalFunction::getListing(['className' => $className, 'pagination' => $pagination, 'whereParams' => $whereParams, 'nameS' => $nameS, 'sort' => $sort, 'selectParams' => ['_id', 'uid', 'so_no', 'created', 'order_state', 'QTY', 'four_link_points', 'submitted', 'date_require_fin', 'submitted_to_finance', 'date_fin_approved', 'date_require_at', 'submitted_to_AT', 'date_at_approved', 'date_so_assigned', 'date_ARC']]);
         $VData = GlobalFunction::getListing(['className' => $classValues, 'pagination' => '', 'whereParams' => '', 'nameS' => '', 'sort' => $sort, 'selectParams' => ['_id', 'name', 'value']]);
         $estValues = [];
         foreach ($VData as $v) {

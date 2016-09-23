@@ -41,8 +41,13 @@ class UserForm extends Model {
             ['confirm_password', 'validatePassword'],
             ['profile_picture', 'file', 'extensions' => 'gif, jpg, png'],
             ['user_role', 'in', 'range' => [User::ROLE_ADMIN, User::ROLE_operator, User::ROLE_manager, User::ROLE_supervisor, User::ROLE_executive]],
-            ['email', 'email', 'on' => 'create'],
+            ['email', 'email'],
+            ['confirm_password', 'required', 'when' => function($model) {
+                    return (isset($model->password) && !empty($model->password));
+                }, 'enableClientValidation' => false],
             ['email', 'validateEmail'],
+            [['first_name', 'last_name'], 'match', 'pattern' => '/^[a-zA-z]*$/','message'=>Yii::t('app','Use Alphabets only.')],
+            [[ 'phone'], 'number'],
         ];
     }
 

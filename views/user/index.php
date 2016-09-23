@@ -69,7 +69,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         <?= $form->field($model, 'email', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                         <?= $form->field($model, 'phone', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->textInput() ?>
                         <?= $form->field($model, 'user_role', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'style' => 'padding:0px;', 'onChange' => 'getUsersList("new")']])->dropDownList($roleList, ['prompt' => 'Select']) ?>
-                        <?= $form->field($model, 'report_to', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'style' => 'padding:0px;']])->dropDownList($roleList, ['prompt' => 'Select']) ?>
+                        <?= $form->field($model, 'report_to', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control', 'style' => 'padding:0px;']])->dropDownList([], ['prompt' => 'Select']) ?>
                         <?= $form->field($model, 'password', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->passwordInput() ?>
                         <?= $form->field($model, 'confirm_password', ['options' => ['class' => 'divTableCell'], 'inputOptions' => ['class' => 'form-control']])->passwordInput() ?>
                         <?php
@@ -139,7 +139,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                         <?php } ?>
                     <?php } else { ?>
                         <div class="noOrder">
-                            <h1 style="text-align: center">No records found</h1>
+                            <h1 style="text-align: center">No Records Found</h1>
                         </div>
                     <?php } ?>
                     <!--                    

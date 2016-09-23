@@ -29,7 +29,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
 
                         $('#' + id + 'E').addClass('hidden');
                         $('#' + id + 'D').removeClass('hidden');
-                        toastr.success('Account Type successfuly updated');
+                        toastr.success('Account Type successfully updated');
                     }
 
                 }
@@ -49,7 +49,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
                         $('#' + id + 'D #type_name').text($('#' + id + 'E #ordertypeform-type_name').val());
                         $('#' + id + 'E').addClass('hidden');
                         $('#' + id + 'D').removeClass('hidden');
-                        toastr.success('Order Type successfuly updated');
+                        toastr.success('Order Type successfully updated');
                     }
 
                 }
@@ -72,7 +72,7 @@ function removeAccType(id) {
                 if (data.msgType == 'SUC') {
                     $('#' + id + 'E').remove();
                     $('#' + id + 'D').remove();
-                    toastr.success('Account Type successfuly Removed');
+                    toastr.success('Account Type successfully Removed');
                 }
 
             }
@@ -92,7 +92,7 @@ function removeOrdType(id) {
                 if (data.msgType == 'SUC') {
                     $('#' + id + 'E').remove();
                     $('#' + id + 'D').remove();
-                    toastr.success('Order Type successfuly Removed');
+                    toastr.success('Order Type successfully Removed');
                 }
 
             }
