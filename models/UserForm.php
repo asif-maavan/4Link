@@ -97,6 +97,8 @@ class UserForm extends Model {
             }
             $user->user_id = $tmpStr;
             $user->report_to = ['_id' => $user->report_to, 'name' => \app\components\GlobalFunction::getReportToList($user->_id, $user->user_role)[$user->report_to]];
+            $user->first_name = ucwords($user->first_name);
+            $user->last_name = ucwords($user->last_name);
             if ($user->save()) {
                 return ['msgType' => 'SUC', 'id' => $user->_id];
             } else {
@@ -144,6 +146,9 @@ class UserForm extends Model {
             } else {
                 unset($user->password);
             }
+            
+            $user->first_name = ucwords($user->first_name);
+            $user->last_name = ucwords($user->last_name);
 
             if ($user->save()) {
                 return ['msgType' => 'SUC'];

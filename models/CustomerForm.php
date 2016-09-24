@@ -87,6 +87,8 @@ class CustomerForm extends Model {
             }
             $customer->attributes = $params; //$this->attributes;
             $customer->sales_agent = ['_id' => $customer->sales_agent, 'name' => \app\components\GlobalFunction::getAgentList()[$customer->sales_agent]];
+            $customer->first_name = ucwords($customer->first_name);
+            $customer->last_name = ucwords($customer->last_name);
 
             if ($customer->save()) {
                 $this->_id = $customer->_id;

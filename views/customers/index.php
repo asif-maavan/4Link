@@ -29,18 +29,20 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
             <div class="content-box-large app-content-box-large" style="height: auto;">
 
                 <div class="row cstname">
-                    <form class="form-inline" method="get">
+                    <form id="filterForm" class="form-inline" method="GET" onsubmit="filterInputs()">
                         <input type="text" class="cstname-txtbx2 cstname-img" name="nameS" placeholder="Customer Name" value="<?php echo Yii::$app->request->get('nameS'); ?>" >
+                        <input id="sort" class="hidden" name="sort" value="<?php echo Yii::$app->request->get('sort'); ?>" >
+                        <input type="submit" class="hidden" value="Submit">
                     </form>
                 </div>
                 <div class="divTable">
                     <div class="divTableBody">
                         <div class="divTableRow">
                             <div class="divTableCell th_bg row_1 first"></div>
-                            <div class="divTableCell th_bg row_2 text-center">UID<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'customer_id') ? 'customer_id' : '-customer_id' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-customer_id' || Yii::$app->request->get('sort') != 'customer_id') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a>&nbsp;</div>  <!-- <img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/> -->
-                            <div class="divTableCell th_bg row_3 text-center">Customer Acc#<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'customer_acc') ? 'customer_acc' : '-customer_acc' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-customer_acc' || Yii::$app->request->get('sort') != 'customer_acc') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                            <div class="divTableCell th_bg row_4 text-center">Name<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'first_name') ? 'first_name' : '-first_name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-first_name' || Yii::$app->request->get('sort') != 'first_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                            <div class="divTableCell th_bg row_5 text-center">Acc Number<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'account_no') ? 'account_no' : '-account_no' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-account_no' || Yii::$app->request->get('sort') != 'account_no') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                            <div class="divTableCell th_bg row_2 text-center">UID<a href="javascript:sort('<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'customer_id') ? 'customer_id' : '-customer_id' ?>')"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-customer_id' || Yii::$app->request->get('sort') != 'customer_id') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a>&nbsp;</div>  <!-- <img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/> -->
+                            <div class="divTableCell th_bg row_3 text-center">Customer Acc#<a href="javascript:sort('<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'customer_acc') ? 'customer_acc' : '-customer_acc' ?>')"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-customer_acc' || Yii::$app->request->get('sort') != 'customer_acc') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                            <div class="divTableCell th_bg row_4 text-center">Name<a href="javascript:sort('<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'first_name') ? 'first_name' : '-first_name' ?>')"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-first_name' || Yii::$app->request->get('sort') != 'first_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                            <div class="divTableCell th_bg row_5 text-center">Acc Number<a href="javascript:sort('<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'account_no') ? 'account_no' : '-account_no' ?>')"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-account_no' || Yii::$app->request->get('sort') != 'account_no') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
                             <div class="divTableCell th_bg row_6 text-center">Address</div>
                             <div class="divTableCell th_bg row_7 text-center">Phone</div>
                             <div class="divTableCell th_bg row_8 text-center">Sales Executive</div>

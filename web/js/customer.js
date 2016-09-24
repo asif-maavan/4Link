@@ -101,7 +101,7 @@ $(document).on('beforeSubmit', 'form', function (e) {
             success: function (data) {
                 if (data.msgType == 'SUC') {
                     $('#' + id + 'D #customer_acc').text($('#' + id + 'E #customerform-customer_acc').val());
-                    $('#' + id + 'D #first_name').text($('#' + id + 'E #customerform-first_name').val());
+                    $('#' + id + 'D #first_name').text(ucwords($('#' + id + 'E #customerform-first_name').val()));
                     $('#' + id + 'D #account_no').text($('#' + id + 'E #customerform-account_no').val());
                     $('#' + id + 'D #address').text($('#' + id + 'E #customerform-address').val());
                     $('#' + id + 'D #phone').text($('#' + id + 'E #customerform-phone').val());
@@ -109,6 +109,8 @@ $(document).on('beforeSubmit', 'form', function (e) {
                     $('#' + id + 'D #agent_phone').text($('#' + id + 'E #customerform-agent_phone').val());
                     $('#' + id + 'E').addClass('hidden');
                     $('#' + id + 'D').removeClass('hidden');
+                    
+                    formReset(id + 'E');
                     toastr.success('Customer successfully updated');
                 }
 

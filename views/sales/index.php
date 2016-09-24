@@ -38,7 +38,7 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
             <div class="content-box-large app-content-box-large" style="height: auto;">
 
                 <div class="row cstname">
-                    <form class="form-inline" id="search-form" method="get" style="display: flex;">
+                    <form id="filterForm" class="form-inline" method="get" style="display: flex;" onsubmit="filterInputs()">
                         <input type="text" class="cstname-txtbx2" style="padding-right: 10px;" name="indexS" placeholder="Index#" value="<?php echo Yii::$app->request->get('indexS'); ?>" >
                         <label for="exampleInputName2 888" >Order State: </label>
                         <select name="status" class="cstname-txtbx2" style="margin-left: 10px;color: #000;padding-right: 10px;">
@@ -47,17 +47,19 @@ $baseUrl = Yii::$app->request->baseUrl . '/';
                                 <option value="<?= $key ?>" <?= (Yii::$app->request->get('status') == $key) ? 'selected' : '' ?>> <?= $value ?></option>
                             <?php } ?>
                         </select>
-                        <span class="btn icon-btn" onclick="$('#search-form').submit();" style="margin: 6px 0 18px 48px;border: 0;height: 29px;width: 37px"><img src="<?= $baseUrl ?>images/search.png"></span>
+                        <input id="sort" class="hidden" name="sort" value="<?php echo Yii::$app->request->get('sort'); ?>" >
+                        <span class="btn icon-btn" onclick="$('#filterForm').submit();" style="margin: 6px 0 18px 48px;border: 0;height: 29px;width: 37px"><img src="<?= $baseUrl ?>images/search.png"></span>
+                        <input type="submit" class="hidden" value="Submit">
                     </form>
                 </div>
                 <div class="divTable">
                     <div class="divTableBody">
                         <div class="divTableRow">
                             <div class="divTableCell th_bg row_1 first" style="width: 44px !important"></div>
-                            <div class="divTableCell th_bg row_2 text-center">UID<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'customer_id') ? 'customer_id' : '-customer_id' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-customer_id' || Yii::$app->request->get('sort') != 'customer_id') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a>&nbsp;</div>  <!-- <img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/> -->
-                            <div class="divTableCell th_bg row_7 text-center">Index#<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'customer_acc') ? 'customer_acc' : '-customer_acc' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-customer_acc' || Yii::$app->request->get('sort') != 'customer_acc') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                            <div class="divTableCell th_bg row_4 text-center">Sales Executive<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'first_name') ? 'first_name' : '-first_name' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-first_name' || Yii::$app->request->get('sort') != 'first_name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
-                            <div class="divTableCell th_bg row_9 text-center" style="width: 85px !important">Customer Type<a href="?sort=<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'account_no') ? 'account_no' : '-account_no' ?>"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-account_no' || Yii::$app->request->get('sort') != 'account_no') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                            <div class="divTableCell th_bg row_2 text-center">UID<a href="javascript:sort('<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'uid') ? 'uid' : '-uid' ?>')"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-uid' || Yii::$app->request->get('sort') != 'uid') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a>&nbsp;</div>  <!-- <img src="<?= $baseUrl ?>images/down.png" width="7" height="4" alt=""/> -->
+                            <div class="divTableCell th_bg row_7 text-center">Index#<a href="javascript:sort('<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'index_no') ? 'index_no' : '-index_no' ?>')"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-index_no' || Yii::$app->request->get('sort') != 'index_no') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                            <div class="divTableCell th_bg row_4 text-center">Sales Executive<a href="javascript:sort('<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'sale_executive.name') ? 'sale_executive.name' : '-sale_executive.name' ?>')"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-sale_executive.name' || Yii::$app->request->get('sort') != 'sale_executive.name') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
+                            <div class="divTableCell th_bg row_9 text-center" style="width: 85px !important">Customer Type<a href="javascript:sort('<?= (Yii::$app->request->get('sort')[0] == '-' || Yii::$app->request->get('sort') != 'customer_type') ? 'customer_type' : '-customer_type' ?>')"><img src="<?= $baseUrl ?>images/<?= (Yii::$app->request->get('sort') == '-customer_type' || Yii::$app->request->get('sort') != 'customer_type') ? 'down.png' : 'up.png' ?>" width="7" height="4" alt=""/></a></div>
                             <div class="divTableCell th_bg row_9 text-center">Order Type</div>
                             <div class="divTableCell th_bg row_8 text-center">Customer Name</div>
                             <div class="divTableCell th_bg row_7 text-center">Customer Acc#</div>
